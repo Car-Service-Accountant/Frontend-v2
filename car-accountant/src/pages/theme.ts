@@ -25,8 +25,12 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontSize: 18,
-    fontFamily: '-moz-initial monoserat',
+    fontSize: 14,
+    fontWeightBold: 600,
+    fontFamily: 'Montserrat, sans-serif',
+    button: {
+      textTransform: "none"
+    }
   },
 });
 

@@ -1,39 +1,83 @@
 import { Box, styled } from '@mui/material';
 
-const PREFIX = 'login';
+const MAIN = 'main-login';
+const LEFT = 'LEFT-login';
+const RIGHT = 'RIGHT-login';
 
-export const classes = {
-  left: `${PREFIX}-left`,
-  right: `${PREFIX}-right`,
-  loginForm: `${PREFIX}-loginForm`,
-  loginField: `${PREFIX}-loginField`,
+export const classesLeftSide = {
+  // leftSide
+  left: `${LEFT}-left`,
+  right: `${LEFT}-right`,
+  loginForm: `${LEFT}-loginForm`,
+  loginField: `${LEFT}-loginField`,
+  fieldLabel: `${LEFT}-fieldLabel`,
+  dividerLogin: `${LEFT}-dividerLogin`,
+  googleDemoButton: `${LEFT}-googleDemoButton`,
+  joinText: `${LEFT}-joinText`,
+  rootLeftSide: `${LEFT}-rootLeftSide`,
+  // main
+  // righSide
 };
 
-const Wraper = styled(Box)(({ theme }) => ({
-  [`& .${classes.left}`]: {
-    backgroundColor: theme.palette.primary.main,
-  },
-  [`& .${classes.right}`]: {
+export const classesMain = {
+  mainRoot: `${MAIN}-mainRoot`,
+}
+
+export const MainWrapper = styled(Box)(({ theme }) => ({
+  [`& .${classesMain.mainRoot}`]: {
+    height: '100vh',
     backgroundColor: theme.palette.background.paper,
   },
-  [`& .${classes.loginForm}`]: {
-    margin: '30px',
-    height: '100vh',
+}))
+
+const LeftSideWraper = styled(Box)(({ theme }) => ({
+  [`& .${classesLeftSide.loginForm}`]: {
+    margin: theme.spacing(4),
     display: 'flex',
     alignItems: 'center',
     alignContent: 'center',
     justifyContent: 'center',
     flexWrap: 'nowrap',
   },
-  [`& .${classes.loginField}`]: {
+  [`& .${classesLeftSide.loginField}`]: {
     gridColumn: 'span 4',
-    marginLeft: '50px',
+    marginLeft: theme.spacing(13),
     maxWidth: '-webkit-fill-available',
-    marginRight: '50px',
-    '& .input': {
+    marginRight: theme.spacing(13),
+    marginBottom: theme.spacing(3),
+    '& .MuiTextField-root': {
       background: 'white',
-    },
+    }
+  },
+  [`& .${classesLeftSide.fieldLabel}`]: {
+    gridColumn: 'span 4',
+    marginLeft: theme.spacing(13),
+    marginBottom: theme.spacing(1),
+  }, [`& .${classesLeftSide.dividerLogin}`]: {
+    marginRight: theme.spacing(23),
+    marginLeft: theme.spacing(23),
+  },
+  [`& .${classesLeftSide.googleDemoButton}`]: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '200px',
+    height: '40px',
+    borderRadius: theme.spacing(1),
+    backgroundColor: 'wihte',
+    color: theme.palette.secondary.dark,
+    border: `1px solid ${theme.palette.primary.main}`,
+    cursor: 'pointer',
+    marginBottom: theme.spacing(3),
+  },
+  [`& .${classesLeftSide.joinText}`]: {
+    padding: "10px 90px",
+    boxShadow: "none",
+    fontStyle: "normal",
+    fontWeight: 500,
+    fontSize: "18px",
+    borderRadius: "8px",
   },
 }));
 
-export default Wraper;
+export default LeftSideWraper;
