@@ -1,6 +1,6 @@
-import { useSelector } from "react-redux";
-import { RootState } from '../redux/store'
-import { useRouter } from "next/router";
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { useRouter } from 'next/router';
 
 export default function Home() {
   const router = useRouter();
@@ -12,7 +12,5 @@ export default function Home() {
 
   console.log(user);
 
-  return (
-    <p>Just home</p>
-  );
+  return <p>Just home</p>;
 }

@@ -1,8 +1,8 @@
-import { ReduxProvider } from '@/redux/provider'
-import '@/styles/globals.css'
+import { ReduxProvider } from '@/redux/provider';
+import '@/styles/globals.css';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import type { AppProps } from 'next/app'
-import Head from 'next/head'
+import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import createEmotionCache from './EmotionalCache';
 import { ThemeProvider } from '@mui/material';
 import theme from './theme';
@@ -14,7 +14,6 @@ interface MyAppProps extends AppProps {
 const clientSideEmotionCache = createEmotionCache();
 
 export default function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: MyAppProps) {
-
   return (
     <CacheProvider value={emotionCache}>
       <Head>
@@ -31,5 +30,5 @@ export default function App({ Component, pageProps, emotionCache = clientSideEmo
         </ThemeProvider>
       </ReduxProvider>
     </CacheProvider>
-  )
+  );
 }
