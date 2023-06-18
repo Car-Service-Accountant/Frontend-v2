@@ -1,10 +1,12 @@
-import { Box, Button, Container, Divider, FormControl, Grid, TextField, Typography, useTheme } from '@mui/material';
-import LeftSideWraper, { classesLeftSide } from './login.style';
+import { Box, Button, Divider, Grid, TextField, Typography, useTheme } from '@mui/material';
+import RightSideWraper, { LeftSideWraper, classesRightSide, classesLeftSide } from './login.style';
 import * as yup from 'yup';
 import { Formik } from 'formik';
 import { useState } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
+import Slider from 'react-slick';
+import Link from 'next/link';
+
 
 const LeftSide = () => {
 
@@ -30,7 +32,7 @@ const LeftSide = () => {
   };
 
   return (
-    <LeftSideWraper>
+    <RightSideWraper>
       <Box>
         <Box sx={{
           display: "flex",
@@ -55,9 +57,9 @@ const LeftSide = () => {
           justifyContent: "center",
           alignItems: "center",
         }}>
-          <Button className={classesLeftSide.googleDemoButton} >
+          <Button className={classesRightSide.googleDemoButton} >
             <Image
-              src={"/../public/googleLogo.png"}
+              src={"/../public/pics/googleLogo.png"}
               width={20}
               height={20}
               alt='Google logo'
@@ -66,12 +68,12 @@ const LeftSide = () => {
           </Button>
         </Box >
 
-        <Box className={classesLeftSide.dividerLogin}>
+        <Box className={classesRightSide.dividerLogin}>
           <Divider color={theme.palette.secondary.main}>
             <Typography color={theme.palette.secondary.main} fontWeight="bold">или</Typography>
           </Divider>
         </Box>
-        <Box className={classesLeftSide.loginForm}>
+        <Box className={classesRightSide.loginForm}>
           <Formik
             onSubmit={() => {
               console.log('for now nothing happen here , stil wait for func :D');
@@ -82,7 +84,7 @@ const LeftSide = () => {
             {({ values, errors, touched, handleChange, handleSubmit }) => (
               <form style={{ width: "100%" }} onSubmit={handleSubmit}>
                 <Box display="grid" gridTemplateColumns="repeat(4, minmax(0, 1fr))">
-                  <Typography className={classesLeftSide.fieldLabel} color={theme.palette.secondary.main} fontWeight="bold">
+                  <Typography className={classesRightSide.fieldLabel} color={theme.palette.secondary.main} fontWeight="bold">
                     Потребителско име
                   </Typography>
                   <TextField
@@ -96,12 +98,12 @@ const LeftSide = () => {
                     name="email"
                     error={touched.email && !!errors.email}
                     helperText={touched.email && errors.email}
-                    className={classesLeftSide.loginField}
+                    className={classesRightSide.loginField}
                     InputProps={{
                       style: { borderRadius: '12px' },
                     }}
                   />
-                  <Typography className={classesLeftSide.fieldLabel} color={theme.palette.secondary.main} fontWeight="bold">
+                  <Typography className={classesRightSide.fieldLabel} color={theme.palette.secondary.main} fontWeight="bold">
                     Парола
                   </Typography>
                   <TextField
@@ -115,14 +117,19 @@ const LeftSide = () => {
                     name="password"
                     error={touched.password && !!errors.password}
                     helperText={touched.password && errors.password}
-                    className={classesLeftSide.loginField}
+                    className={classesRightSide.loginField}
                     InputProps={{
                       style: { borderRadius: '12px' },
                     }}
                   />
+                  <Link href="/recoveryPassword" className={classesRightSide.fieldLabel}>
+                    <Typography color={theme.palette.secondary.dark} fontWeight="bold">
+                      Забравена парола ?
+                    </Typography>
+                  </Link>
                 </Box>
                 <Box display="flex" justifyContent="center" mt="20px" >
-                  <Button className={classesLeftSide.joinText} type="submit" color="primary" variant="contained">
+                  <Button className={classesRightSide.joinText} type="submit" color="primary" variant="contained">
                     Вход
                   </Button>
                   {/* <Button onClick={onDemoLogin} color="secondary" variant="contained">
@@ -134,16 +141,77 @@ const LeftSide = () => {
           </Formik>
         </Box>
       </Box>
-    </LeftSideWraper>
+    </RightSideWraper>
   )
 }
 
 const RightSide = () => {
 
-  return (
-    <p>Right side for now</p>
-  )
+  const data = [{
+    message: "Не са ви нужни никакви задълбочени технически знания, за употребата на нашето приложение за управление на автосервиз. Може да попълвате всякаква информация за вашите клиенти – регистрационни номера, марка и модел на автомобила, информация за клиента и други.",
+    header: "Лесен и организиран интерфейс",
+  },
+  {
+    message: "mess2",
+    header: "header2",
+  },
+  {
+    message: "mess3",
+    header: "header3",
+  },
+  {
+    message: "mess4",
+    header: "header4",
+  },
+  {
+    message: "mess5",
+    header: "header5",
+  }]
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  }
+
+  const theme = useTheme()
+
+  return (
+    <LeftSideWraper>
+      <Box sx={{ marginTop: '65px', }}>
+        <Box>
+          <Box>
+            <Typography variant='h6' className={classesLeftSide.mainText}>
+              <b>AUTOLOG</b> e уеб приложение за управление на ремонта по един автомобил, предлага всичко, от което се нуждае ръководителят на един автосервиз!
+            </Typography>
+          </Box>
+          <Box sx={{
+            marginLeft: "35%",
+            marginTop: "30px",
+          }}>
+            <Image
+              src={"/../public/pics/mainLogoLogin.png"}
+              width={400}
+              height={400}
+              alt='Missing logo'
+            />
+          </Box>
+        </Box>
+        <Box className={classesLeftSide.slider}>
+          <Slider {...settings}>
+            {data.map((item, index) => (
+              <Box key={index} className={classesLeftSide.sliderBox}>
+                <Typography variant="h4" fontSize={26} sx={{ marginBottom: "20px" }}>{item.header}</Typography>
+                <Typography variant="h6" fontSize={16} >{item.message}</Typography>
+              </Box>
+            ))}
+          </Slider>
+        </Box>
+      </Box>
+    </LeftSideWraper>
+  );
 }
 
 export default function Login() {
@@ -155,8 +223,6 @@ export default function Login() {
       <Grid item xs={7} sx={{
         height: '100vh',
         backgroundColor: theme.palette.primary.main,
-        display: "grid",
-        alignItems: "center",
       }}>
         <RightSide />
       </Grid>

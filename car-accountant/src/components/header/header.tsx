@@ -1,4 +1,5 @@
 import { AppBar, Box, Toolbar, Typography, styled, useTheme } from "@mui/material"
+import Image from "next/image";
 import { ReactNode } from "react";
 
 type HeaderProps = {
@@ -20,9 +21,15 @@ const HeaderWrapper: React.FC<HeaderProps> = ({ children }) => {
         <>
             <StyledAppBar>
                 <Toolbar>
-                    <Typography variant="h6" component="div">
-                        Your App Name
+                    <Typography variant="h6" component="div" color={"black"}>
+                        AutologBG
                     </Typography>
+                    <Image
+                        src={"/../public/pics/demo-logo.png"}
+                        width={110}
+                        height={60}
+                        alt="Missing logo"
+                    />
                 </Toolbar>
             </StyledAppBar>
             {children}

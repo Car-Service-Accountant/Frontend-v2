@@ -1,27 +1,78 @@
-import { Box, styled } from '@mui/material';
+import { Box } from '@mui/material';
+import { styled } from "@mui/material/styles"
 
 const MAIN = 'main-login';
 const LEFT = 'LEFT-login';
 const RIGHT = 'RIGHT-login';
 
-export const classesLeftSide = {
-  // leftSide
-  left: `${LEFT}-left`,
-  right: `${LEFT}-right`,
-  loginForm: `${LEFT}-loginForm`,
-  loginField: `${LEFT}-loginField`,
-  fieldLabel: `${LEFT}-fieldLabel`,
-  dividerLogin: `${LEFT}-dividerLogin`,
-  googleDemoButton: `${LEFT}-googleDemoButton`,
-  joinText: `${LEFT}-joinText`,
-  rootLeftSide: `${LEFT}-rootLeftSide`,
-  // main
-  // righSide
+export const classesRightSide = {
+
+  left: `${RIGHT}-left`,
+  right: `${RIGHT}-right`,
+  loginForm: `${RIGHT}-loginForm`,
+  loginField: `${RIGHT}-loginField`,
+  fieldLabel: `${RIGHT}-fieldLabel`,
+  dividerLogin: `${RIGHT}-dividerLogin`,
+  googleDemoButton: `${RIGHT}-googleDemoButton`,
+  joinText: `${RIGHT}-joinText`,
+  rootLeftSide: `${RIGHT}-rootLeftSide`,
 };
 
 export const classesMain = {
   mainRoot: `${MAIN}-mainRoot`,
 }
+
+export const classesLeftSide = {
+  mainText: `${LEFT}-mainText`,
+  img: `${LEFT}-img`,
+  slider: `${LEFT}-slider`,
+  sliderBox: `${LEFT}-sliderBox`,
+}
+
+export const LeftSideWraper = styled(Box)(({ theme }) => ({
+  [`& .${classesLeftSide.mainText}`]: {
+    marginRight: theme.spacing(4),
+    marginLeft: theme.spacing(4),
+    marginTop: theme.spacing(14),
+  },
+  [`& .${classesLeftSide.img}`]: {
+    marginTop: theme.spacing(11)
+  },
+  [`& .${classesLeftSide.sliderBox}`]: {
+    marginTop: theme.spacing(4)
+  },
+  [`& .${classesLeftSide.slider}`]: {
+    '& .slick-slider': {
+      paddingLeft: theme.spacing(4),
+      paddingRight: theme.spacing(4),
+      '& .slick-dots': {
+        width: "auto",
+        '& .slick-active button': {
+          background: 'white',
+        },
+        '& button': {
+          width: '10px',
+          height: '10px',
+          borderRadius: '50%',
+          border: '2px solid white',
+          background: 'transparent',
+          cursor: 'pointer',
+          transition: 'background-color 0.3s',
+        },
+        '& button:before': {
+          content: '""',
+          width: '5px',
+          height: '5px',
+          display: 'block',
+          margin: '4px',
+          borderRadius: '50%',
+          background: 'transperant',
+          transition: 'background-color 0.3s',
+        },
+      },
+    },
+  },
+}))
 
 export const MainWrapper = styled(Box)(({ theme }) => ({
   [`& .${classesMain.mainRoot}`]: {
@@ -30,8 +81,8 @@ export const MainWrapper = styled(Box)(({ theme }) => ({
   },
 }))
 
-const LeftSideWraper = styled(Box)(({ theme }) => ({
-  [`& .${classesLeftSide.loginForm}`]: {
+const RightSideWraper = styled(Box)(({ theme }) => ({
+  [`& .${classesRightSide.loginForm}`]: {
     margin: theme.spacing(4),
     display: 'flex',
     alignItems: 'center',
@@ -39,7 +90,7 @@ const LeftSideWraper = styled(Box)(({ theme }) => ({
     justifyContent: 'center',
     flexWrap: 'nowrap',
   },
-  [`& .${classesLeftSide.loginField}`]: {
+  [`& .${classesRightSide.loginField}`]: {
     gridColumn: 'span 4',
     marginLeft: theme.spacing(13),
     maxWidth: '-webkit-fill-available',
@@ -49,15 +100,15 @@ const LeftSideWraper = styled(Box)(({ theme }) => ({
       background: 'white',
     }
   },
-  [`& .${classesLeftSide.fieldLabel}`]: {
+  [`& .${classesRightSide.fieldLabel}`]: {
     gridColumn: 'span 4',
     marginLeft: theme.spacing(13),
     marginBottom: theme.spacing(1),
-  }, [`& .${classesLeftSide.dividerLogin}`]: {
+  }, [`& .${classesRightSide.dividerLogin}`]: {
     marginRight: theme.spacing(23),
     marginLeft: theme.spacing(23),
   },
-  [`& .${classesLeftSide.googleDemoButton}`]: {
+  [`& .${classesRightSide.googleDemoButton}`]: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -70,7 +121,7 @@ const LeftSideWraper = styled(Box)(({ theme }) => ({
     cursor: 'pointer',
     marginBottom: theme.spacing(3),
   },
-  [`& .${classesLeftSide.joinText}`]: {
+  [`& .${classesRightSide.joinText}`]: {
     padding: "10px 90px",
     boxShadow: "none",
     fontStyle: "normal",
@@ -80,4 +131,4 @@ const LeftSideWraper = styled(Box)(({ theme }) => ({
   },
 }));
 
-export default LeftSideWraper;
+export default RightSideWraper;
