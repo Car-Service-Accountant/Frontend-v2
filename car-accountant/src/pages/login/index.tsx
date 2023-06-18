@@ -6,12 +6,11 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Slider from 'react-slick';
 import Link from 'next/link';
+import PrimaryButton from '@/components/PrimaryButton';
 
 
 const LeftSide = () => {
-
   const theme = useTheme()
-
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -26,10 +25,24 @@ const LeftSide = () => {
       .min(4, 'Полето трябва да съдържа между 4 и 16 символа')
       .max(16, 'Полето трябва да съдържа между 4 и 16 символа'),
   });
+
   const initialValues = {
     email: '',
     password: '',
   };
+
+  interface SubmitParams {
+    email: string,
+    password: string
+  }
+
+  const handleFormSubmit = async ({ email, password }: SubmitParams) => {
+    // const response = await handleLogin(values.email, values.password);
+    // if (response) {
+    //   navigate('/')
+    // }
+  };
+
 
   return (
     <RightSideWraper>
@@ -75,9 +88,7 @@ const LeftSide = () => {
         </Box>
         <Box className={classesRightSide.loginForm}>
           <Formik
-            onSubmit={() => {
-              console.log('for now nothing happen here , stil wait for func :D');
-            }}
+            onSubmit={handleFormSubmit}
             initialValues={initialValues}
             validationSchema={checkoutSchema}
           >
@@ -129,9 +140,7 @@ const LeftSide = () => {
                   </Link>
                 </Box>
                 <Box display="flex" justifyContent="center" mt="20px" >
-                  <Button className={classesRightSide.joinText} type="submit" color="primary" variant="contained">
-                    Вход
-                  </Button>
+                  <PrimaryButton text="Вход" />
                   {/* <Button onClick={onDemoLogin} color="secondary" variant="contained">
                                             Демо профил
                                           </Button> */}
