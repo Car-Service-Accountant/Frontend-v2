@@ -2,20 +2,25 @@ import { Box, Button, Divider, Grid, TextField, Typography, useTheme } from '@mu
 import RightSideWraper, { LeftSideWraper, classesRightSide, classesLeftSide } from './login.style';
 import * as yup from 'yup';
 import { Formik } from 'formik';
-import { useState } from 'react';
 import Image from 'next/image';
 import Slider from 'react-slick';
 import Link from 'next/link';
 import PrimaryButton from '@/components/PrimaryButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, wrapper } from '@/redux/store';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { useRouter } from 'next/router';
+import { asyncLogin } from '@/redux/auth/reducer';
+import { GetServerSidePropsContext } from 'next';
 
 
 const LeftSide = () => {
   const theme = useTheme()
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
-
+  const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch();
+  const user = useSelector((state: RootState) => state)
+  console.log("user ==> ", user);
+  const router = useRouter();
   const checkoutSchema = yup.object().shape({
     email: yup.string().email('Въвели сте грешен Е-мейл').required('Полето е задължително'),
 
@@ -37,6 +42,13 @@ const LeftSide = () => {
   }
 
   const handleFormSubmit = async ({ email, password }: SubmitParams) => {
+    console.log("before login");
+
+    dispatch(asyncLogin({ email, password }))
+
+    console.log("after login");
+
+    router.push('')
     // const response = await handleLogin(values.email, values.password);
     // if (response) {
     //   navigate('/')
@@ -140,10 +152,7 @@ const LeftSide = () => {
                   </Link>
                 </Box>
                 <Box display="flex" justifyContent="center" mt="20px" >
-                  <PrimaryButton text="Вход" />
-                  {/* <Button onClick={onDemoLogin} color="secondary" variant="contained">
-                                            Демо профил
-                                          </Button> */}
+                  <PrimaryButton text="Вход" link="/" />
                 </Box>
               </form>
             )}
@@ -246,3 +255,10 @@ export default function Login() {
     </Grid>
   );
 }
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (context: GetServerSidePropsContext) => {
+  // Dispatch the HYDRATE action to populate the initial state on the server
+  return {
+    props: {},
+  };
+});

@@ -1,7 +1,9 @@
 import { Button } from "@mui/material"
+import { useRouter } from "next/router"
 import React from "react"
 
-const PrimaryButton = ({ text }: { text: string }) => {
+const PrimaryButton = ({ text, link }: { text: string, link: string }) => {
+    const router = useRouter()
 
     return (
         <Button sx={{
@@ -11,7 +13,7 @@ const PrimaryButton = ({ text }: { text: string }) => {
             fontWeight: 500,
             fontSize: "18px",
             borderRadius: "8px",
-        }} type="submit" color="primary" variant="contained">
+        }} type="submit" color="primary" variant="contained" onClick={() => router.push(link)} >
             {text}
         </Button>
     )

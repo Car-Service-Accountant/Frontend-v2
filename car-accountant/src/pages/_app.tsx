@@ -1,20 +1,51 @@
-import { ReduxProvider } from '@/redux/provider';
 import '@/styles/globals.css';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import type { AppProps } from 'next/app';
-import Head from 'next/head';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, wrapper } from "../redux/store"
+import { asyncAuthentication } from '@/redux/auth/reducer';
 import createEmotionCache from './EmotionalCache';
 import { ThemeProvider } from '@mui/material';
 import theme from './theme';
 import HeaderWrapper from '@/components/header/header';
+import Head from 'next/head';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
+import { SideBar } from '@/components/sideBar';
 
-interface MyAppProps extends AppProps {
+interface MyAppProps {
+  Component: any;
+  pageProps: any;
   emotionCache?: EmotionCache;
 }
 
 const clientSideEmotionCache = createEmotionCache();
 
-export default function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: MyAppProps) {
+function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: MyAppProps) {
+  const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch();
+  const router = useRouter();
+  const user = useSelector((state: RootState) => state.auth.user);
+  const state = useSelector((state: RootState) => state);
+
+  console.log("in app user ==> ", user);
+  console.log("in app state ==> ", state);
+
+  useEffect(() => {
+    // Check if user is authenticated
+    if (!user && !state.auth.isDoneAuthenticated) {
+      // Dispatch an action to check authentication status
+      dispatch(asyncAuthentication());
+    }
+  }, [dispatch, user]);
+
+  useEffect(() => {
+    // Redirect to login page if user is not authenticated
+    if (!user && state.auth.isDoneAuthenticated && router.pathname !== '/login') {
+      router.push('/login');
+    }
+  }, [user, router]);
+
   return (
     <CacheProvider value={emotionCache}>
       <Head>
@@ -35,15 +66,13 @@ export default function App({ Component, pageProps, emotionCache = clientSideEmo
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ReduxProvider>
-        <ThemeProvider theme={theme}>
-          <HeaderWrapper>
-            <main>
-              <Component {...pageProps} />
-            </main>
-          </HeaderWrapper>
-        </ThemeProvider>
-      </ReduxProvider>
+      <ThemeProvider theme={theme}>
+        <HeaderWrapper>
+          {user && state.auth.isDoneAuthenticated ? <SideBar><Component {...pageProps} /></SideBar> : <Component {...pageProps} />}
+        </HeaderWrapper>
+      </ThemeProvider>
     </CacheProvider>
   );
 }
+
+export default wrapper.withRedux(App);

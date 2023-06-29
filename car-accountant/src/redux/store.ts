@@ -1,11 +1,18 @@
-import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './features/authSlice';
+import { configureStore, ThunkAction } from '@reduxjs/toolkit';
+import { createWrapper } from 'next-redux-wrapper';
+import { Action } from 'redux';
+import { authSlice } from './auth/reducer';
 
-export const store = configureStore({
+
+const makeStore = () => configureStore({
   reducer: {
-    auth: authReducer,
+    auth: authSlice.reducer
   },
+  devTools: true
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootStore = ReturnType<typeof makeStore>;
+export type RootState = ReturnType<RootStore['getState']>;
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action>;
+
+export const wrapper = createWrapper<RootStore>(makeStore);
