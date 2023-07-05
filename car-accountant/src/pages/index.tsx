@@ -19,7 +19,6 @@ import finishedThisWeek from "../utils/repairs/finishedThisWeek";
 import finishedLastWeek from "../utils/repairs/finishedWeekBefore";
 import sortByDateAndCalculateProfit from "../utils/repairs/sortByDateAndCalculateProfit";
 import dataCalulatorForLiveData from "../utils/repairs/finishedRepairsForLiveData"
-import MyResponsivePie from "@/components/pieDataVisualiser";
 
 
 const Home = (props: any) => {
@@ -158,7 +157,6 @@ const Home = (props: any) => {
                 width={60}
                 height={60}
               />
-              <MyResponsivePie data={[]} />
             </Box>
             <Typography variant="h3" color={theme.palette.text.primary} fontWeight={theme.typography.fontWeightBold} fontSize="16px" sx={{ paddingLeft: "20px", paddingTop: "20px" }}>
               Дневен доход
