@@ -22,23 +22,25 @@ export const loginAPI = async ({ email, password }: loginPorps) => {
         if (result?.role === "админ") {
             return {
                 email: result.email,
-                cashBoxID: result.cashBoxId,
+                cashBoxID: result.cashBoxID.toString(),
                 username: result.username,
                 phoneNumber: result.phoneNumber,
                 _id: result?.companyId?.toString(),
                 role: result?.role,
                 employers: result?.employers,
                 token: result?.token,
+                companyId: result?._id.toString(),
             };
         } else if (result) {
             return {
                 email: result.email,
-                cashBoxID: result.cashBoxID,
+                cashBoxID: result.cashBoxID.toString(),
                 username: result.username,
                 phoneNumber: result.phoneNumber,
                 _id: result?._id?.toString(),
                 role: result?.role,
                 token: result?.token,
+                companyId: result?.companyId.toString(),
             }
         }
 
@@ -61,6 +63,31 @@ export const authenticationAPI = async (token: string) => {
         }
         const result = await response.json();
         if (result) {
+            console.log("result ==>", result);
+            if (result?.role === "админ") {
+                return {
+                    email: result.email,
+                    cashBoxID: result.cashBoxID.toString(),
+                    username: result.username,
+                    phoneNumber: result.phoneNumber,
+                    _id: result?._id?.toString(),
+                    role: result?.role,
+                    employers: result?.employers,
+                    token: result?.token,
+                    companyId: result?._id.toString(),
+                };
+            } else if (result) {
+                return {
+                    email: result.email,
+                    cashBoxID: result.cashBoxID.toString(),
+                    username: result.username,
+                    phoneNumber: result.phoneNumber,
+                    _id: result?._id?.toString(),
+                    role: result?.role,
+                    token: result?.token,
+                    companyId: result?.companyId.toString(),
+                }
+            }
             return result
         }
     } catch (err) {

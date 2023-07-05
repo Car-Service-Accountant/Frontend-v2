@@ -2,11 +2,13 @@ import { configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 import { Action } from 'redux';
 import { authSlice } from './auth/reducer';
+import { repairSlice } from './repairs/reducer';
 
 
 const makeStore = () => configureStore({
   reducer: {
-    auth: authSlice.reducer
+    auth: authSlice.reducer,
+    repairs: repairSlice.reducer
   },
   devTools: true
 });

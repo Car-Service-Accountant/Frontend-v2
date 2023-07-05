@@ -28,9 +28,6 @@ function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
   const user = useSelector((state: RootState) => state.auth.user);
   const state = useSelector((state: RootState) => state);
 
-  console.log("in app user ==> ", user);
-  console.log("in app state ==> ", state);
-
   useEffect(() => {
     // Check if user is authenticated
     if (!user && !state.auth.isDoneAuthenticated) {
@@ -67,9 +64,7 @@ function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeProvider theme={theme}>
-        <HeaderWrapper>
-          {user && state.auth.isDoneAuthenticated ? <SideBar><Component {...pageProps} /></SideBar> : <Component {...pageProps} />}
-        </HeaderWrapper>
+        {user && state.auth.isDoneAuthenticated ? <><HeaderWrapper /><SideBar><Component user={user} {...pageProps} /></SideBar> </> : <Component user={user} {...pageProps} />}
       </ThemeProvider>
     </CacheProvider>
   );

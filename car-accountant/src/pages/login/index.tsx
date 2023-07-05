@@ -19,7 +19,6 @@ const LeftSide = () => {
   const theme = useTheme()
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch();
   const user = useSelector((state: RootState) => state)
-  console.log("user ==> ", user);
   const router = useRouter();
   const checkoutSchema = yup.object().shape({
     email: yup.string().email('Въвели сте грешен Е-мейл').required('Полето е задължително'),
@@ -42,12 +41,7 @@ const LeftSide = () => {
   }
 
   const handleFormSubmit = async ({ email, password }: SubmitParams) => {
-    console.log("before login");
-
     dispatch(asyncLogin({ email, password }))
-
-    console.log("after login");
-
     router.push('')
     // const response = await handleLogin(values.email, values.password);
     // if (response) {

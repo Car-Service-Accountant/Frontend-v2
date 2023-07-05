@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { HYDRATE } from 'next-redux-wrapper';
 import { loginAPI, authenticationAPI } from '@/api/login/action';
 import { credentials, userInterface } from './types';
 
@@ -21,8 +20,6 @@ export const asyncLogin = createAsyncThunk(
     'auth/login',
     async ({ email, password }: credentials) => {
         const response: any = await loginAPI({ email, password });
-        console.log("async func data", response);
-
         if (response) {
             return response;
         }
@@ -34,8 +31,6 @@ export const asyncAuthentication = createAsyncThunk(
     async () => {
         const token = localStorage.getItem("token") || ""
         const response: any = await authenticationAPI(token);
-        console.log("response from authentication body", response);
-
         if (response) {
             return response;
         }
