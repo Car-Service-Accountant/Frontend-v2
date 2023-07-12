@@ -15,7 +15,7 @@ const finishedLastWeek = (repairs) => {
     }, 0);
 
     return {
-        totalProfitForMotnthBefore: laborPriceLastWeek + partsPriceLastWeek,
+        totalProfitForWeekBefore: laborPriceLastWeek + partsPriceLastWeek,
         repairsLastWeek,
         laborPriceLastWeek,
         partsPriceLastWeek,

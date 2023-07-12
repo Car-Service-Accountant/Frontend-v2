@@ -3,12 +3,14 @@ import { createWrapper } from 'next-redux-wrapper';
 import { Action } from 'redux';
 import { authSlice } from './auth/reducer';
 import { repairSlice } from './repairs/reducer';
+import { carSlice } from './cars/reducer';
 
 
 const makeStore = () => configureStore({
   reducer: {
     auth: authSlice.reducer,
-    repairs: repairSlice.reducer
+    repairs: repairSlice.reducer,
+    cars: carSlice.reducer
   },
   devTools: true
 });

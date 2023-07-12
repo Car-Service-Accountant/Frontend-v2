@@ -2,7 +2,7 @@ const finishedDayBefore = (repairs) => {
     let priceForLaborYesterday = 0;
     let partsPriceYesterday = 0;
     let repairsFinishedYesterday = []
-    if (repairs.length > 0) {
+    if (repairs && repairs.length > 0) {
 
         const today = new Date();
         const yesterday = new Date(today);
@@ -17,7 +17,7 @@ const finishedDayBefore = (repairs) => {
         repairsFinishedYesterday.forEach((repair) => {
             priceForLaborYesterday += repair.priceForLabor;
             repair.parts.forEach((part) => {
-                partsPriceYesterday += part.clientPrice = part.servicePrice;
+                partsPriceYesterday += part.clientPrice - part.servicePrice;
             });
         });
 

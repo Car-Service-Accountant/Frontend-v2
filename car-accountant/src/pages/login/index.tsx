@@ -195,7 +195,7 @@ const RightSide = () => {
       <Box sx={{ marginTop: '65px', }}>
         <Box>
           <Box>
-            <Typography variant='h6' className={classesLeftSide.mainText}>
+            <Typography variant='h6' color={theme.palette.background.default} className={classesLeftSide.mainText}>
               <b>AUTOLOG</b> e уеб приложение за управление на ремонта по един автомобил, предлага всичко, от което се нуждае ръководителят на един автосервиз!
             </Typography>
           </Box>
@@ -215,8 +215,8 @@ const RightSide = () => {
           <Slider {...settings}>
             {data.map((item, index) => (
               <Box key={index} className={classesLeftSide.sliderBox}>
-                <Typography variant="h4" fontSize={26} sx={{ marginBottom: "20px" }}>{item.header}</Typography>
-                <Typography variant="h6" fontSize={16} >{item.message}</Typography>
+                <Typography variant="h4" fontSize={26} color={theme.palette.background.default} sx={{ marginBottom: "20px" }}>{item.header}</Typography>
+                <Typography variant="h6" fontSize={16} color={theme.palette.background.default} >{item.message}</Typography>
               </Box>
             ))}
           </Slider>

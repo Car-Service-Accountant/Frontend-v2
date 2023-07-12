@@ -14,12 +14,12 @@ const dataCalulatorForLiveData = (repairs) => {
                 let partsTotalCost = 0;
                 let priceForLabor = 0;
                 for (const part of repair.parts) {
-                    const priceDifference = part.clientPrice - part.servicePrice;
+                    const priceDifference = part?.clientPrice - part?.servicePrice;
                     partsProfit += priceDifference;
-                    partsTotalCost += part.servicePrice
+                    partsTotalCost += part?.servicePrice
                 }
 
-                priceForLabor = repair.priceForLabor
+                priceForLabor = repair?.priceForLabor
 
                 if (!totalData[day]) {
                     totalData[day] = {
@@ -46,6 +46,11 @@ const dataCalulatorForLiveData = (repairs) => {
                 });
             }
         }
+        combinedData.sort((a, b) => {
+            const dateA = new Date(a.date);
+            const dateB = new Date(b.date);
+            return dateA - dateB;
+        });
     }
     return {
         combinedData
@@ -55,7 +60,7 @@ const dataCalulatorForLiveData = (repairs) => {
 
 export default dataCalulatorForLiveData
 
-function formatDate(dateString) {
-    const [year, month, day] = dateString.split('-');
-    return `${day}.${month}.${year}`;
+export function formatDate(dateString) {
+    const [year, month, day] = dateString?.split('-');
+    return `${month}.${day}.${year}`;
 }

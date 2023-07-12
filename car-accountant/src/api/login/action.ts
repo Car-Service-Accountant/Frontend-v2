@@ -16,7 +16,6 @@ export const loginAPI = async ({ email, password }: loginPorps) => {
             return null
         }
         const result = await response.json();
-        console.log("result ==>", result);
 
         localStorage.setItem('token', result?.token);
         if (result?.role === "админ") {
@@ -58,12 +57,13 @@ export const authenticationAPI = async (token: string) => {
                 'x-autorization': token,
             },
         });
+        console.log("response in auth system", response);
+
         if (response.status !== 200) {
             return null
         }
         const result = await response.json();
         if (result) {
-            console.log("result ==>", result);
             if (result?.role === "админ") {
                 return {
                     email: result.email,

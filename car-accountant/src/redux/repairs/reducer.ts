@@ -14,7 +14,6 @@ export const asyncFetchAllRepairs = createAsyncThunk(
     'repairs/asyncFetchAllRepairs',
     async (companyId: string) => {
         const response: any = await fetchAllRepairs(companyId);
-        console.log("async func repair data", response);
 
         if (response) {
             return response;
