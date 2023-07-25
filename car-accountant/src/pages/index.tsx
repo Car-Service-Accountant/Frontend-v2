@@ -17,10 +17,12 @@ import dataCalulatorForLiveData, { formatDate } from "../utils/repairs/finishedR
 import Circle from "@/components/progressCircle";
 import ProgressiveNumber from "@/components/progressiveNumbers";
 import BoxSpawner from "@/components/boxSpowner";
+import { asyncFetchAllRepairs } from "@/redux/repairs/reducer";
+import { asyncFetchAllCars } from "@/redux/cars/reducer";
 
 
 
-const Home = () => {
+const Home = ({ user }: any) => {
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
   const theme = useTheme()
   const cars = useSelector((state: RootState) => state.cars)
@@ -101,6 +103,16 @@ const Home = () => {
       backgroundColor: "#EAF5FF",
     },
   }))
+
+
+  useEffect(() => {
+    if (user && !repairs.isDoneLoading) {
+      dispatch(asyncFetchAllRepairs(user?.companyId));
+    }
+    if (user && !cars.isDoneLoading) {
+      dispatch(asyncFetchAllCars(user?.companyId));
+    }
+  }, [user])
 
   useEffect(() => {
     if (cars) {

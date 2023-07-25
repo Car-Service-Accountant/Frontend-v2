@@ -39,7 +39,7 @@ export const repairSlice = createSlice({
             state.isDoneLoading = true;
             state.repairs = action.payload;
         },
-        [asyncFetchAllRepairs.rejected.type]: (state, action: PayloadAction<any>) => {
+        [asyncFetchAllRepairs.rejected.type]: (state, action: PayloadAction<any, string, any, any>) => {
             state.loading = false;
             state.isDoneLoading = true;
             state.error = action?.error?.message as string;

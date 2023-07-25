@@ -39,15 +39,6 @@ function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
   }, [dispatch, user]);
 
   useEffect(() => {
-    if (user && !state.repairs.isDoneLoading) {
-      dispatch(asyncFetchAllRepairs(user?.companyId));
-    }
-    if (user && !state.cars.isDoneLoading) {
-      dispatch(asyncFetchAllCars(user?.companyId));
-    }
-  }, [user])
-
-  useEffect(() => {
     // Redirect to login page if user is not authenticateda
     if (!user && state.auth.isDoneAuthenticated && router.pathname !== '/login') {
       router.push('/login');

@@ -58,7 +58,7 @@ export const authSlice = createSlice({
             state.isDoneAuthenticated = true;
             state.user = action.payload;
         },
-        [asyncLogin.rejected.type]: (state, action: PayloadAction<any>) => {
+        [asyncLogin.rejected.type]: (state, action: PayloadAction<any, string, any, any>) => {
             state.loading = false;
             state.isDoneAuthenticated = true;
             state.error = action?.error?.message as string;
@@ -73,7 +73,7 @@ export const authSlice = createSlice({
             state.isDoneAuthenticated = true;
             state.user = action.payload;
         },
-        [asyncAuthentication.rejected.type]: (state, action: PayloadAction<any>) => {
+        [asyncAuthentication.rejected.type]: (state, action: PayloadAction<any, string, any, any>) => {
             state.loading = false;
             state.isDoneAuthenticated = true;
             state.error = action.error.message as string;

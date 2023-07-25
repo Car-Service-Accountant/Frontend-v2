@@ -42,7 +42,7 @@ export const carSlice = createSlice({
             state.isDoneLoading = true;
             state.cars = action.payload;
         },
-        [asyncFetchAllCars.rejected.type]: (state, action: PayloadAction<any>) => {
+        [asyncFetchAllCars.rejected.type]: (state, action: PayloadAction<any, string, any, any>) => {
             state.loading = false;
             state.isDoneLoading = true;
             state.error = action?.error?.message as string;
