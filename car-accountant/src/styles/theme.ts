@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material';
+import { createTheme } from '@mui/material'
 
 const theme = createTheme({
   palette: {
@@ -29,9 +29,9 @@ const theme = createTheme({
     fontWeightBold: 600,
     fontFamily: 'Montserrat, sans-serif',
     button: {
-      textTransform: "none"
-    }
+      textTransform: 'none',
+    },
   },
-});
+})
 
-export default theme;
+export default theme
