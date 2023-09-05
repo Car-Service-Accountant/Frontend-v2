@@ -1,6 +1,4 @@
-import { Box, Divider, Grid, Typography, styled, useMediaQuery, useTheme } from '@mui/material'
-import { GetServerSidePropsContext } from 'next'
-import Image from 'next/image'
+import { Box, Divider, Grid, Typography, styled, useTheme } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
@@ -19,6 +17,7 @@ import BoxSpawner from '@/components/boxSpowner'
 import { asyncFetchAllRepairs } from '@/features/redux/repairs/reducer'
 import { asyncFetchAllCars } from '@/features/redux/cars/reducer'
 import { RootState, wrapper } from '@/features/redux/store'
+import elements from '@/constants/mockedTaxes'
 
 const Home = () => {
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
@@ -226,132 +225,6 @@ const Home = () => {
 
   const awaitingPaimentsElements = awaitingPaiments()
 
-  // const awaitingPaiments = [
-
-  //   <><Box className={classes.awaitingWrapper}>
-  //     <Typography>Нещо </Typography>
-  //     <Typography>Нещо </Typography>
-  //     <Typography>Нещо </Typography>
-  //   </Box>
-  //     <Divider />
-  //   </>
-  //   ,
-  //   <><Box className={classes.awaitingWrapper}>
-  //     <Typography>Нещо </Typography>
-  //     <Typography>Нещо </Typography>
-  //     <Typography>Нещо </Typography>
-  //   </Box>
-  //     <Divider />
-  //   </>
-  //   ,
-  //   <><Box className={classes.awaitingWrapper}>
-  //     <Typography>Нещо </Typography>
-  //     <Typography>Нещо </Typography>
-  //     <Typography>Нещо </Typography>
-  //   </Box>
-  //     <Divider />
-  //   </>
-  //   ,
-  //   <><Box className={classes.awaitingWrapper}>
-  //     <Typography>Нещо </Typography>
-  //     <Typography>Нещо </Typography>
-  //     <Typography>Нещо </Typography>
-  //   </Box>
-  //     <Divider />
-  //   </>
-  //   ,
-  // ]
-
-  const elements = [
-    <Box className={classes.taxesCars}>
-      <Box>
-        <Typography>Ток</Typography>
-        <Typography>1 януари , 2023</Typography>
-      </Box>
-      <Box>
-        <Typography>320лв</Typography>
-      </Box>
-    </Box>,
-    <Box className={classes.taxesCars}>
-      <Box>
-        <Typography>Ток</Typography>
-        <Typography>1 януари , 2023</Typography>
-      </Box>
-      <Box>
-        <Typography>320лв</Typography>
-      </Box>
-    </Box>,
-    <Box className={classes.taxesCars}>
-      <Box>
-        <Typography>Ток</Typography>
-        <Typography>1 януари , 2023</Typography>
-      </Box>
-      <Box>
-        <Typography>320лв</Typography>
-      </Box>
-    </Box>,
-    <Box className={classes.taxesCars}>
-      <Box>
-        <Typography>Ток</Typography>
-        <Typography>1 януари , 2023</Typography>
-      </Box>
-      <Box>
-        <Typography>320лв</Typography>
-      </Box>
-    </Box>,
-    <Box className={classes.taxesCars}>
-      <Box>
-        <Typography>Ток</Typography>
-        <Typography>1 януари , 2023</Typography>
-      </Box>
-      <Box>
-        <Typography>320лв</Typography>
-      </Box>
-    </Box>,
-    <Box className={classes.taxesCars}>
-      <Box>
-        <Typography>Ток</Typography>
-        <Typography>1 януари , 2023</Typography>
-      </Box>
-      <Box>
-        <Typography>320лв</Typography>
-      </Box>
-    </Box>,
-    <Box className={classes.taxesCars}>
-      <Box>
-        <Typography>Ток</Typography>
-        <Typography>1 януари , 2023</Typography>
-      </Box>
-      <Box>
-        <Typography>320лв</Typography>
-      </Box>
-    </Box>,
-    <Box className={classes.taxesCars}>
-      <Box>
-        <Typography>Ток</Typography>
-        <Typography>1 януари , 2023</Typography>
-      </Box>
-      <Box>
-        <Typography>320лв</Typography>
-      </Box>
-    </Box>,
-    <Box className={classes.taxesCars}>
-      <Box>
-        <Typography>Ток</Typography>
-        <Typography>1 януари , 2023</Typography>
-      </Box>
-      <Box>
-        <Typography>320лв</Typography>
-      </Box>
-    </Box>,
-  ]
-
-  const data = [
-    ['John', 'Doe', 'Engineer'],
-    ['Jane', 'Smith', 'Designer'],
-    ['Mark', 'Johnson', 'Developer'],
-  ]
-
   // let carProggressThisMonth = 0
   // if (paiedThisMonthData.repairsThisMonth && paiedMonthBeofreData.repairsInMonthBefore) {
   //   carProggressThisMonth = (paiedThisMonthData?.repairsThisMonth - paiedMonthBeofreData?.repairsInMonthBefore) * 100
@@ -372,13 +245,6 @@ const Home = () => {
         <Grid item xs={4} sx={{ paddingTop: '15px', paddingLeft: '15px', paddingRight: '15px' }}>
           <Box className={classes.boxWrapper}>
             <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Image
-                src='/../public/pics/tempUser.png'
-                className={classes.imageWrapper}
-                alt='Missing image'
-                width={60}
-                height={60}
-              />
               <Box style={{ paddingTop: '20px', paddingRight: '20px' }}>
                 {repairs.repairs && <Circle progress={percentBarForToday} />}
               </Box>
@@ -406,13 +272,6 @@ const Home = () => {
         <Grid item xs={4} sx={{ paddingTop: '15px', paddingLeft: '15px', paddingRight: '15px' }}>
           <Box className={classes.boxWrapper}>
             <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Image
-                src='/../public/pics/tempUser.png'
-                className={classes.imageWrapper}
-                alt='Missing image'
-                width={60}
-                height={60}
-              />
               <Box style={{ paddingTop: '20px', paddingRight: '20px' }}>
                 {repairs.repairs && <Circle progress={percentBarForWeek} />}
               </Box>
@@ -440,13 +299,6 @@ const Home = () => {
         <Grid item xs={4} sx={{ paddingTop: '15px', paddingLeft: '15px', paddingRight: '15px' }}>
           <Box className={classes.boxWrapper}>
             <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Image
-                src='/../public/pics/tempUser.png'
-                className={classes.imageWrapper}
-                alt='Missing image'
-                width={60}
-                height={60}
-              />
               <Box style={{ paddingTop: '20px', paddingRight: '20px' }}>
                 {repairs.repairs && <Circle progress={percentBarForMonth} />}
               </Box>
