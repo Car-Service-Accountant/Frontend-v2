@@ -1,53 +1,46 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { carState, } from './types';
-import { fetchAllCars } from '@/api/cars/action';
-
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { carRequest, carState } from './types'
+import { addCar, fetchAllCars } from '@/api/cars/action'
 
 const initialState: carState = {
-    loading: false,
-    isDoneLoading: false,
-    cars: null,
-    error: null,
-};
+  loading: false,
+  isDoneLoading: false,
+  cars: null,
+  error: null,
+}
 
-export const asyncFetchAllCars = createAsyncThunk(
-    'cars/asyncFetchAllCars',
-    async (companyId: string) => {
-        console.log("company id in async func");
+export const asyncFetchAllCars = createAsyncThunk('cars/asyncFetchAllCars', async (companyId: string) => {
+  console.log('company id in async func')
 
-        const response: any = await fetchAllCars(companyId);
-        console.log("response in async func");
+  const response: any = await fetchAllCars(companyId)
+  console.log('response in async func')
 
-        if (response) {
-            return response;
-        }
-    }
-);
-
+  if (response) {
+    return response
+  }
+})
 
 export const carSlice = createSlice({
-    name: 'cars',
-    initialState,
-    reducers: {
-
+  name: 'cars',
+  initialState,
+  reducers: {},
+  extraReducers: {
+    [asyncFetchAllCars.pending.type]: (state) => {
+      state.loading = true
+      state.isDoneLoading = false
+      state.error = null
     },
-    extraReducers: {
-        [asyncFetchAllCars.pending.type]: (state) => {
-            state.loading = true;
-            state.isDoneLoading = false;
-            state.error = null;
-        },
-        [asyncFetchAllCars.fulfilled.type]: (state, action: PayloadAction<any>) => {
-            state.loading = false;
-            state.isDoneLoading = true;
-            state.cars = action.payload;
-        },
-        [asyncFetchAllCars.rejected.type]: (state, action: PayloadAction<any, string, any, any>) => {
-            state.loading = false;
-            state.isDoneLoading = true;
-            state.error = action?.error?.message as string;
-        },
+    [asyncFetchAllCars.fulfilled.type]: (state, action: PayloadAction<any>) => {
+      state.loading = false
+      state.isDoneLoading = true
+      state.cars = action.payload
     },
-});
+    [asyncFetchAllCars.rejected.type]: (state, action: PayloadAction<any, string, any, any>) => {
+      state.loading = false
+      state.isDoneLoading = true
+      state.error = action?.error?.message as string
+    },
+  },
+})
 
-export default carSlice.reducer;
+export default carSlice.reducer

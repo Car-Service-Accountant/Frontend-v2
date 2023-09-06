@@ -4,20 +4,31 @@ import * as yup from 'yup'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useContext, useState } from 'react'
 import { GetServerSidePropsContext } from 'next'
-import { wrapper } from '@/features/redux/store'
+import { RootState, wrapper } from '@/features/redux/store'
+import PrimaryButton from '@/components/PrimaryButton'
+import { useSelector } from 'react-redux'
+import { addCar } from '@/api/cars/action'
+import { useRouter } from 'next/router'
 // import { SnackbarContext } from "../../providers/snackbarProvider";
 
-// const URL = API_URL
+export interface carInfo {
+  owner: string
+  carNumber: string
+  carModel: string
+  carMark: string
+  carVIN: string
+  phoneNumber: string
+  buildDate: string
+}
 
 const CreateCar = () => {
   const theme = useTheme()
-  const isNonMobile = useMediaQuery('(min-width:600px)')
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  // const showSnackbar = useContext(SnackbarContext);
+  const isNonMobile = useMediaQuery('(min-width:750px)')
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
+  const companyId = useSelector((state: RootState) => state.auth.user?.companyId)
+  const router = useRouter()
 
-  const handleFormSubmit = (values: any) => {
-    console.log('values ==> ', values)
-  }
+  // const showSnackbar = useContext(SnackbarContext);
 
   const PREFIX = 'add-car'
 
@@ -27,59 +38,45 @@ const CreateCar = () => {
   }
 
   const StyledWrapper = styled(Box)(({ theme }) => ({
-    minHeight: '93vh',
+    marginTop: theme.spacing(12),
     [`& .${classes.formWrapper}`]: {
-      padding: '20px',
       background: '#fff',
       borderRadius: '8px',
     },
     [`& .${classes.divider}`]: {
-      border: '2px',
+      border: `solid 1px ${theme.palette.secondary.light}`,
     },
   }))
 
-  // const handleFormSubmit = (values) => {
-  //   const body = { ...values, comanyHoldRepairs: companyId }
-  //   console.log(body);
-  //   try {
-  //     fetch(`${URL}car`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(body),
-  //     }).then((response) => {
-  //       if (response.status !== 200) {
-  //         throw new Error(
-  //           "Нещо се обърка моля проверете полетата и опитайте отново.",
-  //           "error"
-  //         );
-  //       }
-  //       showSnackbar("Успешно добавена кола.", "success");
-  //       setIsSubmitted(true);
-  //     });
-  //   } catch (err) {
-  //     showSnackbar(err, "error");
-  //   }
-  // };
+  const handleFormSubmit = async (values: carInfo) => {
+    const body = { ...values, comanyHoldRepairs: companyId || '' }
+    console.log(body)
+    const returned: boolean = await addCar(body)
+    setIsSubmitted(returned)
+  }
 
-  // if (isSubmitted) {
-  //   return <Navigate to="/" />;
-  // }
+  if (isSubmitted) {
+    router.push('/')
+  }
 
   return (
     <StyledWrapper>
-      <Box p='20px'>
-        <Box className={classes.formWrapper}>
-          <Typography
-            fontSize={22}
-            fontWeight={theme.typography.fontWeightBold}
-            style={{ paddingLeft: '26px', paddingTop: '20px', paddingBottom: '20px' }}
+      <Box className={classes.formWrapper}>
+        <Typography
+          fontSize={22}
+          fontWeight={theme.typography.fontWeightBold}
+          style={{ paddingLeft: '26px', paddingTop: '20px', paddingBottom: '20px' }}
+        >
+          Добавяне на кола
+        </Typography>
+        <Divider className={classes.divider} sx={{ mb: 4 }}></Divider>
+        <Box sx={{ padding: '20px' }}>
+          <Formik
+            className={classes.formWrapper}
+            onSubmit={handleFormSubmit}
+            initialValues={initialValues}
+            validationSchema={checkoutSchema}
           >
-            Добавяне на кола
-          </Typography>
-          <Divider className={classes.divider} sx={{ mb: 4 }}></Divider>
-          <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={checkoutSchema}>
             {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
               <form onSubmit={handleSubmit}>
                 <Box
@@ -153,7 +150,7 @@ const CreateCar = () => {
                     name='carNumber'
                     error={!!touched.carNumber && !!errors.carNumber}
                     helperText={touched.carNumber && errors.carNumber}
-                    sx={{ gridColumn: 'span 1' }}
+                    sx={{ gridColumn: { sm: 'span 2', md: 'span 1' } }}
                   />
                   <TextField
                     fullWidth
@@ -166,26 +163,25 @@ const CreateCar = () => {
                     name='carVIN'
                     error={!!touched.carVIN && !!errors.carVIN}
                     helperText={touched.carVIN && errors.carVIN}
-                    sx={{ gridColumn: 'span 1' }}
+                    sx={{ gridColumn: { sm: 'span 2', md: 'span 1' } }}
                   />
                   <TextField
                     fullWidth
                     variant='outlined'
                     type='date'
                     label='Година на производство'
+                    placeholder='asdasd'
                     onBlur={handleBlur}
                     onChange={handleChange}
                     value={values.buildDate}
                     name='buildDate'
-                    error={!!touched.buildDate && !!errors.BuildDate}
+                    error={!!touched.buildDate && !!errors.buildDate}
                     helperText={touched.buildDate && errors.buildDate}
                     sx={{ gridColumn: 'span 2' }}
                   />
                 </Box>
                 <Box display='flex' justifyContent='center' mt='20px'>
-                  <Button type='submit' color='secondary' variant='outlined'>
-                    Добави
-                  </Button>
+                  <PrimaryButton text='Добави' />
                 </Box>
               </form>
             )}
@@ -205,11 +201,13 @@ const checkoutSchema = yup.object().shape({
 
   carNumber: yup
     .string()
+    .required('Полето е задължително')
     .min(8, 'Полето трябва да съдържа 8 символа предържайте се към примера "PB3313MG"')
     .max(8, 'Полето трябва да съдържа 8 символа предържайте се към примера "PB3313MG"'),
 
   carVIN: yup
     .string()
+    .required('Полето е задължително')
     .min(17, 'Полето трябва да съдържа 17 символа предържайте се към примера "1HGBH41XMN1091176"')
     .max(17, 'Полето трябва да съдържа 17 символа предържайте се към примера "1HGBH41XMN109186"'),
 
@@ -235,9 +233,3 @@ const initialValues = {
 }
 
 export default CreateCar
-
-export const getServerSideProps = wrapper.getServerSideProps((store) => async (context: GetServerSidePropsContext) => {
-  return {
-    props: {},
-  }
-})

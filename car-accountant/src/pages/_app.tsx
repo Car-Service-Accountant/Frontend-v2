@@ -29,15 +29,12 @@ function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
   const state = useSelector((state: RootState) => state)
 
   useEffect(() => {
-    // Check if user is authenticated
     if (!user && !state.auth.loading) {
-      // Dispatch an action to check authentication status
       dispatch(asyncAuthentication())
     }
   }, [dispatch, user])
 
   useEffect(() => {
-    // Redirect to login page if user is not authenticateda
     if (!user && state.auth.isDoneAuthenticated && router.pathname !== '/login') {
       router.push('/login')
     }
@@ -48,7 +45,6 @@ function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
   }
 
   if (!state.auth.loading && state.auth.isDoneAuthenticated) {
-    console.log(state.auth)
     return (
       <CacheProvider value={emotionCache}>
         <Head>

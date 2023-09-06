@@ -39,8 +39,6 @@ const Home = () => {
   const [percentBarForMonth, setPercentBarForMonth] = useState<number>(1)
   const [unpaiedRepairs, setUpaiedRepairs] = useState<{ car: any; repair: any; totalCost: number }[]>([])
 
-  console.log(user)
-
   // style
   const PREFIX = 'home'
 
@@ -235,14 +233,25 @@ const Home = () => {
   //   sortedRepairs = sortByDateAndCalculateProfit(repairs)
   // }
 
-  const dataForLiveData = dataCalulatorForLiveData(repairs.repairs)
+  const liveData = dataCalulatorForLiveData(repairs.repairs)
 
   //workstation
 
   return (
-    <StyledGrid container style={{ minHeight: '93vh' }}>
+    <StyledGrid container>
       <Grid item xs={12} container>
-        <Grid item xs={4} sx={{ paddingTop: '15px', paddingLeft: '15px', paddingRight: '15px' }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          lg={4}
+          sx={{
+            paddingTop: { lg: '15px', md: '30px', xs: '30px', sm: '30px' },
+            paddingLeft: '15px',
+            paddingRight: '15px',
+          }}
+        >
           <Box className={classes.boxWrapper}>
             <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Box style={{ paddingTop: '20px', paddingRight: '20px' }}>
@@ -269,7 +278,18 @@ const Home = () => {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={4} sx={{ paddingTop: '15px', paddingLeft: '15px', paddingRight: '15px' }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          lg={4}
+          sx={{
+            paddingTop: { lg: '15px', md: '30px', xs: '30px', sm: '30px' },
+            paddingLeft: '15px',
+            paddingRight: '15px',
+          }}
+        >
           <Box className={classes.boxWrapper}>
             <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Box style={{ paddingTop: '20px', paddingRight: '20px' }}>
@@ -296,7 +316,18 @@ const Home = () => {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={4} sx={{ paddingTop: '15px', paddingLeft: '15px', paddingRight: '15px' }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          lg={4}
+          sx={{
+            paddingTop: { lg: '15px', md: '30px', xs: '30px', sm: '30px' },
+            paddingLeft: '15px',
+            paddingRight: '15px',
+          }}
+        >
           <Box className={classes.boxWrapper}>
             <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Box style={{ paddingTop: '20px', paddingRight: '20px' }}>
@@ -324,58 +355,63 @@ const Home = () => {
           </Box>
         </Grid>
       </Grid>
-      <Grid item xs={12} style={{ marginTop: '30px' }}>
-        <Box display='flex'>
-          <Grid item xs={8} sx={{ paddingLeft: '15px', paddingRight: '15px' }}>
-            <Box className={classes.boxWrapper} style={{ zIndex: '-2', paddingTop: '10px' }}>
-              <ResponsiveContainer width='100%' height='100%' minHeight='245px'>
-                <LineChart data={dataForLiveData?.combinedData} margin={{ top: 20, right: 10, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray='3 3' />
-                  <XAxis dataKey='date' />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Line name='Разходи за части' type='monotone' dataKey='totalPartCosts' stroke='#173475' />
-                  <Line name='Печалба от части' type='monotone' dataKey='totalProfitFromParts' stroke='#8DC8FC' />
-                  <Line name='Печалба за труд' type='monotone' dataKey='totalPriceForLabor' stroke='#C500FF' />
-                </LineChart>
-              </ResponsiveContainer>
-            </Box>
-            <Box className={classes.boxWrapper} style={{ zIndex: '-2', marginTop: '30px' }}>
-              <Typography fontSize='22px' fontWeight={theme.typography.fontWeightBold} style={{ padding: '26px' }}>
-                Чакащи плащания
+      <Grid xs={12} container style={{ marginTop: '30px' }}>
+        <Grid item xs={12} sm={12} md={12} lg={8} sx={{ paddingLeft: '15px', paddingRight: '15px' }}>
+          <Box className={classes.boxWrapper} style={{ zIndex: '-2', paddingTop: '10px' }}>
+            <ResponsiveContainer width='100%' height='100%' minHeight='245px'>
+              <LineChart data={liveData?.combinedData} margin={{ top: 20, right: 10, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray='3 3' />
+                <XAxis dataKey='date' />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line name='Разходи за части' type='monotone' dataKey='totalPartCosts' stroke='#173475' />
+                <Line name='Печалба от части' type='monotone' dataKey='totalProfitFromParts' stroke='#8DC8FC' />
+                <Line name='Печалба за труд' type='monotone' dataKey='totalPriceForLabor' stroke='#C500FF' />
+              </LineChart>
+            </ResponsiveContainer>
+          </Box>
+          <Box className={classes.boxWrapper} style={{ zIndex: '-2', marginTop: '30px' }}>
+            <Typography fontSize='22px' fontWeight={theme.typography.fontWeightBold} style={{ padding: '26px' }}>
+              Чакащи плащания
+            </Typography>
+            <Box
+              style={{
+                backgroundColor: theme.palette.primary.light,
+                padding: '14px',
+                paddingRight: '10%',
+                display: 'flex',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
+                Име на клиент
               </Typography>
-              <Box
-                style={{
-                  backgroundColor: theme.palette.primary.light,
-                  padding: '14px',
-                  paddingRight: '10%',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
-                  Име на клиент
-                </Typography>
-                <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
-                  Номер на колата
-                </Typography>
-                <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
-                  Дата на изпълнение
-                </Typography>
-              </Box>
-              <BoxSpawner boxes={awaitingPaimentsElements} />
+              <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
+                Номер на колата
+              </Typography>
+              <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
+                Дата на изпълнение
+              </Typography>
             </Box>
-          </Grid>
-          <Grid item xs={4} sx={{ paddingLeft: '15px', paddingRight: '15px' }}>
-            <Box className={classes.boxWrapper} style={{ padding: '26px' }}>
-              <Box style={{ paddingBottom: '20px', paddingTop: '20px' }}>
-                <Typography>Скорощни разходи</Typography>
-              </Box>
-              <BoxSpawner boxes={elements} />
+            <BoxSpawner boxes={awaitingPaimentsElements} />
+          </Box>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          lg={4}
+          sx={{ paddingTop: { md: '30px', xs: '30px', sm: '30px' }, paddingLeft: '15px', paddingRight: '15px' }}
+        >
+          <Box className={classes.boxWrapper} style={{ padding: '26px' }}>
+            <Box style={{ paddingBottom: '20px', paddingTop: '20px' }}>
+              <Typography>Скорощни разходи</Typography>
             </Box>
-          </Grid>
-        </Box>
+            <BoxSpawner boxes={elements} />
+          </Box>
+        </Grid>
       </Grid>
     </StyledGrid>
   )
