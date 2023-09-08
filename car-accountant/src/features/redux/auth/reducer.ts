@@ -19,7 +19,6 @@ export const asyncLogin = createAsyncThunk('auth/login', async ({ email, passwor
 export const asyncAuthentication = createAsyncThunk('auth/authentication', async () => {
   const token = localStorage.getItem('token') || ''
   const response: any = await authenticationAPI(token)
-  console.log('response from authentication')
 
   if (response) {
     return response

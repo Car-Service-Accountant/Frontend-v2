@@ -3,8 +3,6 @@ import { carRequest } from '@/features/redux/cars/types'
 const URL = 'http://localhost:3005'
 
 export const fetchAllCars = async (companyId: string) => {
-  console.log('companyId in cars ==> ', companyId)
-
   try {
     const response = await fetch(`${URL}/car`, {
       method: 'GET',
@@ -13,7 +11,6 @@ export const fetchAllCars = async (companyId: string) => {
         'X-Company-ID': companyId,
       },
     })
-    console.log('response in cars ==> ', response)
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
@@ -36,8 +33,20 @@ export const addCar = async (data: carRequest) => {
     },
     body: JSON.stringify(data),
   })
+  const result = await response.json()
+
   if (response && response.status === 200) {
-    return true
+    return result
   }
-  return false
+  return result
+}
+
+export const deleteCar = async (selectedId: string) => {
+  const response = await fetch(`${URL}/car/${selectedId}`, {
+    method: 'DELETE',
+  })
+  if (response && response.status === 200) {
+    return selectedId
+  }
+  return null
 }

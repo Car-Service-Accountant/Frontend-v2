@@ -103,10 +103,10 @@ const Home = () => {
   }))
 
   useEffect(() => {
-    if (user && !repairs.isDoneLoading) {
+    if (user) {
       dispatch(asyncFetchAllRepairs(user?.companyId))
     }
-    if (user && !cars.isDoneLoading) {
+    if (user) {
       dispatch(asyncFetchAllCars(user?.companyId))
     }
   }, [user])

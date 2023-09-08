@@ -24,7 +24,8 @@ export interface carInfo {
 const CreateCar = () => {
   const theme = useTheme()
   const isNonMobile = useMediaQuery('(min-width:750px)')
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
+  const [isSubmitted, setIsSubmitted] = useState<boolean | string>(false)
+  const [errorMsg, setErrorMsg] = useState<string>('')
   const companyId = useSelector((state: RootState) => state.auth.user?.companyId)
   const router = useRouter()
 
@@ -44,15 +45,19 @@ const CreateCar = () => {
       borderRadius: '8px',
     },
     [`& .${classes.divider}`]: {
-      border: `solid 1px ${theme.palette.secondary.light}`,
+      border: `solid 1px ${theme.palette.primary.main}`,
     },
   }))
 
   const handleFormSubmit = async (values: carInfo) => {
     const body = { ...values, comanyHoldRepairs: companyId || '' }
-    console.log(body)
-    const returned: boolean = await addCar(body)
-    setIsSubmitted(returned)
+    const returned: boolean | string = await addCar(body)
+    // if (returned === true) {
+    //   setIsSubmitted(returned)
+    // } else {
+    //   setErrorMsg(returned)
+    //   setIsSubmitted(false)
+    // }
   }
 
   if (isSubmitted) {
@@ -62,6 +67,9 @@ const CreateCar = () => {
   return (
     <StyledWrapper>
       <Box className={classes.formWrapper}>
+        <Typography color='red' fontSize={20}>
+          {errorMsg}
+        </Typography>
         <Typography
           fontSize={22}
           fontWeight={theme.typography.fontWeightBold}

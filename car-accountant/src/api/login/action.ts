@@ -56,7 +56,6 @@ export const authenticationAPI = async (token: string) => {
         'x-autorization': token,
       },
     })
-    console.log('response in auth system', response)
 
     if (response.status !== 200) {
       return null
