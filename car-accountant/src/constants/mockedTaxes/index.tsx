@@ -13,7 +13,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   marginTop: '10px',
   height: '10%',
-  boxShadow: '0px 0px 5px 0px rgba(128, 128, 128, 0.20)',
+  padding: '20px',
 }))
 
 const elements = [

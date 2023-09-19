@@ -2,7 +2,13 @@ import { Button } from '@mui/material'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-const PrimaryButton = ({ text, link }: { text: string; link?: string }) => {
+interface primaryButtonProps {
+  text: string
+  link?: string
+  small?: boolean
+}
+
+const PrimaryButton = ({ text, link, small }: primaryButtonProps) => {
   const router = useRouter()
 
   const handleClick = () => {
@@ -14,7 +20,7 @@ const PrimaryButton = ({ text, link }: { text: string; link?: string }) => {
   return (
     <Button
       sx={{
-        padding: '10px 90px',
+        padding: `${small ? '10px 35px' : '10px 90px'}`,
         boxShadow: 'none',
         fontStyle: 'normal',
         fontWeight: 500,

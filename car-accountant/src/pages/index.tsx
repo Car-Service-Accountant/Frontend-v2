@@ -52,14 +52,6 @@ const Home = () => {
   }
 
   const StyledGrid = styled(Grid)(({ theme }) => ({
-    paddingLeft: '16px',
-    width: '100%',
-    height: '100%',
-    paddingRight: '16px',
-    paddingTop: '46px',
-    paddingBottom: '30px',
-    alignContent: 'flex-start',
-
     [`& .${classes.boxWrapper}`]: {
       borderRadius: '8px',
       backgroundColor: theme.palette.background.paper,
@@ -244,122 +236,181 @@ const Home = () => {
           item
           xs={12}
           sm={12}
-          md={12}
-          lg={4}
+          md={6}
+          lg={3}
           sx={{
             paddingTop: { lg: '15px', md: '30px', xs: '30px', sm: '30px' },
             paddingLeft: '15px',
             paddingRight: '15px',
           }}
         >
-          <Box className={classes.boxWrapper}>
+          <Box
+            sx={{ padding: '30px', display: 'flex', flexDirection: { xl: 'row', lg: 'column' } }}
+            className={classes.boxWrapper}
+          >
             <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Box style={{ paddingTop: '20px', paddingRight: '20px' }}>
+              <Box style={{ paddingTop: '0px', paddingRight: '30px' }}>
                 {repairs.repairs && <Circle progress={percentBarForToday} />}
               </Box>
             </Box>
-            <Typography
-              variant='h3'
-              color={theme.palette.text.primary}
-              fontWeight={theme.typography.fontWeightBold}
-              fontSize='16px'
-              sx={{ paddingLeft: '20px', paddingTop: '20px' }}
-            >
-              Дневен доход
-            </Typography>
-            <Typography
-              variant='h6'
-              color={todaysProfit > 0 ? '#50BC1D' : theme.palette.text.primary}
-              fontWeight={theme.typography.fontWeightBold}
-              fontSize='32px'
-              sx={{ paddingLeft: '20px', paddingTop: '20px' }}
-            >
-              {todaysProfit ? <ProgressiveNumber number={todaysProfit} /> : '0'} лв.
-            </Typography>
+            <Box>
+              <Typography
+                variant='h3'
+                color={theme.palette.text.primary}
+                fontWeight={theme.typography.fontWeightBold}
+                fontSize='16px'
+                sx={{ paddingLeft: '0px', paddingTop: '20px' }}
+              >
+                Дневен доход
+              </Typography>
+
+              <Typography
+                variant='h6'
+                color={todaysProfit > 0 ? '#50BC1D' : theme.palette.text.primary}
+                fontWeight={theme.typography.fontWeightBold}
+                fontSize='32px'
+                sx={{ paddingLeft: '0px', paddingTop: '0px' }}
+              >
+                {todaysProfit ? <ProgressiveNumber number={todaysProfit} /> : '0'} лв.
+              </Typography>
+            </Box>
           </Box>
         </Grid>
         <Grid
           item
           xs={12}
           sm={12}
-          md={12}
-          lg={4}
+          md={6}
+          lg={3}
           sx={{
             paddingTop: { lg: '15px', md: '30px', xs: '30px', sm: '30px' },
             paddingLeft: '15px',
             paddingRight: '15px',
           }}
         >
-          <Box className={classes.boxWrapper}>
+          <Box
+            sx={{ padding: '30px', display: 'flex', flexDirection: { xl: 'row', lg: 'column' } }}
+            className={classes.boxWrapper}
+          >
             <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Box style={{ paddingTop: '20px', paddingRight: '20px' }}>
+              <Box style={{ paddingTop: '0px', paddingRight: '30px' }}>
                 {repairs.repairs && <Circle progress={percentBarForWeek} />}
               </Box>
             </Box>
-            <Typography
-              variant='h3'
-              color={theme.palette.text.primary}
-              fontWeight={theme.typography.fontWeightBold}
-              fontSize='16px'
-              sx={{ paddingLeft: '20px', paddingTop: '20px' }}
-            >
-              Седмичен доход
-            </Typography>
-            <Typography
-              variant='h6'
-              color={weeklyProfit > 0 ? '#50BC1D' : theme.palette.text.primary}
-              fontWeight={theme.typography.fontWeightBold}
-              fontSize='32px'
-              sx={{ paddingLeft: '20px', paddingTop: '20px' }}
-            >
-              {weeklyProfit ? <ProgressiveNumber number={weeklyProfit} /> : '0'} лв.
-            </Typography>
+            <Box>
+              <Typography
+                variant='h3'
+                color={theme.palette.text.primary}
+                fontWeight={theme.typography.fontWeightBold}
+                fontSize='16px'
+                sx={{ paddingLeft: '0px', paddingTop: '20px' }}
+              >
+                Седмичен доход
+              </Typography>
+              <Typography
+                variant='h6'
+                color={weeklyProfit > 0 ? '#50BC1D' : theme.palette.text.primary}
+                fontWeight={theme.typography.fontWeightBold}
+                fontSize='32px'
+                sx={{ paddingLeft: '0px', paddingTop: '0px' }}
+              >
+                {weeklyProfit ? <ProgressiveNumber number={weeklyProfit} /> : '0'} лв.
+              </Typography>
+            </Box>
           </Box>
         </Grid>
         <Grid
           item
           xs={12}
           sm={12}
-          md={12}
-          lg={4}
+          md={6}
+          lg={3}
           sx={{
             paddingTop: { lg: '15px', md: '30px', xs: '30px', sm: '30px' },
             paddingLeft: '15px',
             paddingRight: '15px',
           }}
         >
-          <Box className={classes.boxWrapper}>
+          <Box
+            sx={{ padding: '30px', display: 'flex', flexDirection: { xl: 'row', lg: 'column' } }}
+            className={classes.boxWrapper}
+          >
             <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Box style={{ paddingTop: '20px', paddingRight: '20px' }}>
-                {repairs.repairs && <Circle progress={percentBarForMonth} />}
+              <Box style={{ paddingTop: '0px', paddingRight: '30px' }}>
+                {repairs.repairs && <Circle progress={percentBarForWeek} />}
               </Box>
             </Box>
-            <Typography
-              variant='h3'
-              color={theme.palette.text.primary}
-              fontWeight={theme.typography.fontWeightBold}
-              fontSize='16px'
-              sx={{ paddingLeft: '20px', paddingTop: '20px' }}
-            >
-              Месечен доход
-            </Typography>
-            <Typography
-              variant='h6'
-              color={monthlyProfit > 0 ? '#50BC1D' : theme.palette.text.primary}
-              fontWeight={theme.typography.fontWeightBold}
-              fontSize='32px'
-              sx={{ paddingLeft: '20px', paddingTop: '20px' }}
-            >
-              {monthlyProfit ? <ProgressiveNumber number={monthlyProfit} /> : '0'} лв.
-            </Typography>
+            <Box>
+              <Typography
+                variant='h3'
+                color={theme.palette.text.primary}
+                fontWeight={theme.typography.fontWeightBold}
+                fontSize='16px'
+                sx={{ paddingLeft: '0px', paddingTop: '20px' }}
+              >
+                Месечен доход
+              </Typography>
+              <Typography
+                variant='h6'
+                color={monthlyProfit > 0 ? '#50BC1D' : theme.palette.text.primary}
+                fontWeight={theme.typography.fontWeightBold}
+                fontSize='32px'
+                sx={{ paddingLeft: '0px', paddingTop: '0px' }}
+              >
+                {monthlyProfit ? <ProgressiveNumber number={monthlyProfit} /> : '0'} лв.
+              </Typography>
+            </Box>
+          </Box>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={3}
+          sx={{
+            paddingTop: { lg: '15px', md: '30px', xs: '30px', sm: '30px' },
+            paddingLeft: '15px',
+            paddingRight: '15px',
+          }}
+        >
+          <Box
+            sx={{ padding: '30px', display: 'flex', flexDirection: { xl: 'row', lg: 'column' } }}
+            className={classes.boxWrapper}
+          >
+            <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Box style={{ paddingTop: '0px', paddingRight: '30px' }}>
+                {repairs.repairs && <Circle progress={percentBarForWeek} />}
+              </Box>
+            </Box>
+            <Box>
+              <Typography
+                variant='h3'
+                color={theme.palette.text.primary}
+                fontWeight={theme.typography.fontWeightBold}
+                fontSize='16px'
+                sx={{ paddingLeft: '0px', paddingTop: '20px' }}
+              >
+                Месечен доход
+              </Typography>
+              <Typography
+                variant='h6'
+                color={monthlyProfit > 0 ? '#50BC1D' : theme.palette.text.primary}
+                fontWeight={theme.typography.fontWeightBold}
+                fontSize='32px'
+                sx={{ paddingLeft: '0px', paddingTop: '0px' }}
+              >
+                {monthlyProfit ? <ProgressiveNumber number={monthlyProfit} /> : '0'} лв.
+              </Typography>
+            </Box>
           </Box>
         </Grid>
       </Grid>
       <Grid xs={12} container style={{ marginTop: '30px' }}>
-        <Grid item xs={12} sm={12} md={12} lg={8} sx={{ paddingLeft: '15px', paddingRight: '15px' }}>
-          <Box className={classes.boxWrapper} style={{ zIndex: '-2', paddingTop: '10px' }}>
+        <Grid item xs={12} sm={12} md={12} lg={9} sx={{ paddingLeft: '15px', paddingRight: '15px' }}>
+          <Box className={classes.boxWrapper} style={{ zIndex: '-2', paddingTop: '10px', paddingBottom: '26px' }}>
             <ResponsiveContainer width='100%' height='100%' minHeight='245px'>
-              <LineChart data={liveData?.combinedData} margin={{ top: 20, right: 10, left: 0, bottom: 0 }}>
+              <LineChart data={liveData?.combinedData} margin={{ top: 20, right: 30, left: -30, bottom: 0 }}>
                 <CartesianGrid strokeDasharray='3 3' />
                 <XAxis dataKey='date' />
                 <YAxis />
@@ -402,12 +453,18 @@ const Home = () => {
           xs={12}
           sm={12}
           md={12}
-          lg={4}
-          sx={{ paddingTop: { md: '30px', xs: '30px', sm: '30px' }, paddingLeft: '15px', paddingRight: '15px' }}
+          lg={3}
+          sx={{
+            paddingTop: { lg: '0px', md: '30px', xs: '30px', sm: '30px' },
+            paddingLeft: '15px',
+            paddingRight: '15px',
+          }}
         >
           <Box className={classes.boxWrapper} style={{ padding: '26px' }}>
             <Box style={{ paddingBottom: '20px', paddingTop: '20px' }}>
-              <Typography>Скорощни разходи</Typography>
+              <Typography fontWeight={600} fontSize={'22px'}>
+                Скорощни разходи
+              </Typography>
             </Box>
             <BoxSpawner boxes={elements} />
           </Box>

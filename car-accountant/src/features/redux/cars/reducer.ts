@@ -1,27 +1,38 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { carRequest, carState } from './types'
-import { addCar, deleteCar, fetchAllCars } from '@/api/cars/action'
+import { carState } from './types'
+import { deleteCar, fetchAllCars, fetchSingleCar } from '@/api/cars/action'
 
 const initialState: carState = {
   loading: false,
   isDoneLoading: false,
   cars: null,
+  currentCar: null,
   error: null,
 }
 
 export const asyncFetchAllCars = createAsyncThunk('cars/asyncFetchAllCars', async (companyId: string) => {
-  const response: any = await fetchAllCars(companyId)
+  const response = await fetchAllCars(companyId)
   if (response) {
     return response
   }
 })
 
 export const asyncDeleteCar = createAsyncThunk('cars/deleteCar', async (selectedId: string) => {
-  const result = await deleteCar(selectedId)
-  if (result) {
-    return result
+  const response = await deleteCar(selectedId)
+  if (response) {
+    return response
   }
 })
+
+export const asyncFetchCar = createAsyncThunk(
+  'cars/asyncFetchCar',
+  async ({ _id, companyId }: { _id: string; companyId: string }) => {
+    const response = await fetchSingleCar(_id, companyId)
+    if (response) {
+      return response
+    }
+  },
+)
 
 export const carSlice = createSlice({
   name: 'cars',
@@ -45,6 +56,12 @@ export const carSlice = createSlice({
     },
     [asyncDeleteCar.fulfilled.type]: (state, action: PayloadAction<any>) => {
       state.cars = state.cars?.filter((car) => car._id !== action.payload) || null
+    },
+    [asyncDeleteCar.rejected.type]: (state, action: PayloadAction<any, string, any, any>) => {
+      state.error = action?.error?.message as string
+    },
+    [asyncFetchCar.fulfilled.type]: (state, action: PayloadAction<any>) => {
+      state.currentCar = action.payload
     },
     [asyncDeleteCar.rejected.type]: (state, action: PayloadAction<any, string, any, any>) => {
       state.error = action?.error?.message as string

@@ -49,46 +49,42 @@ export const loginAPI = async ({ email, password }: loginPorps) => {
 }
 
 export const authenticationAPI = async (token: string) => {
-  try {
-    const response = await fetch(`${URL}/auth/protection`, {
-      method: 'GET',
-      headers: {
-        'x-autorization': token,
-      },
-    })
+  const response = await fetch(`${URL}/auth/protection`, {
+    method: 'GET',
+    headers: {
+      'x-autorization': token,
+    },
+  })
 
-    if (response.status !== 200) {
-      return null
-    }
-    const result = await response.json()
-    if (result) {
-      if (result?.role === 'админ') {
-        return {
-          email: result.email,
-          cashBoxID: result.cashBoxID.toString(),
-          username: result.username,
-          phoneNumber: result.phoneNumber,
-          _id: result?._id?.toString(),
-          role: result?.role,
-          employers: result?.employers,
-          token: result?.token,
-          companyId: result?._id.toString(),
-        }
-      } else if (result) {
-        return {
-          email: result.email,
-          cashBoxID: result.cashBoxID.toString(),
-          username: result.username,
-          phoneNumber: result.phoneNumber,
-          _id: result?._id?.toString(),
-          role: result?.role,
-          token: result?.token,
-          companyId: result?.companyId.toString(),
-        }
+  if (response.status !== 200) {
+    return null
+  }
+  const result = await response.json()
+  if (result) {
+    if (result?.role === 'админ') {
+      return {
+        email: result.email,
+        cashBoxID: result.cashBoxID.toString(),
+        username: result.username,
+        phoneNumber: result.phoneNumber,
+        _id: result?._id?.toString(),
+        role: result?.role,
+        employers: result?.employers,
+        token: result?.token,
+        companyId: result?._id.toString(),
       }
-      return result
+    } else if (result) {
+      return {
+        email: result.email,
+        cashBoxID: result.cashBoxID.toString(),
+        username: result.username,
+        phoneNumber: result.phoneNumber,
+        _id: result?._id?.toString(),
+        role: result?.role,
+        token: result?.token,
+        companyId: result?.companyId.toString(),
+      }
     }
-  } catch (err) {
-    throw err
+    return result
   }
 }

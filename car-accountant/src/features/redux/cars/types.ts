@@ -6,7 +6,7 @@ export type carTypes = {
   carNumber: string
   phoneNumber: string
   carModel: string
-  carVin: string
+  carVIN: string
   carMark: string
   comanyHoldRepairs: string
   buildDate: Date
@@ -17,6 +17,7 @@ export type carState = {
   loading: boolean
   isDoneLoading: boolean
   cars: carTypes[] | null
+  currentCar: carTypes | null
   error: string | null
 }
 
