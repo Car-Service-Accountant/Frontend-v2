@@ -50,3 +50,20 @@ export const deleteCar = async (selectedId: string) => {
   }
   return null
 }
+
+export const fetchSingleCar = async (_id: string, companyId: string) => {
+  const response = await fetch(`${URL}/car/${_id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Company-ID': companyId,
+    },
+  })
+  if (response.status === 200) {
+    const result = await response.json()
+    console.log('result =>', result)
+
+    return result
+  }
+  return null
+}

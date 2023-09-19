@@ -37,7 +37,7 @@ const ResponsiveDrawer: React.FC<Props> = ({ children }) => {
           aria-label='open drawer'
           edge='start'
           onClick={handleDrawerToggle}
-          sx={{ mr: 2, display: { sm: 'none' } }}
+          sx={{ mr: 2, display: { md: 'none' } }}
         >
           <MenuIcon />
         </IconButton>
@@ -67,7 +67,7 @@ const ResponsiveDrawer: React.FC<Props> = ({ children }) => {
     <RootBox>
       <CssBaseline />
       {appBar}
-      <Box component='nav' sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label='mailbox folders'>
+      <Box component='nav' sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }} aria-label='mailbox folders'>
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           variant='temporary'
@@ -77,7 +77,7 @@ const ResponsiveDrawer: React.FC<Props> = ({ children }) => {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
+            display: { xs: 'block', md: 'none' },
             '& .MuiDrawer-paper': {
               backgroundColor: 'primary.main',
               boxSizing: 'border-box',
@@ -91,7 +91,7 @@ const ResponsiveDrawer: React.FC<Props> = ({ children }) => {
         <Drawer
           variant='permanent'
           sx={{
-            display: { xs: 'none', sm: 'block' },
+            display: { xs: 'none', md: 'block' },
             '& .MuiDrawer-paper': {
               backgroundColor: 'primary.main',
               boxSizing: 'border-box',
@@ -109,9 +109,10 @@ const ResponsiveDrawer: React.FC<Props> = ({ children }) => {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
+          width: { xs: '100%', md: `calc(100% - ${drawerWidth}px)` },
         }}
       >
+        <Toolbar />
         {children}
       </Box>
     </RootBox>

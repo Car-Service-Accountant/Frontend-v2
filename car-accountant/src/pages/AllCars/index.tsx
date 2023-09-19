@@ -148,11 +148,10 @@ const Cars = () => {
   }
   if (data.cars?.length !== 0) {
     return (
-      <Box m='20px'>
+      <Box p={2}>
         <Box
-          m='80px 0 0 0'
           height='75vh'
-          style={{ boxShadow: '#00000038 0px 3px 9px 2px' }}
+          style={{ boxShadow: '0px 0px 5px 0px rgba(128, 128, 128, 0.20)' }}
           sx={{
             '& .MuiDataGrid-root': {
               border: 'none',
@@ -170,11 +169,12 @@ const Cars = () => {
               backgroundColor: theme.palette.background.paper,
             },
             '& .MuiDataGrid-footerContainer': {
-              backgroundColor: theme.palette.primary.light,
+              backgroundColor: theme.palette.background.paper,
+              borderTop: 'none',
             },
             '& .MuiDataGrid-row': {
               '&:hover': {
-                backgroundColor: theme.palette.background.default,
+                backgroundColor: `${theme.palette.background.default} !important`,
               },
               display: 'flex',
               flexWrap: 'nowrap',

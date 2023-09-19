@@ -39,10 +39,11 @@ const CreateCar = () => {
   }
 
   const StyledWrapper = styled(Box)(({ theme }) => ({
-    marginTop: theme.spacing(12),
+    padding: theme.spacing(2),
     [`& .${classes.formWrapper}`]: {
       background: '#fff',
       borderRadius: '8px',
+      boxShadow: '0px 0px 5px 0px rgba(128, 128, 128, 0.20)',
     },
     [`& .${classes.divider}`]: {
       border: `solid 1px ${theme.palette.primary.main}`,
@@ -51,13 +52,15 @@ const CreateCar = () => {
 
   const handleFormSubmit = async (values: carInfo) => {
     const body = { ...values, comanyHoldRepairs: companyId || '' }
-    const returned: boolean | string = await addCar(body)
-    // if (returned === true) {
-    //   setIsSubmitted(returned)
-    // } else {
-    //   setErrorMsg(returned)
-    //   setIsSubmitted(false)
-    // }
+    const returned = await addCar(body)
+    if (returned?.message) {
+      setErrorMsg(returned)
+      setIsSubmitted(false)
+    } else {
+      // there is returned car obj , future , to make action witch directly add them to the state after car was added
+      setErrorMsg('')
+      setIsSubmitted(true)
+    }
   }
 
   if (isSubmitted) {

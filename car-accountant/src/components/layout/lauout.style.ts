@@ -11,8 +11,8 @@ const Root = styled(Box)(({ theme }) => ({
   [`& .${classes.divider}`]: {
     borderColor: '#fff',
     borderWidth: '1px',
-    marginLeft: '25px',
-    marginRight: '25px',
+    marginLeft: '16px',
+    marginRight: '16px',
     marginTop: '10px',
     marginBottom: '10px',
     backgroundColor: '#fff',
