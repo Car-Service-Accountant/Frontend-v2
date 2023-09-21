@@ -1,24 +1,13 @@
-import {
-  Box,
-  CircularProgress,
-  IconButton,
-  Menu,
-  Typography,
-  useTheme,
-  MenuItem,
-  useMediaQuery,
-  LinearProgress,
-} from '@mui/material'
+import { Box, IconButton, Menu, Typography, useTheme, MenuItem, useMediaQuery, LinearProgress } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
 import { useEffect, useState } from 'react'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+// import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { carTypes } from '@/features/redux/cars/types'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/features/redux/store'
-import { useDispatch } from 'react-redux'
 import { asyncDeleteCar, asyncFetchAllCars } from '@/features/redux/cars/reducer'
 import { ThunkDispatch } from 'redux-thunk'
 import { AnyAction } from 'redux'
@@ -28,9 +17,8 @@ import { useRouter } from 'next/router'
 
 const Cars = () => {
   const theme = useTheme()
-  const [cars, setCars] = useState<carTypes[] | null>(null)
   const [selectedId, setSelectedId] = useState(null)
-  const [editedId, setEditedId] = useState(null)
+  // const [editedId, setEditedId] = useState(null) // to unlock this feature when im ready with the edit form
   const [menuAnchorEl, setMenuAnchorEl] = useState(null)
   const [selecredRow, setSelectedRow] = useState(null)
   const data = useSelector((state: RootState) => state.cars)
@@ -63,7 +51,7 @@ const Cars = () => {
   }
 
   const handleEditClick = () => {
-    setEditedId(selectedId)
+    // setEditedId(selectedId)
   }
 
   const handleDeleteClick = async () => {
@@ -179,7 +167,6 @@ const Cars = () => {
               display: 'flex',
               flexWrap: 'nowrap',
               minWidth: '270px!important',
-              '& div': {},
             },
           }}
         >

@@ -1,5 +1,5 @@
 import '@/styles/globals.css'
-import { useEffect } from 'react'
+import { use, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { CacheProvider, EmotionCache, useTheme } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'

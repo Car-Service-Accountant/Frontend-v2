@@ -4,6 +4,7 @@ import { Action } from 'redux'
 import { authSlice } from './auth/reducer'
 import { repairSlice } from './repairs/reducer'
 import { carSlice } from './cars/reducer'
+import { employerSlice } from './employers/reducer'
 
 const store = () =>
   configureStore({
@@ -11,6 +12,7 @@ const store = () =>
       auth: authSlice.reducer,
       repairs: repairSlice.reducer,
       cars: carSlice.reducer,
+      employers: employerSlice.reducer,
     },
     devTools: true,
   })
