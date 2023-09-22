@@ -115,9 +115,10 @@ const Cars = () => {
       headerName: '',
       // disableColumnSelector: true,
       sortable: false,
+
       width: 0,
       renderCell: (params) => (
-        <IconButton size='large' onClick={handleMenuOpen} data-id={params.row._id}>
+        <IconButton sx={{ padding: 1 }} size='large' onClick={handleMenuOpen} data-id={params.row._id}>
           <MoreVertIcon />
         </IconButton>
       ),

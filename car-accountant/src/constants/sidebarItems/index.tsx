@@ -32,7 +32,7 @@ export const guestItems = [
   },
   {
     label: 'Коли в ремонт',
-    path: '/CarsInRepair',
+    path: '/CarsInService',
     icon: <CarRepairOutlinedIcon style={{ marginRight: '10px' }} />,
   },
   {

@@ -165,9 +165,8 @@ const allEmployers = () => {
   }
 
   return (
-    <Box m='20px'>
+    <Box p={2}>
       <Box
-        m='40px 0 0 0'
         height='75vh'
         sx={{
           '& .MuiDataGrid-root': {

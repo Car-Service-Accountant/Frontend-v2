@@ -1,7 +1,7 @@
 import '@/styles/globals.css'
-import { use, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { CacheProvider, EmotionCache, useTheme } from '@emotion/react'
+import { CacheProvider, EmotionCache } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'
 import createEmotionCache from './EmotionalCache'
 import { LinearProgress, ThemeProvider } from '@mui/material'
@@ -55,7 +55,6 @@ function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
           <link
             rel='stylesheet'
             type='text/css'
-            charSet='UTF-8'
             href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'
           />
           <link
