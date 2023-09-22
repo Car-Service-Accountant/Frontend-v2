@@ -16,8 +16,9 @@ import ProgressiveNumber from '@/components/progressiveNumbers'
 import BoxSpawner from '@/components/boxSpowner'
 import { asyncFetchAllRepairs } from '@/features/redux/repairs/reducer'
 import { asyncFetchAllCars } from '@/features/redux/cars/reducer'
-import { RootState, wrapper } from '@/features/redux/store'
+import { RootState } from '@/features/redux/store'
 import elements from '@/constants/mockedTaxes'
+import { asyncFetchAllEmployers } from '@/features/redux/employers/reducer'
 
 const Home = () => {
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
@@ -100,6 +101,9 @@ const Home = () => {
     }
     if (user) {
       dispatch(asyncFetchAllCars(user?.companyId))
+    }
+    if (user) {
+      dispatch(asyncFetchAllEmployers(user?.companyId))
     }
   }, [user])
 
