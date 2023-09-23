@@ -35,14 +35,14 @@ export const guestItems = [
     path: '/CarsInService',
     icon: <CarRepairOutlinedIcon style={{ marginRight: '10px' }} />,
   },
+]
+
+export const managerItems = [
   {
     label: 'Чакащи плащания',
     path: '/AwaitingPayments',
     icon: <AddCardOutlinedIcon style={{ marginRight: '10px' }} />,
   },
-]
-
-export const managerItems = [
   {
     label: 'Отчети',
     path: '/Reports',
