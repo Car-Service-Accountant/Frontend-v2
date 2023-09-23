@@ -45,8 +45,7 @@ const allEmployers = () => {
   }
 
   const handleDeleteClick = async () => {
-    console.log('selectedId =>', selectedId)
-    if (selectedId && user) {
+    if (selectedId && user?.companyId) {
       dispatch(asyncDeleteEmployer(selectedId))
       dispatch(asyncFetchAllEmployers(user?.companyId))
     }
@@ -54,7 +53,7 @@ const allEmployers = () => {
   }
 
   useEffect(() => {
-    if (user) {
+    if (user?.companyId) {
       dispatch(asyncFetchAllEmployers(user?.companyId))
     }
   }, [user?.companyId])

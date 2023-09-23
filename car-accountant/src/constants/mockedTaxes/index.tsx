@@ -17,7 +17,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }))
 
 const elements = [
-  <StyledBox className={classes.taxesCars}>
+  <StyledBox key={'key-1'} className={classes.taxesCars}>
     <Box>
       <Typography>Ток</Typography>
       <Typography>1 януари , 2023</Typography>
@@ -26,7 +26,7 @@ const elements = [
       <Typography>320лв</Typography>
     </Box>
   </StyledBox>,
-  <StyledBox className={classes.taxesCars}>
+  <StyledBox key={'key-2'} className={classes.taxesCars}>
     <Box>
       <Typography>Ток</Typography>
       <Typography>1 януари , 2023</Typography>
@@ -35,7 +35,7 @@ const elements = [
       <Typography>320лв</Typography>
     </Box>
   </StyledBox>,
-  <StyledBox className={classes.taxesCars}>
+  <StyledBox key={'key-3'} className={classes.taxesCars}>
     <Box>
       <Typography>Ток</Typography>
       <Typography>1 януари , 2023</Typography>
@@ -44,7 +44,7 @@ const elements = [
       <Typography>320лв</Typography>
     </Box>
   </StyledBox>,
-  <StyledBox className={classes.taxesCars}>
+  <StyledBox key={'key-4'} className={classes.taxesCars}>
     <Box>
       <Typography>Ток</Typography>
       <Typography>1 януари , 2023</Typography>
@@ -53,7 +53,7 @@ const elements = [
       <Typography>320лв</Typography>
     </Box>
   </StyledBox>,
-  <StyledBox className={classes.taxesCars}>
+  <StyledBox key={'key-5'} className={classes.taxesCars}>
     <Box>
       <Typography>Ток</Typography>
       <Typography>1 януари , 2023</Typography>
@@ -62,7 +62,7 @@ const elements = [
       <Typography>320лв</Typography>
     </Box>
   </StyledBox>,
-  <StyledBox className={classes.taxesCars}>
+  <StyledBox key={'key-6'} className={classes.taxesCars}>
     <Box>
       <Typography>Ток</Typography>
       <Typography>1 януари , 2023</Typography>
@@ -71,7 +71,7 @@ const elements = [
       <Typography>320лв</Typography>
     </Box>
   </StyledBox>,
-  <StyledBox className={classes.taxesCars}>
+  <StyledBox key={'key-7'} className={classes.taxesCars}>
     <Box>
       <Typography>Ток</Typography>
       <Typography>1 януари , 2023</Typography>
@@ -80,7 +80,7 @@ const elements = [
       <Typography>320лв</Typography>
     </Box>
   </StyledBox>,
-  <StyledBox className={classes.taxesCars}>
+  <StyledBox key={'key-8'} className={classes.taxesCars}>
     <Box>
       <Typography>Ток</Typography>
       <Typography>1 януари , 2023</Typography>
@@ -89,7 +89,7 @@ const elements = [
       <Typography>320лв</Typography>
     </Box>
   </StyledBox>,
-  <StyledBox className={classes.taxesCars}>
+  <StyledBox key={'key-9'} className={classes.taxesCars}>
     <Box>
       <Typography>Ток</Typography>
       <Typography>1 януари , 2023</Typography>

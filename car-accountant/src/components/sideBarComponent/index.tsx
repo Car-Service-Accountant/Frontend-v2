@@ -4,19 +4,6 @@ import { guestItems, managerItems, ownerItems } from '@/constants/sidebarItems'
 import RootList, { classes } from './sideBarComponent.style'
 import Link from 'next/link'
 
-const activePaths = {
-  home: '/',
-  AddCar: '/AddCar',
-  AddRepair: '/AddRepair',
-  AllCars: '/AllCars',
-  CarsInRepair: '/CarsInRepair',
-  AdditionalCost: '/AdditionalCost',
-  AwaitingPayments: '/AwaitingPayments',
-  Reports: '/Reports',
-  AllEmployers: '/AllEmployers',
-  AddEmployer: '/AddEmployer',
-}
-
 export const GuestAccesedPaths = () => {
   const router = useRouter()
   const path = router.asPath

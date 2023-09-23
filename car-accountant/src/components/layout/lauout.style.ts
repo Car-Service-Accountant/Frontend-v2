@@ -6,7 +6,7 @@ export const classes = {
   divider: `${PREFIX}-divider`,
 }
 
-const Root = styled(Box)(({ theme }) => ({
+const Root = styled(Box)(() => ({
   display: 'flex',
   [`& .${classes.divider}`]: {
     borderColor: '#fff',

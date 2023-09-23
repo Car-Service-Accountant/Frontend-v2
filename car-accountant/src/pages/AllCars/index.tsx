@@ -29,10 +29,10 @@ const Cars = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   useEffect(() => {
-    if (user) {
+    if (user?.companyId) {
       dispatch(asyncFetchAllCars(user?.companyId))
     }
-  }, [user])
+  }, [user?.companyId])
 
   const handleRowClick = (params: any) => {
     if (params.field !== 'Action') {

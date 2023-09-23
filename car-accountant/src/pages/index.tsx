@@ -96,13 +96,13 @@ const Home = () => {
   }))
 
   useEffect(() => {
-    if (user) {
+    if (user?.companyId) {
       dispatch(asyncFetchAllRepairs(user?.companyId))
     }
-    if (user) {
+    if (user?.companyId) {
       dispatch(asyncFetchAllCars(user?.companyId))
     }
-    if (user) {
+    if (user?.companyId) {
       dispatch(asyncFetchAllEmployers(user?.companyId))
     }
   }, [user])
@@ -132,7 +132,7 @@ const Home = () => {
     }
   }, [cars])
 
-  //Today's profit
+  // Today's profit
   useEffect(() => {
     if (repairs?.repairs?.length || 0 > 0) {
       setPaiedTodayData(finishedToday(repairs.repairs))
@@ -185,7 +185,7 @@ const Home = () => {
   }, [paiedTodayData])
 
   const awaitingPaiments = () => {
-    const tempResults: any[] = []
+    const tempResults: React.ReactNode[] = []
     if (unpaiedRepairs.length > 0) {
       for (let index = 0; index < 3; index++) {
         const unpaiedRepair = unpaiedRepairs?.[index]
@@ -217,7 +217,7 @@ const Home = () => {
     return tempResults
   }
 
-  const awaitingPaimentsElements = awaitingPaiments()
+  const awaitingPaimentsElements: React.ReactNode[] = awaitingPaiments()
 
   // let carProggressThisMonth = 0
   // if (paiedThisMonthData.repairsThisMonth && paiedMonthBeofreData.repairsInMonthBefore) {
@@ -231,7 +231,7 @@ const Home = () => {
 
   const liveData = dataCalulatorForLiveData(repairs.repairs)
 
-  //workstation
+  // workstation
 
   return (
     <StyledGrid container>
@@ -341,7 +341,7 @@ const Home = () => {
           >
             <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Box style={{ paddingTop: '0px', paddingRight: '30px' }}>
-                {repairs.repairs && <Circle progress={percentBarForWeek} />}
+                {repairs.repairs && <Circle progress={percentBarForMonth} />}
               </Box>
             </Box>
             <Box>

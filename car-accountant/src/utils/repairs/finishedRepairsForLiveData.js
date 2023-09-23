@@ -37,7 +37,7 @@ const dataCalulatorForLiveData = (repairs) => {
         }
 
         for (const day in totalData) {
-            if (totalData.hasOwnProperty(day)) {
+            if (Object.prototype.hasOwnProperty.call(totalData, day)) {
                 combinedData.push({
                     date: totalData[day].data,
                     totalProfitFromParts: totalData[day].totalProfitFromParts,
@@ -61,6 +61,6 @@ const dataCalulatorForLiveData = (repairs) => {
 export default dataCalulatorForLiveData
 
 export function formatDate(dateString) {
-    const [year, month, day] = dateString?.split('-');
+    const [year, month, day] = dateString.split('-');
     return `${month}.${day}.${year}`;
 }

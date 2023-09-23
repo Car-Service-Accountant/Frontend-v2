@@ -13,7 +13,7 @@ interface Props {
   children: React.ReactNode
 }
 
-const ResponsiveDrawer: React.FC<Props> = ({ children }) => {
+const ResponsiveDrawer: React.FC<Props> = ({ children }: Props) => {
   const theme = useTheme()
   const username = useSelector((state: RootState) => state.auth.user?.username)
   const [mobileOpen, setMobileOpen] = useState(false)
