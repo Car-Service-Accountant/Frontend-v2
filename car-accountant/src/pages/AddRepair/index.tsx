@@ -402,6 +402,14 @@ const CreateRepair = () => {
                   </Box>
                 ))}
               <Box>
+                {repairsServices.length > 0 && (
+                  <Box paddingBottom={3}>
+                    <Typography fontSize={20} style={{ display: 'flex', justifyContent: 'center' }}>
+                      Цена за труд
+                    </Typography>
+                    <Divider sx={{ gridColumn: 'span 4' }}></Divider>
+                  </Box>
+                )}
                 <Formik
                   key='repairServiceKey'
                   onSubmit={repairServiceHandleFormSubmit}
@@ -457,14 +465,6 @@ const CreateRepair = () => {
                 </Formik>
               </Box>
 
-              {repairsServices.length > 0 && (
-                <Box>
-                  <Typography fontSize={20} style={{ display: 'flex', justifyContent: 'center' }}>
-                    Цена за труд
-                  </Typography>
-                  <Divider sx={{ gridColumn: 'span 4' }}></Divider>
-                </Box>
-              )}
               {repairsServices.length > 0 &&
                 repairsServices.map((value) => (
                   <Box
