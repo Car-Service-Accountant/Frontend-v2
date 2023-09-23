@@ -3,48 +3,44 @@ import { loginPorps } from './type'
 const URL = 'http://localhost:3005'
 // Replace this with your actual API implementation
 export const loginAPI = async ({ email, password }: loginPorps) => {
-  try {
-    const response = await fetch(`${URL}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    })
+  const response = await fetch(`${URL}/auth/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password }),
+  })
 
-    if (response.status !== 200) {
-      return null
-    }
-    const result = await response.json()
-
-    localStorage.setItem('token', result?.token)
+  if (response.status !== 200) {
+    return null
+  }
+  const result = await response.json()
+  if (result) {
     if (result?.role === 'админ') {
       return {
         email: result.email,
-        cashBoxID: result.cashBoxID,
+        cashBoxID: result.cashBoxID.toString(),
         username: result.username,
         phoneNumber: result.phoneNumber,
-        _id: result?.companyId,
+        _id: result?._id?.toString(),
         role: result?.role,
         employers: result?.employers,
         token: result?.token,
-        companyId: result?._id,
+        companyId: result?._id.toString(),
       }
     } else if (result) {
       return {
         email: result.email,
-        cashBoxID: result.cashBoxID,
+        cashBoxID: result.cashBoxID.toString(),
         username: result.username,
         phoneNumber: result.phoneNumber,
-        _id: result?._id,
+        _id: result?._id?.toString(),
         role: result?.role,
         token: result?.token,
-        companyId: result?.companyId,
+        companyId: result?.companyId.toString(),
       }
     }
-  } catch (err) {
-    console.error(err)
-    throw err
+    return result
   }
 }
 

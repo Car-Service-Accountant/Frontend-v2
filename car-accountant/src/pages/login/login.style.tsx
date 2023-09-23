@@ -1,12 +1,11 @@
-import { Box } from '@mui/material';
-import { styled } from "@mui/material/styles"
+import { Box } from '@mui/material'
+import { styled } from '@mui/material/styles'
 
-const MAIN = 'main-login';
-const LEFT = 'LEFT-login';
-const RIGHT = 'RIGHT-login';
+const MAIN = 'main-login'
+const LEFT = 'LEFT-login'
+const RIGHT = 'RIGHT-login'
 
 export const classesRightSide = {
-
   left: `${RIGHT}-left`,
   right: `${RIGHT}-right`,
   loginForm: `${RIGHT}-loginForm`,
@@ -16,7 +15,7 @@ export const classesRightSide = {
   googleDemoButton: `${RIGHT}-googleDemoButton`,
   joinText: `${RIGHT}-joinText`,
   rootLeftSide: `${RIGHT}-rootLeftSide`,
-};
+}
 
 export const classesMain = {
   mainRoot: `${MAIN}-mainRoot`,
@@ -36,17 +35,17 @@ export const LeftSideWraper = styled(Box)(({ theme }) => ({
     marginTop: theme.spacing(14),
   },
   [`& .${classesLeftSide.img}`]: {
-    marginTop: theme.spacing(11)
+    marginTop: theme.spacing(11),
   },
   [`& .${classesLeftSide.sliderBox}`]: {
-    marginTop: theme.spacing(4)
+    marginTop: theme.spacing(4),
   },
   [`& .${classesLeftSide.slider}`]: {
     '& .slick-slider': {
       paddingLeft: theme.spacing(4),
       paddingRight: theme.spacing(4),
       '& .slick-dots': {
-        width: "auto",
+        width: 'auto',
         '& .slick-active button': {
           background: 'white',
         },
@@ -98,13 +97,14 @@ const RightSideWraper = styled(Box)(({ theme }) => ({
     marginBottom: theme.spacing(3),
     '& .MuiTextField-root': {
       background: 'white',
-    }
+    },
   },
   [`& .${classesRightSide.fieldLabel}`]: {
     gridColumn: 'span 4',
     marginLeft: theme.spacing(13),
     marginBottom: theme.spacing(1),
-  }, [`& .${classesRightSide.dividerLogin}`]: {
+  },
+  [`& .${classesRightSide.dividerLogin}`]: {
     marginRight: theme.spacing(23),
     marginLeft: theme.spacing(23),
   },
@@ -122,13 +122,13 @@ const RightSideWraper = styled(Box)(({ theme }) => ({
     marginBottom: theme.spacing(3),
   },
   [`& .${classesRightSide.joinText}`]: {
-    padding: "10px 90px",
-    boxShadow: "none",
-    fontStyle: "normal",
+    padding: '10px 90px',
+    boxShadow: 'none',
+    fontStyle: 'normal',
     fontWeight: 500,
-    fontSize: "18px",
-    borderRadius: "8px",
+    fontSize: '18px',
+    borderRadius: '8px',
   },
-}));
+}))
 
-export default RightSideWraper;
+export default RightSideWraper

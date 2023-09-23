@@ -1,8 +1,11 @@
 import { Box, Fade } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+type BoxSpawnerProps = {
+  boxes: React.ReactNode[]
+}
 
-const BoxSpawner = ({ boxes }: any | any[]) => {
-  const [visibleBoxes, setVisibleBoxes] = useState<any[]>([])
+const BoxSpawner = ({ boxes }: BoxSpawnerProps) => {
+  const [visibleBoxes, setVisibleBoxes] = useState<React.ReactNode[]>([])
 
   useEffect(() => {
     const timer = setInterval(() => {

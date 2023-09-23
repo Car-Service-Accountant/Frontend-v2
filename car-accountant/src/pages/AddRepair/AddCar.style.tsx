@@ -8,7 +8,7 @@ export const classes = {
   disabledTextfield: `${PREFIX}-disabledTextfield`,
 }
 
-export const StyledBox = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: '#fff',
   borderRadius: theme.spacing(1),
   margin: theme.spacing(2),
@@ -29,3 +29,5 @@ export const StyledBox = styled(Box)(({ theme }) => ({
     },
   },
 }))
+
+export default StyledBox

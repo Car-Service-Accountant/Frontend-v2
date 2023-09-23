@@ -1,10 +1,12 @@
 export interface userInterface {
-  isLogedIn: false
-  _id: ''
-  username: ''
-  role: ''
-  companyId: ''
-  employers: ''
+  email: string
+  cashBoxID: string
+  _id: string | undefined
+  username: string | undefined
+  role: string | undefined
+  companyId?: string | undefined
+  employers?: string[] | undefined
+  token?: string | undefined
 }
 
 export interface requestProps {

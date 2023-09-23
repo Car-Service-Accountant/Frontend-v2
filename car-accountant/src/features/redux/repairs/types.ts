@@ -19,9 +19,10 @@ export type repairsTypes = {
   worker: string
 }
 
+// parts: clearIdsFromParts,
+
 export type repairRequest = {
   comanyHoldRepairs: string
-
   note: string
   parts: partsTypes[]
   priceForLabor: number

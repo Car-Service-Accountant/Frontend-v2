@@ -6,18 +6,16 @@ import Image from 'next/image'
 import Slider from 'react-slick'
 import Link from 'next/link'
 import PrimaryButton from '@/components/PrimaryButton'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { AnyAction } from 'redux'
 import { ThunkDispatch } from 'redux-thunk'
 import { useRouter } from 'next/router'
-import { GetServerSidePropsContext } from 'next'
 import { RootState, wrapper } from '@/features/redux/store'
 import { asyncLogin } from '@/features/redux/auth/reducer'
 
 const LeftSide = () => {
   const theme = useTheme()
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
-  const user = useSelector((state: RootState) => state)
   const router = useRouter()
   const checkoutSchema = yup.object().shape({
     email: yup.string().email('Въвели сте грешен Е-мейл').required('Полето е задължително'),
@@ -270,7 +268,7 @@ export default function Login() {
   )
 }
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async (context: GetServerSidePropsContext) => {
+export const getServerSideProps = wrapper.getServerSideProps(() => async () => {
   // Dispatch the HYDRATE action to populate the initial state on the server
   return {
     props: {},

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { loginAPI, authenticationAPI } from '@/api/login/action'
 import { AuthState, credentials } from './types'
+import { AdminUser, NonAdminUser } from '@/api/login/type'
 
 const initialState: AuthState = {
   loading: false,
@@ -10,7 +11,7 @@ const initialState: AuthState = {
 }
 
 export const asyncLogin = createAsyncThunk('auth/login', async ({ email, password }: credentials) => {
-  const response: any = await loginAPI({ email, password })
+  const response: AdminUser | NonAdminUser = await loginAPI({ email, password })
   if (response) {
     return response
   }
@@ -18,7 +19,7 @@ export const asyncLogin = createAsyncThunk('auth/login', async ({ email, passwor
 
 export const asyncAuthentication = createAsyncThunk('auth/authentication', async () => {
   const token = localStorage.getItem('token') || ''
-  const response: any = await authenticationAPI(token)
+  const response: AdminUser | NonAdminUser = await authenticationAPI(token)
 
   if (response) {
     return response
@@ -39,7 +40,7 @@ export const authSlice = createSlice({
       state.isDoneAuthenticated = false
       state.error = null
     },
-    [asyncLogin.fulfilled.type]: (state, action: PayloadAction<any>) => {
+    [asyncLogin.fulfilled.type]: (state, action: PayloadAction<AdminUser | NonAdminUser>) => {
       state.loading = false
       state.isDoneAuthenticated = true
       state.user = action.payload
@@ -54,7 +55,7 @@ export const authSlice = createSlice({
       state.isDoneAuthenticated = false
       state.error = null
     },
-    [asyncAuthentication.fulfilled.type]: (state, action: PayloadAction<any>) => {
+    [asyncAuthentication.fulfilled.type]: (state, action: PayloadAction<AdminUser | NonAdminUser>) => {
       state.loading = false
       state.isDoneAuthenticated = true
       state.user = action.payload

@@ -8,14 +8,14 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/features/redux/store'
-import { StyledBox, classes } from './AddCar.style'
 import PrimaryButton from '@/components/PrimaryButton'
 import { asyncFetchCar } from '@/features/redux/cars/reducer'
 import { AnyAction } from 'redux'
 import { ThunkDispatch } from 'redux-thunk'
-import { partsTypes } from '@/features/redux/repairs/types'
+import { partsTypes, repairRequest } from '@/features/redux/repairs/types'
 import { asyncSetRepair } from '@/features/redux/repairs/reducer'
 import { useRouter } from 'next/router'
+import StyledBox, { classes } from './AddCar.style'
 
 // const URL = API_URL
 
@@ -44,8 +44,8 @@ const CreateRepair = () => {
     console.log('values =>', values)
 
     if (values.carNumber.length === 8 && user) {
-      if (user && values) {
-        dispatch(asyncFetchCar({ _id: values.carNumber, companyId: user.companyId }))
+      if (user?.companyId && values) {
+        dispatch(asyncFetchCar({ _id: values.carNumber, companyId: user?.companyId }))
       }
     }
   }
@@ -102,12 +102,12 @@ const CreateRepair = () => {
         return rest
       })
 
-      const data = {
+      const data: repairRequest = {
         parts: clearIdsFromParts,
         service: stackedRepayerServices,
         priceForLabor: totalLaborCost,
-        comanyHoldRepairs: user.companyId,
-        worker: user._id,
+        comanyHoldRepairs: user?.companyId || '',
+        worker: user?._id || '',
         note: 'Empty by default for now',
       }
       const response = await dispatch(asyncSetRepair({ carId, data }))
