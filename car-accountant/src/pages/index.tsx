@@ -19,7 +19,6 @@ import { asyncFetchAllCars } from '@/features/redux/cars/reducer'
 import { RootState } from '@/features/redux/store'
 import elements from '@/constants/mockedTaxes'
 import { asyncFetchAllEmployers } from '@/features/redux/employers/reducer'
-import { asyncFetchCashBox } from '@/features/redux/cashBox/reducer'
 
 const Home = () => {
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
@@ -106,9 +105,7 @@ const Home = () => {
     if (user?.companyId) {
       dispatch(asyncFetchAllEmployers(user?.companyId))
     }
-    if (user?.cashBoxID) {
-      dispatch(asyncFetchCashBox(user.cashBoxID))
-    }
+
   }, [user])
 
   useEffect(() => {

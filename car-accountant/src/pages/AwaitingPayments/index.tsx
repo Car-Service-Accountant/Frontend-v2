@@ -20,6 +20,7 @@ import { FlexableButton } from '@/components/PrimaryButton'
 import { asyncFetchAllCars } from '@/features/redux/cars/reducer'
 import { ThunkDispatch } from 'redux-thunk'
 import { AnyAction } from 'redux'
+import { asyncFetchCashBox, asyncUpdateCashBox } from '@/features/redux/cashBox/reducer'
 
 type PaymentDataProps = {
   repairId: string
@@ -31,13 +32,15 @@ type PaymentDataProps = {
   carMark: string
   buildDate: string
   priceForLabor: number
-  priceForParts: number
+  costForParts: number
   totalCost: number
 }
 
 const AwaitingPayments = () => {
   const user = useSelector((state: RootState) => state.auth.user)
   const cars = useSelector((state: RootState) => state.cars.cars)
+  const cashBox = useSelector((state: RootState) => state.cashBox.cashBox)
+  const upToDateCashBox = useSelector((state: RootState) => state.cashBox.upToDate)
   const [open, setOpen] = useState<boolean>(false)
   const [repair, setRepair] = useState<PaymentDataProps | null>(null)
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
@@ -59,6 +62,9 @@ const AwaitingPayments = () => {
     if (user?.companyId) {
       dispatch(asyncFetchAllCars(user?.companyId))
     }
+    if (user?.cashBoxID) {
+      dispatch(asyncFetchCashBox(user.cashBoxID))
+    }
   }, [user?.companyId])
 
   useEffect(() => {
@@ -69,15 +75,15 @@ const AwaitingPayments = () => {
         car.repairs.forEach((repair) => {
           if (!repair.paied) {
             let priceForLabor = 0
-            let priceForParts = 0
+            let costForParts = 0
             priceForLabor += repair.priceForLabor
             repair.parts.forEach((part) => {
-              priceForParts += part.servicePrice
+              costForParts += part.servicePrice
             })
             allRepairs.push({
               car,
               repair,
-              totalCost: priceForLabor + priceForParts,
+              totalCost: priceForLabor + costForParts,
             })
           }
         })
@@ -99,17 +105,30 @@ const AwaitingPayments = () => {
       carMark: car.carMark,
       buildDate: formatDate(car.buildDate),
       priceForLabor: repair.priceForLabor,
-      priceForParts: repair.parts.reduce((sum, part) => sum + part.servicePrice, 0),
+      costForParts: repair.parts.reduce((sum, part) => sum + part.servicePrice, 0),
       totalCost: repair.priceForLabor + repair.parts.reduce((sum, part) => sum + part.clientPrice, 0),
     }
   })
 
   const handlePayment = async () => {
+    if (cashBox && repair?.totalCost && user?.cashBoxID) {
+      let { cost, totalAmount } = cashBox
+
+      const data = {
+        additionalCosts: cashBox.additionalCosts,
+        cost: (cost += repair.costForParts),
+        employersSellary: cashBox.employersSellary,
+        profit: cashBox.profit,
+        totalAmount: (totalAmount += repair.totalCost),
+        totalForMonth: cashBox.totalForMonth,
+      }
+      dispatch(asyncUpdateCashBox({ cashboxID: user?.cashBoxID, data }))
+    }
+    if (upToDateCashBox) {
+      // to change repair to finished and paied there
+    }
     console.log('repair => ', repair)
 
-    // if (user) {
-    //   const paied = await addTotalAmount(user?.cashBoxID, repair.totalCost)
-    // }
     // const updatedRepairs = {
     //   paied: false,
     //   finished: false,
