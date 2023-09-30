@@ -5,6 +5,7 @@ import { authSlice } from './auth/reducer'
 import { repairSlice } from './repairs/reducer'
 import { carSlice } from './cars/reducer'
 import { employerSlice } from './employers/reducer'
+import { cashBoxSlice } from './cashBox/reducer'
 
 const store = () =>
   configureStore({
@@ -13,6 +14,7 @@ const store = () =>
       repairs: repairSlice.reducer,
       cars: carSlice.reducer,
       employers: employerSlice.reducer,
+      cashBox: cashBoxSlice.reducer,
     },
     devTools: true,
   })

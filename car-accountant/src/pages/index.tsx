@@ -105,6 +105,7 @@ const Home = () => {
     if (user?.companyId) {
       dispatch(asyncFetchAllEmployers(user?.companyId))
     }
+
   }, [user])
 
   useEffect(() => {

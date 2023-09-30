@@ -37,3 +37,9 @@ export type repairState = {
   repairs: repairsTypes[] | null
   error: string | null
 }
+
+export type payedRepairData = {
+  paied: boolean
+  finished: boolean
+  endDate: number
+}

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, isRejected, PayloadAction } from '@reduxjs/toolkit'
-import { repairRequest, repairState } from './types'
-import { fetchAllRepairs, sendRepair } from '@/api/repairs/action'
+import { payedRepairData, repairRequest, repairState } from './types'
+import { fetchAllRepairs, payRepair, sendRepair } from '@/api/repairs/action'
 
 const initialState: repairState = {
   loading: false,
@@ -22,6 +22,19 @@ export const asyncSetRepair = createAsyncThunk(
   'repairs/asyncSetRepair',
   async ({ carId, data }: { carId: string; data: repairRequest }) => {
     const response = await sendRepair({ carId, data })
+
+    if (response.status === 200) {
+      return response.json()
+    }
+    const errMsg = await response.json()
+    return isRejected(errMsg)
+  },
+)
+
+export const asyncPayRepair = createAsyncThunk(
+  'repairs/asyncPayRepair',
+  async ({ repID, data }: { repID: string; data: payedRepairData }) => {
+    const response = await payRepair({ repID, data })
     console.log('response =>', response)
 
     if (response.status === 200) {
@@ -61,6 +74,18 @@ export const repairSlice = createSlice({
       state.error = null
     },
     [asyncSetRepair.rejected.type]: (state) => {
+      state.loading = false
+      state.isDoneLoading = true
+      state.isRejected = true
+      state.error = 'Something gone wrong with request'
+    },
+    [asyncPayRepair.fulfilled.type]: (state) => {
+      state.loading = false
+      state.isDoneLoading = true
+      state.isRejected = false
+      state.error = null
+    },
+    [asyncPayRepair.rejected.type]: (state) => {
       state.loading = false
       state.isDoneLoading = true
       state.isRejected = true
