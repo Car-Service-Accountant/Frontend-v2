@@ -1,4 +1,4 @@
-import { repairRequest } from '@/features/redux/repairs/types'
+import { payedRepairData, repairRequest } from '@/features/redux/repairs/types'
 
 const URL = 'http://localhost:3005'
 
@@ -27,6 +27,17 @@ export const fetchAllRepairs = async (companyId: string) => {
 
 export const sendRepair = async ({ carId, data }: { carId: string; data: repairRequest }) => {
   const response = await fetch(`${URL}/repair/${carId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  return response
+}
+
+export const payRepair = async ({ repID, data }: { repID: string; data: payedRepairData }) => {
+  const response = await fetch(`${URL}/repair/finished/${repID}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

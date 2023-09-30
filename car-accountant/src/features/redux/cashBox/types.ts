@@ -12,6 +12,7 @@ export interface cashBoxInterface {
   loading: boolean
   isDoneAuthenticated: boolean
   upToDate: boolean
+  isRejected: boolean
   cashBox: cashBoxType | null
   error: string | null
 }

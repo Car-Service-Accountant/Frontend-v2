@@ -6,6 +6,7 @@ const initialState: cashBoxInterface = {
   loading: false,
   isDoneAuthenticated: false,
   upToDate: true,
+  isRejected: false,
   cashBox: null,
   error: null,
 }
@@ -48,11 +49,13 @@ export const cashBoxSlice = createSlice({
     [asyncFetchCashBox.fulfilled.type]: (state, action: PayloadAction<cashBoxType>) => {
       state.loading = false
       state.upToDate = true
+      state.isRejected = false
       state.cashBox = action.payload
     },
     [asyncFetchCashBox.rejected.type]: (state, action: PayloadAction<cashBoxType, string, any, any>) => {
       state.loading = false
       state.upToDate = false
+      state.isRejected = true
       state.error = action?.error?.message as string
     },
 
@@ -64,11 +67,13 @@ export const cashBoxSlice = createSlice({
     [asyncUpdateCashBox.fulfilled.type]: (state, action: PayloadAction<cashBoxType>) => {
       state.loading = false
       state.upToDate = true
+      state.isRejected = false
       state.cashBox = action.payload
     },
     [asyncUpdateCashBox.rejected.type]: (state, action: PayloadAction<cashBoxType, string, any, any>) => {
       state.loading = false
       state.upToDate = false
+      state.isRejected = true
       state.error = action?.error?.message as string
     },
   },

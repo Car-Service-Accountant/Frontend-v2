@@ -21,6 +21,7 @@ import { asyncFetchAllCars } from '@/features/redux/cars/reducer'
 import { ThunkDispatch } from 'redux-thunk'
 import { AnyAction } from 'redux'
 import { asyncFetchCashBox, asyncUpdateCashBox } from '@/features/redux/cashBox/reducer'
+import { asyncPayRepair } from '@/features/redux/repairs/reducer'
 
 type PaymentDataProps = {
   repairId: string
@@ -40,7 +41,8 @@ const AwaitingPayments = () => {
   const user = useSelector((state: RootState) => state.auth.user)
   const cars = useSelector((state: RootState) => state.cars.cars)
   const cashBox = useSelector((state: RootState) => state.cashBox.cashBox)
-  const upToDateCashBox = useSelector((state: RootState) => state.cashBox.upToDate)
+  const cashBoxState = useSelector((state: RootState) => state.cashBox)
+  const repairState = useSelector((state: RootState) => state.repairs)
   const [open, setOpen] = useState<boolean>(false)
   const [repair, setRepair] = useState<PaymentDataProps | null>(null)
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
@@ -55,8 +57,6 @@ const AwaitingPayments = () => {
   const handleDialogAction = () => {
     setOpen(!open)
   }
-
-  // to add dialog to secure we want to make this payment
 
   useEffect(() => {
     if (user?.companyId) {
@@ -118,52 +118,32 @@ const AwaitingPayments = () => {
         additionalCosts: cashBox.additionalCosts,
         cost: (cost += repair.costForParts),
         employersSellary: cashBox.employersSellary,
-        profit: cashBox.profit,
+        profit: totalAmount - cost - cashBox.employersSellary - cashBox.additionalCosts,
         totalAmount: (totalAmount += repair.totalCost),
         totalForMonth: cashBox.totalForMonth,
       }
       dispatch(asyncUpdateCashBox({ cashboxID: user?.cashBoxID, data }))
     }
-    if (upToDateCashBox) {
-      // to change repair to finished and paied there
+    const updatedRepairs = {
+      paied: false,
+      finished: false,
+      endDate: Date.now(),
     }
-    console.log('repair => ', repair)
+    if (!cashBoxState.isRejected && cashBoxState.upToDate) {
+      updatedRepairs.paied = true
+      updatedRepairs.finished = true
+      updatedRepairs.endDate = Date.now()
+      dispatch(asyncPayRepair({ repID: repair?.repairId as string, data: updatedRepairs }))
+    }
 
-    // const updatedRepairs = {
-    //   paied: false,
-    //   finished: false,
-    //   endDate: Date.now(),
-    // }
-    // if (paied) {
-    //   updatedRepairs.paied = true
-    //   updatedRepairs.finished = true
-    //   updatedRepairs.endDate = Date.now()
-    // }
-    // try {
-    //   await fetch(`${URL}repair/finished/${repair.repairId}`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(updatedRepairs),
-    //   })
-    //     .then((response) => {
-    //       if (!response.ok) {
-    //         throw new Error(`HTTP error! status: ${response.status}`)
-    //       }
-    //       response.json()
-    //     })
-    //     .then((data) => {
-    //       showSnackbar('Успешно направихте плащането', 'success')
-    //     })
-    //     .catch((error) => {
-    //       showSnackbar('Неуспешно плащане', 'error')
-    //     })
-    // } catch (err) {
-    //   console.error('someting gone wrong')
-    // }
-    // const updatedRepair = repairs.filter((currentRepair) => currentRepair.repair._id !== repair.repairId)
-    // setRepairs(updatedRepair)
+    if (user?.companyId) {
+      dispatch(asyncFetchAllCars(user?.companyId))
+    }
+    if (!cashBoxState.isRejected && !repairState.isRejected) {
+      // noti its successfuly payed Yay
+      setOpen(!open)
+    }
+    setOpen(!open)
   }
 
   const columns: GridColDef<PaymentDataProps>[] = [
