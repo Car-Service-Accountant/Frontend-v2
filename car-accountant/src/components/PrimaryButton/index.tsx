@@ -4,16 +4,18 @@ import React from 'react'
 
 interface primaryButtonProps {
   text: string
+  link?: string
+  small?: boolean
+}
+
+interface primaryButtonProps {
+  text: string
   event?: React.MouseEventHandler<HTMLButtonElement>
+  onClick?: () => void
   small?: boolean
   height?: string
-  link?: string
   autoFocus?: boolean
   colorType?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
-  margin?: string
-  children?: React.ReactNode
-  // eslint-disable-next-line no-unused-vars
-  onClick?: (event?: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const PrimaryButton = ({ text, link, small }: primaryButtonProps) => {
@@ -45,22 +47,12 @@ const PrimaryButton = ({ text, link, small }: primaryButtonProps) => {
   )
 }
 
-export const FlexableButton = ({
-  text,
-  small,
-  colorType,
-  autoFocus = false,
-  height,
-  margin,
-  children,
-  ...props
-}: primaryButtonProps) => {
+export const FlexableButton = ({ text, small, colorType, autoFocus = false, height, ...props }: primaryButtonProps) => {
   return (
     <Button
       sx={{
-        padding: `${small ? '10px 35px' : '10px 60px'}`,
+        padding: `${small ? '10px 35px' : '10px 90px'}`,
         paddingY: `${height || undefined}`,
-        margin: margin || undefined,
         boxShadow: 'none',
         fontStyle: 'normal',
         fontWeight: 500,
@@ -73,7 +65,6 @@ export const FlexableButton = ({
       {...props}
     >
       {text}
-      {children}
     </Button>
   )
 }
