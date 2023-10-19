@@ -7,7 +7,7 @@ export type partsTypes = {
 
 export type repairsTypes = {
   _id: string
-  services: string[]
+  service: string[]
   parts: partsTypes[]
   priceForLabor: number
   note: string
@@ -35,6 +35,7 @@ export type repairState = {
   isDoneLoading: boolean
   isRejected: boolean
   repairs: repairsTypes[] | null
+  currentRepair: repairsTypes | null
   error: string | null
 }
 
