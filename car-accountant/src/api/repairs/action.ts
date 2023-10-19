@@ -25,6 +25,26 @@ export const fetchAllRepairs = async (companyId: string) => {
   }
 }
 
+export const fetchSingleRepair = async ({ companyId, repairID }: { companyId: string; repairID: string }) => {
+  const response = await fetch(`${URL}/repair/${repairID}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Company-ID': companyId,
+    },
+  })
+
+  return response
+}
+
+export const repairDelete = async ({ ID }: { ID: string }) => {
+  const response = fetch(`${URL}/repair/${ID}`, {
+    method: 'DELETE',
+  })
+
+  return response
+}
+
 export const sendRepair = async ({ carId, data }: { carId: string; data: repairRequest }) => {
   const response = await fetch(`${URL}/repair/${carId}`, {
     method: 'POST',

@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice, isRejected, PayloadAction } from '@reduxjs/toolkit'
-import { payedRepairData, repairRequest, repairState } from './types'
-import { fetchAllRepairs, payRepair, sendRepair } from '@/api/repairs/action'
+import { payedRepairData, repairRequest, repairState, repairsTypes } from './types'
+import { fetchAllRepairs, fetchSingleRepair, payRepair, repairDelete, sendRepair } from '@/api/repairs/action'
 
 const initialState: repairState = {
   loading: false,
   isDoneLoading: false,
   isRejected: false,
   repairs: null,
+  currentRepair: null,
   error: null,
 }
 
@@ -45,6 +46,29 @@ export const asyncPayRepair = createAsyncThunk(
   },
 )
 
+export const asyncFetchSingleRepair = createAsyncThunk(
+  'repairs/asyncFetchSingleRepair',
+  async ({ companyId, repairID }: { companyId: string; repairID: string }) => {
+    const response = await fetchSingleRepair({ companyId, repairID })
+
+    if (response.status === 200) {
+      return response.json()
+    }
+    const errMsg = await response.json()
+    return isRejected(errMsg)
+  },
+)
+
+export const asyncDeleteRepair = createAsyncThunk('repairs/asyncDeleteRepair', async ({ ID }: { ID: string }) => {
+  const response = await repairDelete({ ID })
+
+  if (response.status === 200) {
+    return response.json()
+  }
+  const errMsg = await response.json()
+  return isRejected(errMsg)
+})
+
 export const repairSlice = createSlice({
   name: 'repairs',
   initialState,
@@ -55,13 +79,31 @@ export const repairSlice = createSlice({
       state.isDoneLoading = false
       state.error = null
     },
-    [asyncFetchAllRepairs.fulfilled.type]: (state, action: PayloadAction<any>) => {
+    [asyncFetchAllRepairs.fulfilled.type]: (state, action: PayloadAction<repairsTypes[]>) => {
       state.loading = false
       state.isDoneLoading = true
       state.isRejected = false
       state.repairs = action.payload
     },
     [asyncFetchAllRepairs.rejected.type]: (state, action: PayloadAction<any, string, any, any>) => {
+      state.loading = false
+      state.isDoneLoading = true
+      state.isRejected = true
+      state.error = action?.error?.message as string
+    },
+
+    [asyncFetchSingleRepair.pending.type]: (state) => {
+      state.loading = true
+      state.isDoneLoading = false
+      state.error = null
+    },
+    [asyncFetchSingleRepair.fulfilled.type]: (state, action: PayloadAction<repairsTypes>) => {
+      state.loading = false
+      state.isDoneLoading = true
+      state.isRejected = false
+      state.currentRepair = action.payload
+    },
+    [asyncFetchSingleRepair.rejected.type]: (state, action: PayloadAction<any, string, any, any>) => {
       state.loading = false
       state.isDoneLoading = true
       state.isRejected = true
@@ -86,6 +128,18 @@ export const repairSlice = createSlice({
       state.error = null
     },
     [asyncPayRepair.rejected.type]: (state) => {
+      state.loading = false
+      state.isDoneLoading = true
+      state.isRejected = true
+      state.error = 'Something gone wrong with request'
+    },
+    [asyncDeleteRepair.fulfilled.type]: (state) => {
+      state.loading = false
+      state.isDoneLoading = true
+      state.isRejected = false
+      state.error = null
+    },
+    [asyncDeleteRepair.rejected.type]: (state) => {
       state.loading = false
       state.isDoneLoading = true
       state.isRejected = true
