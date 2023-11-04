@@ -65,7 +65,7 @@ const Cars = () => {
   // }
 
   if (selecredRow) {
-    router.push(`/data.cars/${selecredRow}`, undefined, { shallow: true })
+    router.push(`/car/${selecredRow}`, undefined, { shallow: true })
   }
 
   const columns: GridColDef<carTypes>[] = [
