@@ -8,6 +8,16 @@ export type employerType = {
   companyID: string
 }
 
+export type employerTypeRequest = {
+  username: string
+  email: string
+  password: string
+  phoneNumber: string
+  rePassword: string
+  role: string
+  companyID: string
+}
+
 export type employersSlice = {
   loading: boolean
   isDoneLoading: boolean

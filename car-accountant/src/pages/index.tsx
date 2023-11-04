@@ -105,7 +105,6 @@ const Home = () => {
     if (user?.companyId) {
       dispatch(asyncFetchAllEmployers(user?.companyId))
     }
-
   }, [user])
 
   useEffect(() => {
@@ -199,13 +198,13 @@ const Home = () => {
           tempResults.push(
             <>
               <Box className={classes.awaitingWrapper}>
-                <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
+                <Typography fontSize={16} sx={{ width: 200 }} fontWeight={theme.typography.fontWeightBold}>
                   {owner}
                 </Typography>
-                <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
+                <Typography fontSize={16} sx={{ width: 200 }} fontWeight={theme.typography.fontWeightBold}>
                   {carNumber}
                 </Typography>
-                <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
+                <Typography fontSize={16} sx={{ width: 200 }} fontWeight={theme.typography.fontWeightBold}>
                   {formatDate(day)}
                 </Typography>
               </Box>
@@ -440,13 +439,17 @@ const Home = () => {
                 justifyContent: 'space-between',
               }}
             >
-              <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
+              <Typography
+                fontSize={16}
+                fontWeight={theme.typography.fontWeightBold}
+                sx={{ marginLeft: '15px', width: 200 }}
+              >
                 Име на клиент
               </Typography>
-              <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
+              <Typography sx={{ width: 200 }} fontSize={16} fontWeight={theme.typography.fontWeightBold}>
                 Номер на колата
               </Typography>
-              <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
+              <Typography sx={{ width: 200 }} fontSize={16} fontWeight={theme.typography.fontWeightBold}>
                 Дата на изпълнение
               </Typography>
             </Box>

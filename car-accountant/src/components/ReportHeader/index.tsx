@@ -8,8 +8,10 @@ export interface ReportHeaderProps {
 
 const ReportHeader = ({ countRepairs, totalCost, profit, pureProfit }: ReportHeaderProps) => {
   const theme = useTheme()
+
+  // TODO make condition to check if data is loaded else set 0 , we recive undentified which is truety value , soo we need to care for it
   return (
-    <Box>
+    <Box sx={{ boxShadow: '0px 0px 5px 0px rgba(128, 128, 128, 0.20)', mb: 3 }}>
       <Box
         sx={{
           backgroundColor: theme.palette.primary.light,
