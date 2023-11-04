@@ -4,11 +4,11 @@ const calculateProfitAndCost = (repairs) => {
 
   repairs.forEach((repair) => {
     const partsCost = repair.parts.reduce((total, part) => total + part.servicePrice, 0)
-    totalCost = partsCost
+    totalCost += partsCost
 
     const partsProfit = repair.parts.reduce((total, part) => total + (part.clientPrice - part.servicePrice), 0)
     const laborProfit = repair.priceForLabor
-    const totalRepairProfit = partsProfit + laborProfit
+    const totalRepairProfit = repair.paied ? partsProfit + laborProfit : 0
 
     profit += totalRepairProfit
   })
