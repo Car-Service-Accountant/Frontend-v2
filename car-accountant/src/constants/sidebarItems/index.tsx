@@ -58,7 +58,7 @@ export const ownerItems = [
   },
   {
     label: 'Всички служители',
-    path: '/AllEmployers',
+    path: '/employers',
     icon: <Groups2OutlinedIcon style={{ marginRight: '10px' }} />,
   },
   {

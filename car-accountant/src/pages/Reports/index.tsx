@@ -13,6 +13,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import ClearIcon from '@mui/icons-material/Clear'
 import DoneIcon from '@mui/icons-material/Done'
 import ReportHeader, { ReportHeaderProps } from '@/components/ReportHeader'
+import { useRouter } from 'next/router'
 
 // const URL = API_URL
 
@@ -20,6 +21,7 @@ const Cars = () => {
   const theme = useTheme()
   const user = useSelector((state: RootState) => state.auth.user)
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
+  const [selectedRow, setSelectedRow] = useState<string>()
   const cars = useSelector((state: RootState) => state.cars.cars)
   const [repairs, setRepairs] = useState<any[]>()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -29,6 +31,13 @@ const Cars = () => {
   const [lastDate, setLastDate] = useState<Dayjs | string>()
   const [anchorEl, setAnchorEl] = useState(null)
   const [selectedSearchType, setSelectedSearchType] = useState<string>('Дневен')
+  const router = useRouter()
+
+  const handleRowClick = (params) => {
+    if (params.field) {
+      setSelectedRow(params.id)
+    }
+  }
 
   const handleButtonClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -54,11 +63,8 @@ const Cars = () => {
   }
 
   useEffect(() => {
-    console.log(startDate)
-    console.log(lastDate)
     if (cars && startDate && lastDate) {
       const filteredRepairs = findRepairsInDateRangeAndSort(cars, startDate, lastDate)
-      console.log('filteredRepairs', filteredRepairs)
       setRepairs(filteredRepairs)
       setReportHeaderProps(calculateProfitAndCost(filteredRepairs))
     }
@@ -87,6 +93,11 @@ const Cars = () => {
       }
     }
   }, [startDate, selectedSearchType])
+
+  if (selectedRow) {
+    // navigate to somwehre
+    router.push(`/repair/${selectedRow}`)
+  }
 
   const columns: GridColDef<any>[] = [
     { field: '_id', headerName: 'ID' },
@@ -256,72 +267,72 @@ const Cars = () => {
           </Typography>
         </Box>
       )}
-      <ReportHeader
-        countRepairs={ReportHeaderProps?.countRepairs}
-        totalCost={ReportHeaderProps?.totalCost}
-        profit={ReportHeaderProps?.profit}
-        pureProfit={ReportHeaderProps?.pureProfit}
-      />
-      <Box
-        height='75vh'
-        sx={{
-          '& .MuiDataGrid-root': {
-            border: 'none',
-          },
-          '& .MuiDataGrid-cell': {
-            borderBottom: `solid 2px ${theme.palette.secondary.light} !important`,
-          },
-          '& .MuiDataGrid-cell:focus': {
-            outline: 'none !important',
-          },
-          '& .name-column--cell': {
-            color: theme.palette.secondary.light,
-          },
-          '& .MuiDataGrid-columnHeaders': {
-            backgroundColor: theme.palette.primary.light,
-          },
-          '& .MuiDataGrid-virtualScroller': {
-            backgroundColor: theme.palette.background.paper,
-          },
-          '& .MuiDataGrid-footerContainer': {
-            borderTop: 'none',
-            backgroundColor: theme.palette.background.paper,
-          },
-          '& .MuiCheckbox-root': {
-            color: `${theme.palette.primary.main} !important`,
-          },
-          '& .MuiDataGrid-row': {
-            '&:hover': {
-              backgroundColor: `${theme.palette.background.default} !important`,
+      <Box sx={{ m: theme.spacing(3) }}>
+        <ReportHeader
+          countRepairs={ReportHeaderProps?.countRepairs}
+          totalCost={ReportHeaderProps?.totalCost}
+          profit={ReportHeaderProps?.profit}
+          pureProfit={ReportHeaderProps?.pureProfit}
+        />
+        <Box
+          height='75vh'
+          sx={{
+            '& .MuiDataGrid-root': {
+              border: 'none',
+              boxShadow: '0px 0px 5px 0px rgba(128, 128, 128, 0.20) !important',
+              height: '96%',
             },
-            display: 'flex',
-            flexWrap: 'nowrap',
-            minWidth: '270px!important',
-          },
-        }}
-      >
-        {repairs && (
-          <DataGrid
-            rows={repairs}
-            getRowId={(employer) => employer._id}
-            columns={columns}
-            disableRowSelectionOnClick
-            columnVisibilityModel={{
-              _id: false,
-            }}
-            onCellDoubleClick={(params) => {
-              if (params.field !== 'Action') {
-                console.log('row id ? ', params.id)
-              }
-            }}
-            style={{ outline: 'none', boxShadow: 'none' }}
-            sx={{
-              '.MuiDataGrid-columnHeader:focus': {
-                outline: 'none !important',
+            '& .MuiDataGrid-cell': {
+              borderBottom: `solid 2px ${theme.palette.secondary.light} !important`,
+            },
+            '& .MuiDataGrid-cell:focus': {
+              outline: 'none !important',
+            },
+            '& .name-column--cell': {
+              color: theme.palette.secondary.light,
+            },
+            '& .MuiDataGrid-columnHeaders': {
+              backgroundColor: theme.palette.primary.light,
+            },
+            '& .MuiDataGrid-virtualScroller': {
+              backgroundColor: theme.palette.background.paper,
+            },
+            '& .MuiDataGrid-footerContainer': {
+              borderTop: 'none',
+              backgroundColor: theme.palette.background.paper,
+            },
+            '& .MuiCheckbox-root': {
+              color: `${theme.palette.primary.main} !important`,
+            },
+            '& .MuiDataGrid-row': {
+              '&:hover': {
+                backgroundColor: `${theme.palette.background.default} !important`,
               },
-            }}
-          />
-        )}
+              display: 'flex',
+              flexWrap: 'nowrap',
+              minWidth: '270px!important',
+            },
+          }}
+        >
+          {repairs && (
+            <DataGrid
+              rows={repairs}
+              getRowId={(employer) => employer._id}
+              columns={columns}
+              disableRowSelectionOnClick
+              columnVisibilityModel={{
+                _id: false,
+              }}
+              onCellDoubleClick={handleRowClick}
+              style={{ outline: 'none', boxShadow: 'none' }}
+              sx={{
+                '.MuiDataGrid-columnHeader:focus': {
+                  outline: 'none !important',
+                },
+              }}
+            />
+          )}
+        </Box>
       </Box>
     </Box>
   )
