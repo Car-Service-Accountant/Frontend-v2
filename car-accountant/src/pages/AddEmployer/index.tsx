@@ -57,9 +57,9 @@ const AddEmployer = () => {
     }
   }
 
-  // if (success) {
-  //   return router.push('/employers')
-  // }
+  if (success) {
+    return router.push('/employers')
+  }
 
   return (
     <StyledWrapper>
