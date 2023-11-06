@@ -13,6 +13,7 @@ import { RootState, wrapper } from '@/features/redux/store'
 import { asyncAuthentication } from '@/features/redux/auth/reducer'
 import Login from './login'
 import ResponsiveDrawer from '@/components/layout'
+import API_URL from '@/utils/apiUrl'
 
 interface MyAppProps {
   Component: any
@@ -27,6 +28,8 @@ function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
   const router = useRouter()
   const user = useSelector((state: RootState) => state.auth.user)
   const state = useSelector((state: RootState) => state)
+
+  console.log('api ? ', API_URL)
 
   useEffect(() => {
     if (!user && !state.auth.loading) {
