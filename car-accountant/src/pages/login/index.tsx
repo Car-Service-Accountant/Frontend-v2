@@ -12,10 +12,13 @@ import { ThunkDispatch } from 'redux-thunk'
 import { useRouter } from 'next/router'
 import { RootState, wrapper } from '@/features/redux/store'
 import { asyncLogin } from '@/features/redux/auth/reducer'
+import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
 
 const LeftSide = () => {
   const theme = useTheme()
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
+  const user = useSelector((state: RootState) => state.auth.user)
   const router = useRouter()
   const checkoutSchema = yup.object().shape({
     email: yup.string().email('Въвели сте грешен Е-мейл').required('Полето е задължително'),
@@ -32,6 +35,11 @@ const LeftSide = () => {
     password: '',
   }
 
+  useEffect(() => {
+    if (user) {
+      router.push('/')
+    }
+  }, [user])
   interface SubmitParams {
     email: string
     password: string
@@ -39,11 +47,7 @@ const LeftSide = () => {
 
   const handleFormSubmit = async ({ email, password }: SubmitParams) => {
     dispatch(asyncLogin({ email, password }))
-    router.push('')
-    // const response = await handleLogin(values.email, values.password);
-    // if (response) {
-    //   navigate('/')
-    // }
+    return router.push('/')
   }
 
   return (
@@ -148,7 +152,7 @@ const LeftSide = () => {
                   </Link>
                 </Box>
                 <Box display='flex' justifyContent='center' mt='20px'>
-                  <PrimaryButton text='Вход' link='/' />
+                  <PrimaryButton text='Вход' />
                 </Box>
               </form>
             )}
