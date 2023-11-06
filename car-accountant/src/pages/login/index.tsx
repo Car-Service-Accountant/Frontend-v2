@@ -5,7 +5,7 @@ import { Formik } from 'formik'
 import Image from 'next/image'
 import Slider from 'react-slick'
 import Link from 'next/link'
-import PrimaryButton from '@/components/PrimaryButton'
+import { FlexableButton } from '@/components/PrimaryButton'
 import { useDispatch } from 'react-redux'
 import { AnyAction } from 'redux'
 import { ThunkDispatch } from 'redux-thunk'
@@ -152,7 +152,7 @@ const LeftSide = () => {
                   </Link>
                 </Box>
                 <Box display='flex' justifyContent='center' mt='20px'>
-                  <PrimaryButton text='Вход' />
+                  <FlexableButton type='submit' text='Вход' />
                 </Box>
               </form>
             )}
