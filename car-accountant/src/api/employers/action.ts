@@ -1,10 +1,9 @@
 import { employerTypeRequest } from '@/features/redux/employers/types'
-
-const URL = 'http://localhost:3005'
+import API_URL from '@/utils/apiUrl'
 
 export const fetchAlLEmployers = async (companyId: string) => {
   try {
-    const response = await fetch(`${URL}/employers`, {
+    const response = await fetch(`${API_URL}/employers`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -24,7 +23,7 @@ export const fetchAlLEmployers = async (companyId: string) => {
 
 export const deleteEmployer = async (selectedId: string) => {
   try {
-    const response = await fetch(`${URL}/employers/${selectedId}`, {
+    const response = await fetch(`${API_URL}/employers/${selectedId}`, {
       method: 'DELETE',
     })
     if (!response.ok) {
@@ -40,7 +39,7 @@ export const deleteEmployer = async (selectedId: string) => {
 
 export const addEmployer = async (data: employerTypeRequest) => {
   try {
-    const response = await fetch(`${URL}/auth/register`, {
+    const response = await fetch(`${API_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

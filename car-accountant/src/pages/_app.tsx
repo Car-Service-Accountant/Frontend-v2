@@ -27,7 +27,6 @@ function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
   const router = useRouter()
   const user = useSelector((state: RootState) => state.auth.user)
   const state = useSelector((state: RootState) => state)
-  console.log('api probably ? ', process.env.REACT_APP_API_URL)
 
   useEffect(() => {
     if (!user && !state.auth.loading) {

@@ -1,10 +1,9 @@
 import { carRequest } from '@/features/redux/cars/types'
-
-const URL = 'http://localhost:3005'
+import API_URL from '@/utils/apiUrl'
 
 export const fetchAllCars = async (companyId: string) => {
   try {
-    const response = await fetch(`${URL}/car`, {
+    const response = await fetch(`${API_URL}/car`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -26,7 +25,7 @@ export const fetchAllCars = async (companyId: string) => {
 }
 
 export const addCar = async (data: carRequest) => {
-  const response = await fetch(`${URL}/car`, {
+  const response = await fetch(`${API_URL}/car`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -42,7 +41,7 @@ export const addCar = async (data: carRequest) => {
 }
 
 export const deleteCar = async (selectedId: string) => {
-  const response = await fetch(`${URL}/car/${selectedId}`, {
+  const response = await fetch(`${API_URL}/car/${selectedId}`, {
     method: 'DELETE',
   })
   if (response && response.status === 200) {
@@ -52,7 +51,7 @@ export const deleteCar = async (selectedId: string) => {
 }
 
 export const fetchSingleCar = async (_id: string, companyId: string) => {
-  const response = await fetch(`${URL}/car/${_id}`, {
+  const response = await fetch(`${API_URL}/car/${_id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

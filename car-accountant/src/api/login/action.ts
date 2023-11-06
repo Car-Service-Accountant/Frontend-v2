@@ -1,9 +1,9 @@
+import API_URL from '@/utils/apiUrl'
 import { loginPorps } from './type'
 
-const URL = 'http://localhost:3005'
 // Replace this with your actual API implementation
 export const loginAPI = async ({ email, password }: loginPorps) => {
-  const response = await fetch(`${URL}/auth/login`, {
+  const response = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export const loginAPI = async ({ email, password }: loginPorps) => {
 }
 
 export const authenticationAPI = async (token: string) => {
-  const response = await fetch(`${URL}/auth/protection`, {
+  const response = await fetch(`${API_URL}/auth/protection`, {
     method: 'GET',
     headers: {
       'x-autorization': token,

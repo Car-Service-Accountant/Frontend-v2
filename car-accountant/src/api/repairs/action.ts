@@ -1,10 +1,9 @@
 import { payedRepairData, repairRequest } from '@/features/redux/repairs/types'
-
-const URL = 'http://localhost:3005'
+import API_URL from '@/utils/apiUrl'
 
 export const fetchAllRepairs = async (companyId: string) => {
   try {
-    const response = await fetch(`${URL}/repair`, {
+    const response = await fetch(`${API_URL}/repair`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -26,7 +25,7 @@ export const fetchAllRepairs = async (companyId: string) => {
 }
 
 export const fetchSingleRepair = async ({ companyId, repairID }: { companyId: string; repairID: string }) => {
-  const response = await fetch(`${URL}/repair/${repairID}`, {
+  const response = await fetch(`${API_URL}/repair/${repairID}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -38,7 +37,7 @@ export const fetchSingleRepair = async ({ companyId, repairID }: { companyId: st
 }
 
 export const repairDelete = async ({ ID }: { ID: string }) => {
-  const response = fetch(`${URL}/repair/${ID}`, {
+  const response = fetch(`${API_URL}/repair/${ID}`, {
     method: 'DELETE',
   })
 
@@ -46,7 +45,7 @@ export const repairDelete = async ({ ID }: { ID: string }) => {
 }
 
 export const sendRepair = async ({ carId, data }: { carId: string; data: repairRequest }) => {
-  const response = await fetch(`${URL}/repair/${carId}`, {
+  const response = await fetch(`${API_URL}/repair/${carId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -57,7 +56,7 @@ export const sendRepair = async ({ carId, data }: { carId: string; data: repairR
 }
 
 export const payRepair = async ({ repID, data }: { repID: string; data: payedRepairData }) => {
-  const response = await fetch(`${URL}/repair/finished/${repID}`, {
+  const response = await fetch(`${API_URL}/repair/finished/${repID}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
