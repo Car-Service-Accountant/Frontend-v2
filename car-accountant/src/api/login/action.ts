@@ -19,19 +19,17 @@ export const loginAPI = async ({ email, password }: loginPorps) => {
     if (result?.role === 'админ') {
       return {
         email: result.email,
-        cashBoxID: result.cashBoxID.toString(),
+        cashBoxID: result.cashBoxId.toString(),
         username: result.username,
-        phoneNumber: result.phoneNumber,
-        _id: result?._id?.toString(),
         role: result?.role,
         employers: result?.employers,
         token: result?.token,
-        companyId: result?._id.toString(),
+        companyId: result?.companyId?.toString(),
       }
-    } else if (result) {
+    } else {
       return {
         email: result.email,
-        cashBoxID: result.cashBoxID.toString(),
+        cashBoxID: result.cashBoxId.toString(),
         username: result.username,
         phoneNumber: result.phoneNumber,
         _id: result?._id?.toString(),
@@ -40,8 +38,8 @@ export const loginAPI = async ({ email, password }: loginPorps) => {
         companyId: result?.companyId.toString(),
       }
     }
-    return result
   }
+  return null
 }
 
 export const authenticationAPI = async (token: string) => {
@@ -56,20 +54,19 @@ export const authenticationAPI = async (token: string) => {
     return null
   }
   const result = await response.json()
+
   if (result) {
     if (result?.role === 'админ') {
       return {
         email: result.email,
         cashBoxID: result.cashBoxID.toString(),
         username: result.username,
-        phoneNumber: result.phoneNumber,
-        _id: result?._id?.toString(),
         role: result?.role,
         employers: result?.employers,
         token: result?.token,
-        companyId: result?._id.toString(),
+        companyId: result?._id?.toString(),
       }
-    } else if (result) {
+    } else {
       return {
         email: result.email,
         cashBoxID: result.cashBoxID.toString(),
@@ -81,6 +78,6 @@ export const authenticationAPI = async (token: string) => {
         companyId: result?.companyId.toString(),
       }
     }
-    return result
   }
+  return null
 }

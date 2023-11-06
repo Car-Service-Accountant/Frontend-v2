@@ -11,7 +11,7 @@ const initialState: AuthState = {
 }
 
 export const asyncLogin = createAsyncThunk('auth/login', async ({ email, password }: credentials) => {
-  const response: AdminUser | NonAdminUser = await loginAPI({ email, password })
+  const response: AdminUser | NonAdminUser | null = await loginAPI({ email, password })
   if (response) {
     return response
   }
@@ -19,7 +19,7 @@ export const asyncLogin = createAsyncThunk('auth/login', async ({ email, passwor
 
 export const asyncAuthentication = createAsyncThunk('auth/authentication', async () => {
   const token = localStorage.getItem('token') || ''
-  const response: AdminUser | NonAdminUser = await authenticationAPI(token)
+  const response: AdminUser | NonAdminUser | null = await authenticationAPI(token)
 
   if (response) {
     return response

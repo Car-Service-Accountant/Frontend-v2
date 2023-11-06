@@ -5,6 +5,7 @@ import React from 'react'
 interface primaryButtonProps {
   text: string
   event?: React.MouseEventHandler<HTMLButtonElement>
+  type?: 'submit' | 'button'
   small?: boolean
   height?: string
   link?: string
@@ -48,6 +49,7 @@ const PrimaryButton = ({ text, link, small }: primaryButtonProps) => {
 export const FlexableButton = ({
   text,
   small,
+  type = 'button',
   colorType,
   autoFocus = false,
   height,
@@ -70,6 +72,7 @@ export const FlexableButton = ({
       color={colorType || 'primary'}
       variant='contained'
       autoFocus={autoFocus}
+      type={type}
       {...props}
     >
       {text}
