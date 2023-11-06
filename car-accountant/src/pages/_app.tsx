@@ -13,7 +13,6 @@ import { RootState, wrapper } from '@/features/redux/store'
 import { asyncAuthentication } from '@/features/redux/auth/reducer'
 import Login from './login'
 import ResponsiveDrawer from '@/components/layout'
-import API_URL from '@/utils/apiUrl'
 
 interface MyAppProps {
   Component: any
