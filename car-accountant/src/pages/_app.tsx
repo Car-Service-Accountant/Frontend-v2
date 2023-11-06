@@ -29,8 +29,6 @@ function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
   const user = useSelector((state: RootState) => state.auth.user)
   const state = useSelector((state: RootState) => state)
 
-  console.log('api ? ', API_URL)
-
   useEffect(() => {
     if (!user && !state.auth.loading) {
       dispatch(asyncAuthentication())

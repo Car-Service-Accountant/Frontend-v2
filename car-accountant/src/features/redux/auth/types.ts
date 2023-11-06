@@ -1,7 +1,7 @@
 export interface userInterface {
   email: string
   cashBoxID: string
-  _id: string | undefined
+  _id?: string | undefined
   username: string | undefined
   role: string | undefined
   companyId?: string | undefined

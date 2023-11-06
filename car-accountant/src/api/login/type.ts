@@ -7,12 +7,10 @@ export interface AdminUser {
   email: string
   cashBoxID: string
   username: string
-  phoneNumber: string
-  _id: string | undefined
+  companyId: string | undefined
   role: 'админ'
   employers?: string[] | undefined
   token?: string | undefined
-  companyId?: string | undefined
 }
 
 // Type for non-admin user
