@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Slider from 'react-slick'
 import Link from 'next/link'
 import { FlexableButton } from '@/components/PrimaryButton'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AnyAction } from 'redux'
 import { ThunkDispatch } from 'redux-thunk'
 import { useRouter } from 'next/router'
@@ -39,11 +39,7 @@ const LeftSide = () => {
 
   const handleFormSubmit = async ({ email, password }: SubmitParams) => {
     dispatch(asyncLogin({ email, password }))
-    router.push('')
-    // const response = await handleLogin(values.email, values.password);
-    // if (response) {
-    //   navigate('/')
-    // }
+    router.push('/')
   }
 
   return (
@@ -78,7 +74,7 @@ const LeftSide = () => {
           }}
         >
           <Button className={classesRightSide.googleDemoButton}>
-            <Image src={'/../public/pics/googleLogo.png'} width={20} height={20} alt='Google logo' />
+            <Image src={'/public/pics/googleLogo.png'} width={20} height={20} alt='Google logo' />
             <Typography>Google</Typography>
           </Button>
         </Box>
@@ -210,7 +206,7 @@ const RightSide = () => {
               marginTop: '30px',
             }}
           >
-            <Image src={'/../public/pics/mainLogoLogin.png'} width={400} height={400} alt='Missing logo' />
+            <Image src={'/public/pics/mainLogoLogin.png'} width={400} height={400} alt='Missing logo' />
           </Box>
         </Box>
         <Box className={classesLeftSide.slider}>
@@ -239,7 +235,12 @@ const RightSide = () => {
 
 export default function Login() {
   const theme = useTheme()
-
+  const user = useSelector((state: RootState) => state.auth.user)
+  const router = useRouter()
+  if (user) {
+    router.push('/')
+    return null
+  }
   return (
     <Grid container>
       <Grid

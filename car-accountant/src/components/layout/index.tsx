@@ -44,7 +44,7 @@ const ResponsiveDrawer: React.FC<Props> = ({ children }: Props) => {
         <Typography variant='h6' component='div' color={'black'}>
           AutologBG
         </Typography>
-        <Image src={'/../public/pics/demo-logo.png'} width={110} height={60} alt='Missing logo' />
+        <Image src={'/pics/demo-logo.png'} width={110} height={60} alt='Missing logo' />
         <Typography style={{ marginLeft: '5vw' }} variant='h6' color={theme.palette.text.primary} fontSize={16}>
           Приятна работа, <b>{username}</b>
         </Typography>
