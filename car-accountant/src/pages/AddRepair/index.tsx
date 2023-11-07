@@ -107,9 +107,10 @@ const CreateRepair = () => {
         service: stackedRepayerServices,
         priceForLabor: totalLaborCost,
         comanyHoldRepairs: user?.companyId || '',
-        worker: user?._id || '',
+        worker: user?._id || user?.companyId || '',
         note: 'Empty by default for now',
       }
+
       const response = await dispatch(asyncSetRepair({ carId, data }))
       if (response.meta.requestStatus !== 'fulfilled') {
         setSendData(false)

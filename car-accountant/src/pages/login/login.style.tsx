@@ -95,6 +95,10 @@ const RightSideWraper = styled(Box)(({ theme }) => ({
     maxWidth: '-webkit-fill-available',
     marginRight: theme.spacing(13),
     marginBottom: theme.spacing(3),
+    [theme.breakpoints.down('md')]: {
+      marginLeft: theme.spacing(8),
+      marginRight: theme.spacing(8),
+    },
     '& .MuiTextField-root': {
       background: 'white',
     },
