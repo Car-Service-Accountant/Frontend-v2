@@ -198,13 +198,13 @@ const Home = () => {
           tempResults.push(
             <>
               <Box className={classes.awaitingWrapper}>
-                <Typography fontSize={16} sx={{ width: 200 }} fontWeight={theme.typography.fontWeightBold}>
+                <Typography fontSize={16} sx={{ minWidth: 200 }} fontWeight={theme.typography.fontWeightBold}>
                   {owner}
                 </Typography>
-                <Typography fontSize={16} sx={{ width: 200 }} fontWeight={theme.typography.fontWeightBold}>
+                <Typography fontSize={16} sx={{ minWidth: 200 }} fontWeight={theme.typography.fontWeightBold}>
                   {carNumber}
                 </Typography>
-                <Typography fontSize={16} sx={{ width: 200 }} fontWeight={theme.typography.fontWeightBold}>
+                <Typography fontSize={16} sx={{ minWidth: 200 }} fontWeight={theme.typography.fontWeightBold}>
                   {formatDate(day)}
                 </Typography>
               </Box>
@@ -412,9 +412,18 @@ const Home = () => {
       </Grid>
       <Grid xs={12} container style={{ marginTop: '30px' }}>
         <Grid item xs={12} sm={12} md={12} lg={9} sx={{ paddingLeft: '15px', paddingRight: '15px' }}>
-          <Box className={classes.boxWrapper} style={{ zIndex: '-2', paddingTop: '10px', paddingBottom: '26px' }}>
-            <ResponsiveContainer width='100%' height='100%' minHeight='245px'>
-              <LineChart data={liveData?.combinedData} margin={{ top: 20, right: 30, left: -30, bottom: 0 }}>
+          <Box
+            className={classes.boxWrapper}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              zIndex: '-2',
+              paddingTop: '25px',
+              paddingBottom: '25px',
+            }}
+          >
+            <ResponsiveContainer width='95%' height='100%' minHeight='245px'>
+              <LineChart data={liveData?.combinedData} margin={{ top: 0, right: 5, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray='3 3' />
                 <XAxis dataKey='date' />
                 <YAxis />
@@ -426,6 +435,7 @@ const Home = () => {
               </LineChart>
             </ResponsiveContainer>
           </Box>
+          {/* {awaitingPaimentsElements.length > 0 && ( */}
           <Box className={classes.boxWrapper} style={{ zIndex: '-2', marginTop: '30px' }}>
             <Typography fontSize='22px' fontWeight={theme.typography.fontWeightBold} style={{ padding: '26px' }}>
               Чакащи плащания
@@ -436,25 +446,29 @@ const Home = () => {
                 padding: '14px',
                 paddingRight: '10%',
                 display: 'flex',
+                overflowX: 'auto',
                 justifyContent: 'space-between',
               }}
             >
-              <Typography
-                fontSize={16}
-                fontWeight={theme.typography.fontWeightBold}
-                sx={{ marginLeft: '15px', width: 200 }}
-              >
-                Име на клиент
-              </Typography>
-              <Typography sx={{ width: 200 }} fontSize={16} fontWeight={theme.typography.fontWeightBold}>
-                Номер на колата
-              </Typography>
-              <Typography sx={{ width: 200 }} fontSize={16} fontWeight={theme.typography.fontWeightBold}>
-                Дата на изпълнение
-              </Typography>
+              <Box sx={{ minWidth: '200px' }}>
+                <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold} sx={{ marginLeft: '15px' }}>
+                  Име на клиент
+                </Typography>
+              </Box>
+              <Box sx={{ minWidth: '200px' }}>
+                <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
+                  Номер на колата
+                </Typography>
+              </Box>
+              <Box sx={{ minWidth: '200px' }}>
+                <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
+                  Дата на изпълнение
+                </Typography>
+              </Box>
             </Box>
             <BoxSpawner boxes={awaitingPaimentsElements} />
           </Box>
+          {/* )} */}
         </Grid>
         <Grid
           item

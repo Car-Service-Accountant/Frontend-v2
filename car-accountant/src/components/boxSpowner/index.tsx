@@ -25,12 +25,18 @@ const BoxSpawner = ({ boxes }: BoxSpawnerProps) => {
   }, [boxes])
 
   return (
-    <Box>
-      {visibleBoxes.map((box, index) => (
-        <Fade in={true} key={index}>
-          <Box>{box}</Box>
-        </Fade>
-      ))}
+    <Box
+      sx={{
+        overflowX: 'auto',
+      }}
+    >
+      <Box>
+        {visibleBoxes.map((box, index) => (
+          <Fade in={true} key={index}>
+            <Box>{box}</Box>
+          </Fade>
+        ))}
+      </Box>
     </Box>
   )
 }

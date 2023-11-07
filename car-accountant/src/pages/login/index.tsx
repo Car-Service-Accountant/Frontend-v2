@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, TextField, Typography, useTheme } from '@mui/material'
+import { Box, Button, Divider, Grid, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import RightSideWraper, { LeftSideWraper, classesRightSide, classesLeftSide } from './login.style'
 import * as yup from 'yup'
 import { Formik } from 'formik'
@@ -213,7 +213,13 @@ const RightSide = () => {
               marginTop: '30px',
             }}
           >
-            <Image src={'/../public/pics/mainLogoLogin.png'} width={400} height={400} alt='Missing logo' />
+            <Image
+              src={'/../public/pics/mainLogoLogin.png'}
+              style={{ width: '30%', height: '30%' }}
+              width={300}
+              height={300}
+              alt='Missing logo'
+            />
           </Box>
         </Box>
         <Box className={classesLeftSide.slider}>
@@ -242,12 +248,13 @@ const RightSide = () => {
 
 export default function Login() {
   const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   return (
-    <Grid container>
+    <Grid container flexDirection={isMobile ? 'column-reverse' : undefined}>
       <Grid
         item
-        xs={7}
+        xs={isMobile ? 12 : 7}
         sx={{
           height: '100vh',
           backgroundColor: theme.palette.primary.main,
@@ -257,11 +264,10 @@ export default function Login() {
       </Grid>
       <Grid
         item
-        xs={5}
+        xs={isMobile ? 12 : 5}
         sx={{
           height: '100vh',
           backgroundColor: theme.palette.background.paper,
-          display: 'grid',
           alignItems: 'center',
         }}
       >
