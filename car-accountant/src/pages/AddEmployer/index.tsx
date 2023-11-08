@@ -32,7 +32,6 @@ const StyledWrapper = styled(Box)(({ theme }) => ({
 const AddEmployer = () => {
   const isNonMobile = useMediaQuery('(min-width:600px)')
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
-  const [success, setSuccess] = useState(false)
   const router = useRouter()
   const user = useSelector((state: RootState) => state.auth.user)
   const isRejected = useSelector((state: RootState) => state.employers.isRejected)
@@ -48,17 +47,13 @@ const AddEmployer = () => {
         username: values.username,
         companyID: user.companyId,
       }
-      if (user.role === 'админ') {
+      if (user.role === 'админ' || user.role === 'мениджър') {
         dispatch(asyncAddEmployers(data))
         if (!isRejected) {
-          setSuccess(true)
+          router.push('/employers')
         }
       }
     }
-  }
-
-  if (success) {
-    return router.push('/employers')
   }
 
   return (

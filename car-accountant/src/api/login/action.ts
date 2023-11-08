@@ -29,7 +29,7 @@ export const loginAPI = async ({ email, password }: loginPorps) => {
     } else {
       return {
         email: result.email,
-        cashBoxID: result.cashBoxId.toString(),
+        cashBoxID: result.cashBoxID.toString(),
         username: result.username,
         phoneNumber: result.phoneNumber,
         _id: result?._id?.toString(),
