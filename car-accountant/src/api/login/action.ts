@@ -16,6 +16,7 @@ export const loginAPI = async ({ email, password }: loginPorps) => {
   }
   const result = await response.json()
   if (result) {
+    localStorage.setItem('token', result.token)
     if (result?.role === 'админ') {
       return {
         email: result.email,
@@ -56,6 +57,7 @@ export const authenticationAPI = async (token: string) => {
   const result = await response.json()
 
   if (result) {
+    localStorage.setItem('token', result.token)
     if (result?.role === 'админ') {
       return {
         email: result.email,
