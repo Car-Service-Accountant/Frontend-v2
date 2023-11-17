@@ -1,9 +1,8 @@
-import { Box, Button, Divider, Grid, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Divider, Grid, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import RightSideWraper, { LeftSideWraper, classesRightSide, classesLeftSide } from './login.style'
 import * as yup from 'yup'
 import { Formik } from 'formik'
 import Image from 'next/image'
-import Slider from 'react-slick'
 import Link from 'next/link'
 import { FlexableButton } from '@/components/PrimaryButton'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,6 +12,9 @@ import { useRouter } from 'next/router'
 import { RootState, wrapper } from '@/features/redux/store'
 import { asyncLogin } from '@/features/redux/auth/reducer'
 import { useEffect } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay } from 'swiper/modules'
+import loginCompanyInfo from '@/constants/loginCompanyInfo'
 
 const LeftSide = () => {
   const theme = useTheme()
@@ -28,6 +30,11 @@ const LeftSide = () => {
       .min(4, 'Полето трябва да съдържа между 4 и 16 символа')
       .max(16, 'Полето трябва да съдържа между 4 и 16 символа'),
   })
+
+  const demoProfile = {
+    email: 'demoProfile@abv.bg',
+    password: 'asdasd',
+  }
 
   const initialValues = {
     email: '',
@@ -73,6 +80,8 @@ const LeftSide = () => {
           </Box>
         </Box>
 
+        {/*
+        //to be added when integrate google login
         <Box
           sx={{
             display: 'flex',
@@ -80,24 +89,25 @@ const LeftSide = () => {
             alignItems: 'center',
           }}
         >
+        
           <Button className={classesRightSide.googleDemoButton}>
             <Image src={'/../public/pics/googleLogo.png'} width={20} height={20} alt='Google logo' />
             <Typography>Google</Typography>
           </Button>
-        </Box>
-
+        </Box> */}
+        {/* 
         <Box className={classesRightSide.dividerLogin}>
           <Divider color={theme.palette.secondary.main}>
             <Typography color={theme.palette.secondary.main} fontWeight='bold'>
               или
             </Typography>
           </Divider>
-        </Box>
+        </Box> */}
         <Box className={classesRightSide.loginForm}>
           <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={checkoutSchema}>
             {({ values, errors, touched, handleChange, handleSubmit }) => (
               <form style={{ width: '100%' }} onSubmit={handleSubmit}>
-                <Box display='grid' gridTemplateColumns='repeat(4, minmax(0, 1fr))'>
+                <Box display='flex' alignItems='center' flexDirection='column'>
                   <Typography
                     className={classesRightSide.fieldLabel}
                     color={theme.palette.secondary.main}
@@ -144,7 +154,11 @@ const LeftSide = () => {
                       style: { borderRadius: '12px' },
                     }}
                   />
-                  <Link href='/recoveryPassword' className={classesRightSide.fieldLabel}>
+                  <Link
+                    href='/recoveryPassword'
+                    className={classesRightSide.fieldLabel}
+                    style={{ textDecoration: 'none' }}
+                  >
                     <Typography color={theme.palette.secondary.dark} fontWeight='bold'>
                       Забравена парола ?
                     </Typography>
@@ -152,6 +166,9 @@ const LeftSide = () => {
                 </Box>
                 <Box display='flex' justifyContent='center' mt='20px'>
                   <FlexableButton type='submit' text='Вход' />
+                </Box>
+                <Box display='flex' justifyContent='center' mt='20px'>
+                  <FlexableButton onClick={() => handleFormSubmit(demoProfile)} text='Demo' />
                 </Box>
               </form>
             )}
@@ -163,84 +180,56 @@ const LeftSide = () => {
 }
 
 const RightSide = () => {
-  const data = [
-    {
-      message:
-        'Не са ви нужни никакви задълбочени технически знания, за употребата на нашето приложение за управление на автосервиз. Може да попълвате всякаква информация за вашите клиенти – регистрационни номера, марка и модел на автомобила, информация за клиента и други.',
-      header: 'Лесен и организиран интерфейс',
-    },
-    {
-      message: 'mess2',
-      header: 'header2',
-    },
-    {
-      message: 'mess3',
-      header: 'header3',
-    },
-    {
-      message: 'mess4',
-      header: 'header4',
-    },
-    {
-      message: 'mess5',
-      header: 'header5',
-    },
-  ]
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  }
-
   const theme = useTheme()
 
   return (
     <LeftSideWraper>
-      <Box sx={{ marginTop: '65px' }}>
-        <Box>
-          <Box>
-            <Typography variant='h6' color={theme.palette.background.default} className={classesLeftSide.mainText}>
-              <b>AUTOLOG</b> e уеб приложение за управление на ремонта по един автомобил, предлага всичко, от което се
-              нуждае ръководителят на един автосервиз!
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              marginLeft: '35%',
-              marginTop: '30px',
-            }}
-          >
-            <Image
-              src={'/../public/pics/mainLogoLogin.png'}
-              style={{ width: '30%', height: '30%' }}
-              width={300}
-              height={300}
-              alt='Missing logo'
-            />
-          </Box>
+      <Box>
+        <Box mb={19}>
+          <Typography variant='h6' color={theme.palette.background.default} className={classesLeftSide.mainText}>
+            <b>AUTOLOG</b> e уеб приложение за управление на ремонта по един автомобил, предлага всичко, от което се
+            нуждае ръководителят на един автосервиз!
+          </Typography>
         </Box>
-        <Box className={classesLeftSide.slider}>
-          <Slider {...settings}>
-            {data.map((item, index) => (
-              <Box key={index} className={classesLeftSide.sliderBox}>
-                <Typography
-                  variant='h4'
-                  fontSize={26}
-                  color={theme.palette.background.default}
-                  sx={{ marginBottom: '20px' }}
-                >
-                  {item.header}
-                </Typography>
-                <Typography variant='h6' fontSize={16} color={theme.palette.background.default}>
-                  {item.message}
-                </Typography>
-              </Box>
+
+        <Swiper
+          spaceBetween={30}
+          centeredSlides={true}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+          loop={true}
+          modules={[Autoplay]}
+        >
+          {loginCompanyInfo &&
+            loginCompanyInfo.map((item, index) => (
+              <SwiperSlide key={index} className={classesLeftSide.sliderBox}>
+                <Box padding={5}>
+                  <Image
+                    src={item.imageUrl}
+                    style={{ width: '30%', height: '30%', objectFit: 'cover' }}
+                    width={300}
+                    height={300}
+                    alt={`Slide ${index + 1}`}
+                  />
+                  <Box>
+                    <Typography
+                      variant='h4'
+                      fontSize={26}
+                      color={theme.palette.background.default}
+                      sx={{ marginBottom: '20px' }}
+                    >
+                      {item.header}
+                    </Typography>
+                    <Typography variant='h6' fontSize={16} color={theme.palette.background.default}>
+                      {item.message}
+                    </Typography>
+                  </Box>
+                </Box>
+              </SwiperSlide>
             ))}
-          </Slider>
-        </Box>
+        </Swiper>
       </Box>
     </LeftSideWraper>
   )
@@ -254,9 +243,10 @@ export default function Login() {
     <Grid container flexDirection={isMobile ? 'column-reverse' : undefined}>
       <Grid
         item
-        xs={isMobile ? 12 : 7}
+        xs={isMobile ? undefined : 7}
         sx={{
           height: '100vh',
+          width: '100%',
           backgroundColor: theme.palette.primary.main,
         }}
       >
@@ -264,9 +254,10 @@ export default function Login() {
       </Grid>
       <Grid
         item
-        xs={isMobile ? 12 : 5}
+        xs={isMobile ? undefined : 5}
         sx={{
-          height: '100vh',
+          width: '100%',
+          height: 'auto',
           backgroundColor: theme.palette.background.paper,
           alignItems: 'center',
         }}

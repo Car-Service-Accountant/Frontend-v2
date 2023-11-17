@@ -14,6 +14,9 @@ import { asyncAuthentication } from '@/features/redux/auth/reducer'
 import Login from './login'
 import ResponsiveDrawer from '@/components/layout'
 
+import 'swiper/css'
+import 'swiper/css/navigation'
+
 interface MyAppProps {
   Component: any
   pageProps: any
