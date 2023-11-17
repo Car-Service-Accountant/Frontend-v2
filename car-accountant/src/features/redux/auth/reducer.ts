@@ -11,6 +11,8 @@ const initialState: AuthState = {
 }
 
 export const asyncLogin = createAsyncThunk('auth/login', async ({ email, password }: credentials) => {
+  console.log('login? ')
+
   const response: AdminUser | NonAdminUser | null = await loginAPI({ email, password })
   if (response) {
     return response
