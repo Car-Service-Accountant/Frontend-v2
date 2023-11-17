@@ -88,6 +88,7 @@ const RightSideWraper = styled(Box)(({ theme }) => ({
     alignContent: 'center',
     justifyContent: 'center',
     flexWrap: 'nowrap',
+    [theme.breakpoints.down('md')]: {},
   },
   [`& .${classesRightSide.loginField}`]: {
     gridColumn: 'span 4',
@@ -95,9 +96,17 @@ const RightSideWraper = styled(Box)(({ theme }) => ({
     maxWidth: '-webkit-fill-available',
     marginRight: theme.spacing(13),
     marginBottom: theme.spacing(3),
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       marginLeft: theme.spacing(8),
       marginRight: theme.spacing(8),
+    },
+    [theme.breakpoints.down('md')]: {
+      marginLeft: theme.spacing(10),
+      marginRight: theme.spacing(10),
+    },
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2),
     },
     '& .MuiTextField-root': {
       background: 'white',
@@ -105,7 +114,6 @@ const RightSideWraper = styled(Box)(({ theme }) => ({
   },
   [`& .${classesRightSide.fieldLabel}`]: {
     gridColumn: 'span 4',
-    marginLeft: theme.spacing(13),
     marginBottom: theme.spacing(1),
   },
   [`& .${classesRightSide.dividerLogin}`]: {
