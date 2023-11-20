@@ -227,6 +227,8 @@ const CarDetails = () => {
         m='5px 0 0 0'
         height='75vh'
         sx={{
+          backgroundColor: theme.palette.background.paper,
+          borderRadius: '8px',
           '& .MuiDataGrid-root': {
             border: 'none',
           },
@@ -251,6 +253,13 @@ const CarDetails = () => {
           },
         }}
       >
+        <Typography
+          fontSize={22}
+          fontWeight={theme.typography.fontWeightBold}
+          style={{ paddingLeft: '26px', paddingTop: '20px', paddingBottom: '10px' }}
+        >
+          Всички ремонти по {selectedCar.carModel} с номер {selectedCar?.carNumber}
+        </Typography>
         {repairs && (
           <DataGrid
             rows={repairs}
@@ -260,6 +269,9 @@ const CarDetails = () => {
             disableRowSelectionOnClick
             getRowClassName={(params) => (params.row.paied ? 'paid' : 'unpaid')}
             style={{ outline: 'none', boxShadow: 'none' }}
+            columnVisibilityModel={{
+              _id: false,
+            }}
           />
         )}
         <Menu anchorEl={menuAnchorEl} open={Boolean(menuAnchorEl)} onClose={handleMenuClose}>

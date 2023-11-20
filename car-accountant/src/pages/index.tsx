@@ -10,6 +10,8 @@ import finishedThisMonth from '../utils/repairs/finishedThisMonth'
 import finishedMonthBefore from '../utils/repairs/finishedMonthBefore'
 import finishedThisWeek from '../utils/repairs/finishedThisWeek'
 import finishedLastWeek from '../utils/repairs/finishedWeekBefore'
+import finishedYearBefore from '../utils/repairs/finishedLastYear'
+import finishedThisYear from '../utils/repairs/finishedThisYear'
 import dataCalulatorForLiveData, { formatDate } from '../utils/repairs/finishedRepairsForLiveData'
 import Circle from '@/components/progressCircle'
 import ProgressiveNumber from '@/components/progressiveNumbers'
@@ -38,7 +40,14 @@ const Home = () => {
   const [paiedMonthBeofreData, setPaiedMonthBeofreData] = useState<any>({})
   const [monthlyProfit, setMonthlyProfit] = useState<number>(0)
   const [percentBarForMonth, setPercentBarForMonth] = useState<number>(1)
+
+  const [paiedThisYearData, setPaiedThisYearData] = useState<any>({})
+  const [paiedYearBeofreData, setPaiedYearBeofreData] = useState<any>({})
+  const [YearProfit, setYearProfit] = useState<number>(0)
+  const [percentBarForYear, setPercentBarForYear] = useState<number>(1)
   const [unpaiedRepairs, setUpaiedRepairs] = useState<{ car: any; repair: any; totalCost: number }[]>([])
+
+  console.log('percentBarForWeek', percentBarForWeek)
 
   // style
   const PREFIX = 'home'
@@ -152,6 +161,12 @@ const Home = () => {
     if (repairs?.repairs?.length || 0 > 0) {
       setPaiedMonthBeofreData(finishedMonthBefore(repairs.repairs))
     }
+    if (repairs?.repairs?.length || 0 > 0) {
+      setPaiedThisYearData(finishedThisYear(repairs.repairs))
+    }
+    if (repairs?.repairs?.length || 0 > 0) {
+      setPaiedYearBeofreData(finishedYearBefore(repairs.repairs))
+    }
   }, [repairs.repairs])
 
   useEffect(() => {
@@ -180,6 +195,15 @@ const Home = () => {
       const result = paiedThisMonthData?.totalProfitForThisMonth / paiedMonthBeofreData?.totalProfitForMotnthBefore
       if (result) {
         setPercentBarForMonth(result > 0 && result !== Infinity ? result : 1)
+      }
+    }
+    if (paiedThisYearData) {
+      setYearProfit(paiedThisYearData.totalProfitForThisYear)
+    }
+    if (paiedThisYearData && paiedYearBeofreData) {
+      const result = paiedThisYearData?.totalProfitForThisYear / paiedYearBeofreData?.totalProfitForYearBefore
+      if (result) {
+        setPercentBarForYear(result > 0 && result !== Infinity ? result : 1)
       }
     }
   }, [paiedTodayData])
@@ -254,7 +278,7 @@ const Home = () => {
           >
             <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Box style={{ paddingTop: '0px', paddingRight: '30px' }}>
-                {repairs.repairs && <Circle progress={percentBarForToday} />}
+                {repairs.repairs && <Circle progress={percentBarForToday > 100 ? 100 : percentBarForToday} />}
               </Box>
             </Box>
             <Box>
@@ -272,7 +296,7 @@ const Home = () => {
                 variant='h6'
                 color={todaysProfit > 0 ? '#50BC1D' : theme.palette.text.primary}
                 fontWeight={theme.typography.fontWeightBold}
-                fontSize='32px'
+                fontSize='18px'
                 sx={{ paddingLeft: '0px', paddingTop: '0px' }}
               >
                 {todaysProfit ? <ProgressiveNumber number={todaysProfit} /> : '0'} лв.
@@ -315,7 +339,7 @@ const Home = () => {
                 variant='h6'
                 color={weeklyProfit > 0 ? '#50BC1D' : theme.palette.text.primary}
                 fontWeight={theme.typography.fontWeightBold}
-                fontSize='32px'
+                fontSize='18px'
                 sx={{ paddingLeft: '0px', paddingTop: '0px' }}
               >
                 {weeklyProfit ? <ProgressiveNumber number={weeklyProfit} /> : '0'} лв.
@@ -358,7 +382,7 @@ const Home = () => {
                 variant='h6'
                 color={monthlyProfit > 0 ? '#50BC1D' : theme.palette.text.primary}
                 fontWeight={theme.typography.fontWeightBold}
-                fontSize='32px'
+                fontSize='18px'
                 sx={{ paddingLeft: '0px', paddingTop: '0px' }}
               >
                 {monthlyProfit ? <ProgressiveNumber number={monthlyProfit} /> : '0'} лв.
@@ -384,7 +408,7 @@ const Home = () => {
           >
             <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Box style={{ paddingTop: '0px', paddingRight: '30px' }}>
-                {repairs.repairs && <Circle progress={percentBarForWeek} />}
+                {repairs.repairs && <Circle progress={percentBarForYear} />}
               </Box>
             </Box>
             <Box>
@@ -395,16 +419,16 @@ const Home = () => {
                 fontSize='16px'
                 sx={{ paddingLeft: '0px', paddingTop: '20px' }}
               >
-                Месечен доход
+                Годишен доход
               </Typography>
               <Typography
                 variant='h6'
-                color={monthlyProfit > 0 ? '#50BC1D' : theme.palette.text.primary}
+                color={YearProfit > 0 ? '#50BC1D' : theme.palette.text.primary}
                 fontWeight={theme.typography.fontWeightBold}
-                fontSize='32px'
+                fontSize='18px'
                 sx={{ paddingLeft: '0px', paddingTop: '0px' }}
               >
-                {monthlyProfit ? <ProgressiveNumber number={monthlyProfit} /> : '0'} лв.
+                {YearProfit ? <ProgressiveNumber number={YearProfit} /> : '0'} лв.
               </Typography>
             </Box>
           </Box>

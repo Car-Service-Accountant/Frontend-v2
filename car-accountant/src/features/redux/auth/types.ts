@@ -6,6 +6,7 @@ export interface userInterface {
   role: string | undefined
   companyId?: string | undefined
   employers?: string[] | undefined
+  phoneNumber?: string | undefined
   token?: string | undefined
 }
 
@@ -24,4 +25,11 @@ export type AuthState = {
   isDoneAuthenticated: boolean
   user: userInterface | null
   error: string | null
+}
+
+export type accountUpdateProps = {
+  email?: string
+  username?: string
+  phoneNumber?: string
+  id?: string
 }

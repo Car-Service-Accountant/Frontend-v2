@@ -8,6 +8,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
   useMediaQuery,
   useTheme,
 } from '@mui/material'
@@ -29,6 +30,7 @@ const RepairDetail = () => {
   const repairID: string = router.query.repairID as string
   const currentRepair = useSelector((state: RootState) => state.repairs.currentRepair)
   const companyId = useSelector((state: RootState) => state.auth.user?.companyId)
+  const selectedCar = useSelector((state: RootState) => state.cars.currentCar)
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
@@ -104,7 +106,14 @@ const RepairDetail = () => {
   }, 0)
 
   return (
-    <Box m='20px'>
+    <Box m='20px' sx={{ backgroundColor: theme.palette.background.paper, borderRadius: '8px' }}>
+      <Typography
+        fontSize={22}
+        fontWeight={theme.typography.fontWeightBold}
+        style={{ paddingLeft: '26px', paddingTop: '20px', paddingBottom: '10px' }}
+      >
+        Детайли за ремонта по {selectedCar?.carModel} с номер {selectedCar?.carNumber}
+      </Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>

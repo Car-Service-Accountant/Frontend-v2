@@ -46,8 +46,8 @@ const allEmployers = () => {
 
   const handleDeleteClick = async () => {
     if (selectedId && user?.companyId) {
-      dispatch(asyncDeleteEmployer(selectedId))
-      dispatch(asyncFetchAllEmployers(user?.companyId))
+      await dispatch(asyncDeleteEmployer(selectedId))
+      await dispatch(asyncFetchAllEmployers(user?.companyId))
     }
     handleMenuClose()
   }

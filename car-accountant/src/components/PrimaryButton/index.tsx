@@ -11,7 +11,7 @@ interface primaryButtonProps {
   link?: string
   autoFocus?: boolean
   colorType?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
-  margin?: string
+  margin?: string | undefined
   children?: React.ReactNode
   // eslint-disable-next-line no-unused-vars
   onClick?: (event?: React.MouseEvent<HTMLButtonElement>) => void

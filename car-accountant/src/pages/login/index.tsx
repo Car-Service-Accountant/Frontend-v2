@@ -32,8 +32,8 @@ const LeftSide = () => {
   })
 
   const demoProfile = {
-    email: 'demoProfile@abv.bg',
-    password: 'asdasd',
+    email: 'demomail@gmail.com',
+    password: 'demoPassword',
   }
 
   const initialValues = {
@@ -107,7 +107,7 @@ const LeftSide = () => {
           <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={checkoutSchema}>
             {({ values, errors, touched, handleChange, handleSubmit }) => (
               <form style={{ width: '100%' }} onSubmit={handleSubmit}>
-                <Box display='flex' alignItems='center' flexDirection='column'>
+                <Box display='flex' alignItems='baseline' flexDirection='column'>
                   <Typography
                     className={classesRightSide.fieldLabel}
                     color={theme.palette.secondary.main}
@@ -245,7 +245,7 @@ export default function Login() {
         item
         xs={isMobile ? undefined : 7}
         sx={{
-          height: '100vh',
+          height: 'auto',
           width: '100%',
           backgroundColor: theme.palette.primary.main,
         }}
@@ -257,7 +257,7 @@ export default function Login() {
         xs={isMobile ? undefined : 5}
         sx={{
           width: '100%',
-          height: 'auto',
+          height: '100vh',
           backgroundColor: theme.palette.background.paper,
           alignItems: 'center',
         }}

@@ -1,5 +1,6 @@
 import API_URL from '@/utils/apiUrl'
 import { loginPorps } from './type'
+import { accountUpdateProps } from '@/features/redux/auth/types'
 
 // Replace this with your actual API implementation
 export const loginAPI = async ({ email, password }: loginPorps) => {
@@ -67,6 +68,49 @@ export const authenticationAPI = async (token: string) => {
         employers: result?.employers,
         token: result?.token,
         companyId: result?._id?.toString(),
+      }
+    } else {
+      return {
+        email: result.email,
+        cashBoxID: result.cashBoxID.toString(),
+        username: result.username,
+        phoneNumber: result.phoneNumber,
+        _id: result?._id?.toString(),
+        role: result?.role,
+        token: result?.token,
+        companyId: result?.companyId.toString(),
+      }
+    }
+  }
+  return null
+}
+
+export const updateAccount = async ({ email, username, phoneNumber, id }: accountUpdateProps) => {
+  const data = { email, username, phoneNumber }
+  const response = await fetch(`${API_URL}/employers/${id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+
+  if (response.status !== 200) {
+    return null
+  }
+  const result = await response.json()
+
+  if (result) {
+    localStorage.setItem('token', result.token)
+    if (result?.role === 'админ') {
+      return {
+        email: result.email,
+        cashBoxID: result.cashBoxId.toString(),
+        username: result.username,
+        role: result?.role,
+        employers: result?.employers,
+        token: result?.token,
+        companyId: result?.companyId?.toString(),
       }
     } else {
       return {

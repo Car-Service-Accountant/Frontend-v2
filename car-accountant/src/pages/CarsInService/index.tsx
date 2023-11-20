@@ -1,4 +1,4 @@
-import { Box, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { useEffect } from 'react'
 // import ArrowBackIcon from '@mui/icons-material/ArrowBack'
@@ -9,6 +9,7 @@ import { AnyAction } from 'redux'
 import { asyncFetchAllCars } from '@/features/redux/cars/reducer'
 // import { useRouter } from 'next/router'
 import { carTypes } from '@/features/redux/cars/types'
+import { formatDate } from '@/utils/dataformat'
 
 const CarsInService = () => {
   const user = useSelector((state: RootState) => state.auth.user)
@@ -69,6 +70,7 @@ const CarsInService = () => {
       headerName: 'Година на производство',
       flex: isMobile ? undefined : 1,
       width: isMobile ? 150 : 0,
+      valueGetter: (params) => formatDate(params.value),
     },
   ]
 
@@ -81,6 +83,8 @@ const CarsInService = () => {
       <Box
         height='75vh'
         sx={{
+          backgroundColor: theme.palette.background.paper,
+          borderRadius: '8px',
           '& .MuiDataGrid-root': {
             border: 'none',
           },
@@ -113,6 +117,13 @@ const CarsInService = () => {
           },
         }}
       >
+        <Typography
+          fontSize={22}
+          fontWeight={theme.typography.fontWeightBold}
+          style={{ paddingLeft: '26px', paddingTop: '20px', paddingBottom: '10px' }}
+        >
+          Коли в ремонт
+        </Typography>
         {cars && (
           <DataGrid
             rows={cars}
