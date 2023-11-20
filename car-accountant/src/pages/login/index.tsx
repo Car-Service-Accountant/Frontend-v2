@@ -32,8 +32,8 @@ const LeftSide = () => {
   })
 
   const demoProfile = {
-    email: 'demoProfile@abv.bg',
-    password: 'asdasd',
+    email: 'demomail@gmail.com',
+    password: 'demoPassword',
   }
 
   const initialValues = {

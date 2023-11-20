@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Typography,
   useMediaQuery,
   useTheme,
 } from '@mui/material'
@@ -222,6 +223,8 @@ const AwaitingPayments = () => {
       <Box
         height='75vh'
         sx={{
+          backgroundColor: theme.palette.background.paper,
+          borderRadius: '8px',
           '& .MuiDataGrid-root': {
             border: 'none',
           },
@@ -257,6 +260,13 @@ const AwaitingPayments = () => {
           },
         }}
       >
+        <Typography
+          fontSize={22}
+          fontWeight={theme.typography.fontWeightBold}
+          style={{ paddingLeft: '26px', paddingTop: '20px', paddingBottom: '10px' }}
+        >
+          Чакащи плащания
+        </Typography>
         <DataGrid
           rows={rows}
           getRowId={(row) => row?.repairId}

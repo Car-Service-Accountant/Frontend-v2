@@ -12,6 +12,7 @@ import { asyncDeleteCar, asyncFetchAllCars } from '@/features/redux/cars/reducer
 import { ThunkDispatch } from 'redux-thunk'
 import { AnyAction } from 'redux'
 import { useRouter } from 'next/router'
+import { formatDate } from '@/utils/dataformat'
 
 // const URL = API_URL
 
@@ -85,6 +86,7 @@ const Cars = () => {
       headerName: 'Дата на производство',
       flex: 1,
       minWidth: isMobile ? 150 : 0,
+      valueGetter: (params) => formatDate(params.value),
     },
     {
       field: 'carMark',
@@ -142,6 +144,8 @@ const Cars = () => {
           height='75vh'
           style={{ boxShadow: '0px 0px 5px 0px rgba(128, 128, 128, 0.20)' }}
           sx={{
+            backgroundColor: theme.palette.background.paper,
+            borderRadius: '8px',
             '& .MuiDataGrid-root': {
               border: 'none',
             },
@@ -171,6 +175,13 @@ const Cars = () => {
             },
           }}
         >
+          <Typography
+            fontSize={22}
+            fontWeight={theme.typography.fontWeightBold}
+            style={{ paddingLeft: '26px', paddingTop: '20px', paddingBottom: '10px' }}
+          >
+            Всички коли
+          </Typography>
           {data?.cars && (
             <DataGrid
               rows={data?.cars}
