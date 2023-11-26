@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, Typography, styled, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Divider, Grid, Typography, styled, useMediaQuery, useTheme } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
@@ -21,7 +21,6 @@ import { asyncFetchAllCars } from '@/features/redux/cars/reducer'
 import { RootState } from '@/features/redux/store'
 import elements from '@/constants/mockedTaxes'
 import { asyncFetchAllEmployers } from '@/features/redux/employers/reducer'
-import { enqueueSnackbar } from 'notistack'
 
 const Home = () => {
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
