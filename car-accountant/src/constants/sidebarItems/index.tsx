@@ -5,7 +5,7 @@ import CommuteIcon from '@mui/icons-material/Commute'
 import CarRepairOutlinedIcon from '@mui/icons-material/CarRepairOutlined'
 import AddCardOutlinedIcon from '@mui/icons-material/AddCardOutlined'
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined'
-import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined'
+// import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined'
 import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined'
 import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined'
 
@@ -51,11 +51,11 @@ export const managerItems = [
 ]
 
 export const ownerItems = [
-  {
-    label: 'Допълнителен разход',
-    path: '/AdditionalCost',
-    icon: <PaidOutlinedIcon style={{ marginRight: '10px' }} />,
-  },
+  // {
+  //   label: 'Допълнителен разход',
+  //   path: '/AdditionalCost',
+  //   icon: <PaidOutlinedIcon style={{ marginRight: '10px' }} />,
+  // },
   {
     label: 'Всички служители',
     path: '/employers',

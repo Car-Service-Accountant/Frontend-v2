@@ -1,4 +1,18 @@
-import { Box, IconButton, Menu, Typography, useTheme, MenuItem, useMediaQuery, LinearProgress } from '@mui/material'
+import {
+  Box,
+  IconButton,
+  Menu,
+  Typography,
+  useTheme,
+  MenuItem,
+  useMediaQuery,
+  LinearProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
@@ -13,18 +27,19 @@ import { ThunkDispatch } from 'redux-thunk'
 import { AnyAction } from 'redux'
 import { useRouter } from 'next/router'
 import { formatDate } from '@/utils/dataformat'
+import { enqueueSnackbar } from 'notistack'
+import { FlexableButton } from '@/components/PrimaryButton'
 
 // const URL = API_URL
 
 const Cars = () => {
   const theme = useTheme()
-  const [selectedId, setSelectedId] = useState(null)
-  // const [editedId, setEditedId] = useState(null) // to unlock this feature when im ready with the edit form
   const [menuAnchorEl, setMenuAnchorEl] = useState(null)
-  const [selecredRow, setSelectedRow] = useState(null)
   const data = useSelector((state: RootState) => state.cars)
   const user = useSelector((state: RootState) => state.auth.user)
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
+  const [selectedCar, setSelectedCar] = useState<carTypes | null>()
+  const [open, setOpen] = useState(false)
   const router = useRouter()
 
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -37,17 +52,17 @@ const Cars = () => {
 
   const handleRowClick = (params: any) => {
     if (params.field !== 'Action') {
-      setSelectedRow(params.id)
+      router.push(`/car/${params.id}`, undefined, { shallow: true })
     }
   }
 
   const handleMenuOpen = (event: any) => {
-    setSelectedId(event.currentTarget.dataset.id)
+    setSelectedCar(data?.cars?.find((car) => car._id === event.currentTarget.dataset.id))
     setMenuAnchorEl(event.currentTarget)
   }
 
   const handleMenuClose = () => {
-    setSelectedId(null)
+    setSelectedCar(null)
     setMenuAnchorEl(null)
   }
 
@@ -56,18 +71,19 @@ const Cars = () => {
   }
 
   const handleDeleteClick = async () => {
-    if (selectedId) {
-      dispatch(asyncDeleteCar(selectedId))
+    if (selectedCar) {
+      enqueueSnackbar(`Успешно премахнахте ${selectedCar?.carMark} с регистрационен номер ${selectedCar?.carNumber}`, {
+        variant: 'success',
+      })
+      setOpen(false)
+      handleMenuClose()
+      dispatch(asyncDeleteCar(selectedCar._id))
     }
   }
 
   // if (editedId) {
   //   return <Navigate to={`/data.cars/edit/${editedId}`} />
   // }
-
-  if (selecredRow) {
-    router.push(`/car/${selecredRow}`, undefined, { shallow: true })
-  }
 
   const columns: GridColDef<carTypes>[] = [
     {
@@ -207,13 +223,30 @@ const Cars = () => {
                 Редактиране
               </Typography>
             </MenuItem>
-            <MenuItem onClick={handleDeleteClick}>
+            <MenuItem
+              onClick={() => {
+                setOpen(true)
+              }}
+            >
               <DeleteForeverOutlinedIcon fontSize='small' />
               <Typography variant='body1' ml={1}>
                 Изтриване
               </Typography>
             </MenuItem>
           </Menu>
+          <Dialog open={open} onClose={() => setOpen(false)}>
+            <DialogTitle color={theme.palette.secondary.main}>Сигурeн ли сте ?</DialogTitle>
+            <DialogContent>
+              <DialogContentText color={theme.palette.secondary.main}>
+                Сигурeн ли сте ,че искате да премахнете {selectedCar?.carMark} с регистрационен номер{' '}
+                {selectedCar?.carNumber}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <FlexableButton onClick={() => setOpen(false)} text='Отказване' />
+              <FlexableButton onClick={handleDeleteClick} autoFocus text='Потвърждение' />
+            </DialogActions>
+          </Dialog>
           {/* <IconButton>
           <ArrowBackIcon />
         </IconButton> */}

@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Typography, styled, useTheme } from '@mui/material'
+import { Box, Divider, Grid, Typography, styled, useMediaQuery, useTheme } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
@@ -31,23 +31,22 @@ const Home = () => {
   const [paiedTodayData, setPaiedTodayData] = useState<any>({})
   const [paiedYestardayData, setPaiedYestardayData] = useState<any>({})
   const [todaysProfit, setTodaysProfit] = useState<number>(0)
-  const [percentBarForToday, setPercentBarForToday] = useState<number>(1)
+  const [percentBarForToday, setPercentBarForToday] = useState<number>(0)
   const [paiedThisWeekData, setPaiedThisWeekData] = useState<any>({})
   const [paiedWeekBeofreData, setPaiedWeekBeofreData] = useState<any>({})
   const [weeklyProfit, setWeeklyProfit] = useState<number>(0)
-  const [percentBarForWeek, setPercentBarForWeek] = useState<number>(1)
+  const [percentBarForWeek, setPercentBarForWeek] = useState<number>(0)
   const [paiedThisMonthData, setPaiedThisMonthData] = useState<any>({})
   const [paiedMonthBeofreData, setPaiedMonthBeofreData] = useState<any>({})
   const [monthlyProfit, setMonthlyProfit] = useState<number>(0)
-  const [percentBarForMonth, setPercentBarForMonth] = useState<number>(1)
+  const [percentBarForMonth, setPercentBarForMonth] = useState<number>(0)
 
   const [paiedThisYearData, setPaiedThisYearData] = useState<any>({})
   const [paiedYearBeofreData, setPaiedYearBeofreData] = useState<any>({})
   const [YearProfit, setYearProfit] = useState<number>(0)
-  const [percentBarForYear, setPercentBarForYear] = useState<number>(1)
+  const [percentBarForYear, setPercentBarForYear] = useState<number>(0)
   const [unpaiedRepairs, setUpaiedRepairs] = useState<{ car: any; repair: any; totalCost: number }[]>([])
-
-  console.log('percentBarForWeek', percentBarForWeek)
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   // style
   const PREFIX = 'home'
@@ -278,7 +277,7 @@ const Home = () => {
           >
             <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Box style={{ paddingTop: '0px', paddingRight: '30px' }}>
-                {repairs.repairs && <Circle progress={percentBarForToday > 100 ? 100 : percentBarForToday} />}
+                {repairs.repairs && <Circle progress={percentBarForToday} />}
               </Box>
             </Box>
             <Box>
@@ -460,38 +459,42 @@ const Home = () => {
             </ResponsiveContainer>
           </Box>
           {/* {awaitingPaimentsElements.length > 0 && ( */}
-          <Box className={classes.boxWrapper} style={{ zIndex: '-2', marginTop: '30px' }}>
-            <Typography fontSize='22px' fontWeight={theme.typography.fontWeightBold} style={{ padding: '26px' }}>
-              Чакащи плащания
-            </Typography>
-            <Box
-              style={{
-                backgroundColor: theme.palette.primary.light,
-                padding: '14px',
-                paddingRight: '10%',
-                display: 'flex',
-                overflowX: 'auto',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Box sx={{ minWidth: '200px' }}>
-                <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold} sx={{ marginLeft: '15px' }}>
-                  Име на клиент
-                </Typography>
-              </Box>
-              <Box sx={{ minWidth: '200px' }}>
-                <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
-                  Номер на колата
-                </Typography>
-              </Box>
-              <Box sx={{ minWidth: '200px' }}>
-                <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
-                  Дата на изпълнение
-                </Typography>
+          {awaitingPaimentsElements.length > 0 && (
+            <Box className={classes.boxWrapper} style={{ zIndex: '-2', marginTop: '30px' }}>
+              <Typography fontSize='22px' fontWeight={theme.typography.fontWeightBold} style={{ padding: '26px' }}>
+                Чакащи плащания
+              </Typography>
+              <Box overflow='auto'>
+                <Box
+                  width={isMobile ? 'fit-content' : 'auto'}
+                  style={{
+                    backgroundColor: theme.palette.primary.light,
+                    padding: '14px',
+                    paddingRight: '10%',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <Box sx={{ minWidth: '200px' }}>
+                    <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold} sx={{ marginLeft: '15px' }}>
+                      Име на клиент
+                    </Typography>
+                  </Box>
+                  <Box sx={{ minWidth: '200px' }}>
+                    <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
+                      Номер на колата
+                    </Typography>
+                  </Box>
+                  <Box sx={{ minWidth: '200px' }}>
+                    <Typography fontSize={16} fontWeight={theme.typography.fontWeightBold}>
+                      Дата на изпълнение
+                    </Typography>
+                  </Box>
+                </Box>
+                <BoxSpawner boxes={awaitingPaimentsElements} />
               </Box>
             </Box>
-            <BoxSpawner boxes={awaitingPaimentsElements} />
-          </Box>
+          )}
           {/* )} */}
         </Grid>
         <Grid
