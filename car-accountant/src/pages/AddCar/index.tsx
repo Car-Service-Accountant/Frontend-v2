@@ -2,12 +2,12 @@ import { Box, Divider, TextField, Typography, styled, useTheme } from '@mui/mate
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { useState } from 'react'
 import { RootState } from '@/features/redux/store'
 import PrimaryButton from '@/components/PrimaryButton'
 import { useSelector } from 'react-redux'
 import { addCar } from '@/api/cars/action'
 import { useRouter } from 'next/router'
+import { useSnackbar } from 'notistack'
 // import { SnackbarContext } from "../../providers/snackbarProvider";
 
 export interface carInfo {
@@ -23,12 +23,9 @@ export interface carInfo {
 const CreateCar = () => {
   const theme = useTheme()
   const isNonMobile = useMediaQuery('(min-width:750px)')
-  const [isSubmitted, setIsSubmitted] = useState<boolean | string>(false)
-  const [errorMsg, setErrorMsg] = useState<string>('')
   const companyId = useSelector((state: RootState) => state.auth.user?.companyId)
   const router = useRouter()
-
-  // const showSnackbar = useContext(SnackbarContext);
+  const { enqueueSnackbar } = useSnackbar()
 
   const PREFIX = 'add-car'
 
@@ -52,26 +49,18 @@ const CreateCar = () => {
   const handleFormSubmit = async (values: carInfo) => {
     const body = { ...values, comanyHoldRepairs: companyId || '' }
     const returned = await addCar(body)
-    if (returned?.message) {
-      setErrorMsg(returned)
-      setIsSubmitted(false)
-    } else {
-      // there is returned car obj , future , to make action witch directly add them to the state after car was added
-      setErrorMsg('')
-      setIsSubmitted(true)
-    }
-  }
 
-  if (isSubmitted) {
-    router.push('/')
+    if (!returned?.message) {
+      enqueueSnackbar('Успешно добавена кола', {
+        variant: 'success',
+      })
+      router.push('/AllCars')
+    }
   }
 
   return (
     <StyledWrapper>
       <Box className={classes.formWrapper}>
-        <Typography color='red' fontSize={20}>
-          {errorMsg}
-        </Typography>
         <Typography
           fontSize={22}
           fontWeight={theme.typography.fontWeightBold}

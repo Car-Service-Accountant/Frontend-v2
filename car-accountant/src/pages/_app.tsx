@@ -16,6 +16,7 @@ import ResponsiveDrawer from '@/components/layout'
 
 import 'swiper/css'
 import 'swiper/css/navigation'
+import { SnackbarProvider } from 'notistack'
 
 interface MyAppProps {
   Component: any
@@ -67,16 +68,19 @@ function App({ Component, pageProps, emotionCache = clientSideEmotionCache }: My
           />
           <link rel='icon' href='/favicon.ico' />
         </Head>
+
         <ThemeProvider theme={theme}>
-          {user ? (
-            <>
-              <ResponsiveDrawer>
-                <Component user={user} {...pageProps} />
-              </ResponsiveDrawer>
-            </>
-          ) : (
-            <Login user={user} {...pageProps} />
-          )}
+          <SnackbarProvider maxSnack={3} autoHideDuration={1000}>
+            {user ? (
+              <>
+                <ResponsiveDrawer>
+                  <Component user={user} {...pageProps} />
+                </ResponsiveDrawer>
+              </>
+            ) : (
+              <Login user={user} {...pageProps} />
+            )}
+          </SnackbarProvider>
         </ThemeProvider>
       </CacheProvider>
     )

@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, styled } from '@mui/material'
+import { Box, FormControl, InputLabel, MenuItem, Select, TextField, styled } from '@mui/material'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import useMediaQuery from '@mui/material/useMediaQuery'
@@ -8,6 +8,8 @@ import { RootState } from '@/features/redux/store'
 import { asyncAddEmployers } from '@/features/redux/employers/reducer'
 import { ThunkDispatch } from 'redux-thunk'
 import { AnyAction } from 'redux'
+import { enqueueSnackbar } from 'notistack'
+import PrimaryButton from '@/components/PrimaryButton'
 
 const PREFIX = 'add-employer'
 
@@ -48,9 +50,12 @@ const AddEmployer = () => {
       }
       if (user.role === 'админ' || user.role === 'мениджър') {
         dispatch(asyncAddEmployers(data))
+        enqueueSnackbar(`Успешно направихте ${values.username} част от фирмата`, { variant: 'success' })
         if (!isRejected) {
           router.push('/employers')
         }
+      } else {
+        enqueueSnackbar('Нямате права за това действие', { variant: 'error' })
       }
     }
   }
@@ -150,9 +155,7 @@ const AddEmployer = () => {
                   </FormControl>
                 </Box>
                 <Box display='flex' justifyContent='center' mt='20px'>
-                  <Button type='submit' color='secondary' variant='contained'>
-                    Добави
-                  </Button>
+                  <PrimaryButton text='Добави' />
                 </Box>
               </form>
             )}

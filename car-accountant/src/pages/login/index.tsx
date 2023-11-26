@@ -15,6 +15,7 @@ import { useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay } from 'swiper/modules'
 import loginCompanyInfo from '@/constants/loginCompanyInfo'
+import { enqueueSnackbar } from 'notistack'
 
 const LeftSide = () => {
   const theme = useTheme()
@@ -52,8 +53,13 @@ const LeftSide = () => {
   }
 
   const handleFormSubmit = async ({ email, password }: SubmitParams) => {
-    dispatch(asyncLogin({ email, password }))
-    return router.push('/')
+    const response = await dispatch(asyncLogin({ email, password }))
+    if (response.meta.requestStatus === 'fulfilled') {
+      enqueueSnackbar('Успешен вход', { variant: 'success' })
+      return router.push('/')
+    } else {
+      enqueueSnackbar('Неуспешен вход', { variant: 'error' })
+    }
   }
 
   return (

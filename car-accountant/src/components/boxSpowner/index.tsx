@@ -1,4 +1,4 @@
-import { Box, Fade } from '@mui/material'
+import { Box, Fade, useMediaQuery, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 type BoxSpawnerProps = {
   boxes: React.ReactNode[]
@@ -6,6 +6,8 @@ type BoxSpawnerProps = {
 
 const BoxSpawner = ({ boxes }: BoxSpawnerProps) => {
   const [visibleBoxes, setVisibleBoxes] = useState<React.ReactNode[]>([])
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -25,18 +27,12 @@ const BoxSpawner = ({ boxes }: BoxSpawnerProps) => {
   }, [boxes])
 
   return (
-    <Box
-      sx={{
-        overflowX: 'auto',
-      }}
-    >
-      <Box>
-        {visibleBoxes.map((box, index) => (
-          <Fade in={true} key={index}>
-            <Box>{box}</Box>
-          </Fade>
-        ))}
-      </Box>
+    <Box width={isMobile ? 'fit-content' : 'auto'}>
+      {visibleBoxes.map((box, index) => (
+        <Fade in={true} key={index}>
+          <Box>{box}</Box>
+        </Fade>
+      ))}
     </Box>
   )
 }

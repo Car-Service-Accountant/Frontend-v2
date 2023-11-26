@@ -1,15 +1,14 @@
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { useEffect } from 'react'
-// import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/features/redux/store'
 import { ThunkDispatch } from 'redux-thunk'
 import { AnyAction } from 'redux'
 import { asyncFetchAllCars } from '@/features/redux/cars/reducer'
-// import { useRouter } from 'next/router'
 import { carTypes } from '@/features/redux/cars/types'
 import { formatDate } from '@/utils/dataformat'
+import { useRouter } from 'next/router'
 
 const CarsInService = () => {
   const user = useSelector((state: RootState) => state.auth.user)
@@ -18,7 +17,7 @@ const CarsInService = () => {
   )
   const theme = useTheme()
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
-  // const router = useRouter()
+  const router = useRouter()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   useEffect(() => {
@@ -135,7 +134,7 @@ const CarsInService = () => {
             }}
             onCellDoubleClick={(params) => {
               if (params.field !== 'Action') {
-                console.log('row id ? ', params.id)
+                router.push(`/car/${params.id}`)
               }
             }}
             style={{ outline: 'none', boxShadow: 'none' }}

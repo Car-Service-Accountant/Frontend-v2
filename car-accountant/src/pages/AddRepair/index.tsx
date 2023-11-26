@@ -16,8 +16,7 @@ import { partsTypes, repairRequest } from '@/features/redux/repairs/types'
 import { asyncSetRepair } from '@/features/redux/repairs/reducer'
 import { useRouter } from 'next/router'
 import StyledBox, { classes } from './AddCar.style'
-
-// const URL = API_URL
+import { enqueueSnackbar } from 'notistack'
 
 interface reairServicesProps {
   serviceType: string
@@ -27,22 +26,17 @@ interface reairServicesProps {
 
 const CreateRepair = () => {
   const theme = useTheme()
-  const isNonMobile = useMediaQuery('(min-width:600px)')
+  const isNonMobile = useMediaQuery('sm')
   const car = useSelector((state: RootState) => state.cars.currentCar)
   const [parts, setParts] = useState<partsTypes[]>([])
   const [repairsServices, setRepairsServices] = useState<reairServicesProps[]>([])
-  const [sendData, setSendData] = useState(false)
   const user = useSelector((state: RootState) => state.auth.user)
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const isSuperSmall = useMediaQuery(theme.breakpoints.down('sm'))
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
   const router = useRouter()
 
-  console.log(parts)
-
   const carHandleFormSubmit = async (values: any) => {
-    console.log('values =>', values)
-
     if (values.carNumber.length === 8 && user) {
       if (user?.companyId && values) {
         dispatch(asyncFetchCar({ _id: values.carNumber, companyId: user?.companyId }))
@@ -51,46 +45,50 @@ const CreateRepair = () => {
   }
 
   const partsHandleFormSubmit = (values: partsTypes) => {
-    console.log('partsHandleFormSubmit =>', values)
-
-    // showSnackbar(`Успешно добавихте част!`, 'success')
+    enqueueSnackbar('Успешно добавихте част!', {
+      variant: 'success',
+    })
     setParts((prevRepairs) => [...prevRepairs, { _id: v4(), ...values }])
   }
 
   const deleteRepairHandler = (values: partsTypes) => {
     if (values._id) {
-      console.log('deleteRepairHandler =>', values._id)
+      enqueueSnackbar('Успешно премахнахте част!', {
+        variant: 'success',
+      })
       setParts((prevRepairs) => prevRepairs.filter((repair) => repair._id !== values._id))
     }
-
-    // showSnackbar(`Успешно изтрихте част!`, 'success')
   }
 
   const repairServiceHandleFormSubmit = (values: reairServicesProps) => {
-    console.log('repairServiceHandleFormSubmit =>', values)
-
-    // showSnackbar(`Успешно добавихте вид услуга!`, 'success')
+    enqueueSnackbar('Успешно добавихте вид услуга!', {
+      variant: 'success',
+    })
     setRepairsServices((prevService) => [...prevService, { _id: v4(), ...values }])
   }
 
   const deleteRepairServicesHandler = (values: reairServicesProps) => {
     if (values._id) {
-      console.log('deleteRepairServicesHandler =>', values._id)
+      enqueueSnackbar('Успешно премахнахте вид услуга!', {
+        variant: 'success',
+      })
       setRepairsServices((prevRepairs) => prevRepairs.filter((repair) => repair._id !== values._id))
     }
-
-    // showSnackbar(`Успешно премахнахте вид услуга!`, 'success')
   }
 
   const finalizeRepair = async () => {
     if (user && car) {
       const carId = car._id
       if (parts?.length === 0) {
-        // showSnackbar(`Няма добавени части!`, 'error')
+        enqueueSnackbar('Няма добавени части!`', {
+          variant: 'error',
+        })
         return
       }
       if (repairsServices.length === 0) {
-        // showSnackbar(`Няма добавена вид услуга!`, 'error')
+        enqueueSnackbar('Няма добавена вид услуга!`', {
+          variant: 'error',
+        })
         return
       }
 
@@ -113,15 +111,16 @@ const CreateRepair = () => {
 
       const response = await dispatch(asyncSetRepair({ carId, data }))
       if (response.meta.requestStatus !== 'fulfilled') {
-        setSendData(false)
+        enqueueSnackbar('Възникна грешка при създаването на ремонта', {
+          variant: 'error',
+        })
       } else {
-        setSendData(true)
+        enqueueSnackbar('Успешно създаден ремонт', {
+          variant: 'success',
+        })
+        router.push('/')
       }
     }
-  }
-
-  if (sendData) {
-    router.push('/')
   }
 
   return (
@@ -167,7 +166,7 @@ const CreateRepair = () => {
                       />
                     </Box>
                     <Box sx={{ opacity: isValid ? '1' : '0.5' }} mt={2}>
-                      <PrimaryButton text='Добави' small />
+                      <PrimaryButton text='Намери' small />
                     </Box>
                   </form>
                 </>
@@ -280,12 +279,7 @@ const CreateRepair = () => {
                   sx={{
                     '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
                   }}
-                >
-                  <Typography fontSize={20} sx={{ gridColumn: 'span 2' }}>
-                    Информация на ремонта
-                  </Typography>
-                  <Divider sx={{ gridColumn: 'span 4', mb: 4 }}></Divider>
-                </Box>
+                ></Box>
                 <Formik
                   key='repairKey'
                   onSubmit={partsHandleFormSubmit}
@@ -294,6 +288,10 @@ const CreateRepair = () => {
                 >
                   {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
                     <form onSubmit={handleSubmit}>
+                      <Typography fontSize={20} sx={{ display: 'flex', justifyContent: 'center' }}>
+                        Резервни части
+                      </Typography>
+                      <Divider sx={{ gridColumn: 'span 4', mb: 4 }}></Divider>
                       <Box
                         display='grid'
                         gap='30px'
@@ -353,14 +351,6 @@ const CreateRepair = () => {
                   )}
                 </Formik>
               </Box>
-              {parts.length > 0 && (
-                <Box>
-                  <Typography fontSize={20} style={{ display: 'flex', justifyContent: 'left' }}>
-                    Резервни части
-                  </Typography>
-                  <Divider sx={{ gridColumn: 'span 4' }}></Divider>
-                </Box>
-              )}
               {parts.length > 0 &&
                 parts.map((value) => (
                   <Box

@@ -6,7 +6,6 @@ import {
   DialogContentText,
   DialogTitle,
   Typography,
-  useMediaQuery,
   useTheme,
 } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
@@ -23,6 +22,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import { AnyAction } from 'redux'
 import { asyncFetchCashBox, asyncUpdateCashBox } from '@/features/redux/cashBox/reducer'
 import { asyncPayRepair } from '@/features/redux/repairs/reducer'
+import { enqueueSnackbar } from 'notistack'
 
 type PaymentDataProps = {
   repairId: string
@@ -53,7 +53,6 @@ const AwaitingPayments = () => {
   const [filteredRepairs, setFilteredRepairs] = useState<{ car: carTypes; repair: repairsTypes; totalCost: number }[]>(
     [],
   )
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   const handleDialogAction = () => {
     setOpen(!open)
@@ -140,9 +139,12 @@ const AwaitingPayments = () => {
     if (user?.companyId) {
       dispatch(asyncFetchAllCars(user?.companyId))
     }
-    if (!cashBoxState.isRejected && !repairState.isRejected) {
-      // noti its successfuly payed Yay
+    if (!cashBoxState.isRejected && !repairState.isRejected && repair) {
+      enqueueSnackbar('Успещно палщане', { variant: 'success' })
+      setFilteredRepairs(filteredRepairs.filter((currentRepair) => currentRepair.repair._id !== repair?.repairId))
       setOpen(!open)
+    } else {
+      enqueueSnackbar('Неуспешно плащане', { variant: 'error' })
     }
     setOpen(!open)
   }
@@ -153,57 +155,49 @@ const AwaitingPayments = () => {
     {
       field: 'owner',
       headerName: 'Име на клиента',
-      flex: isMobile ? undefined : 1,
-      width: isMobile ? 150 : 0,
+      width: 150,
     },
     {
       field: 'phoneNumber',
       headerName: 'Телефон на клиента',
-      flex: isMobile ? undefined : 1,
-      width: isMobile ? 150 : 0,
+      width: 150,
     },
     {
       field: 'carMark',
       headerName: 'Марка на колата',
-      flex: isMobile ? undefined : 1,
-      width: isMobile ? 150 : 0,
+      width: 150,
     },
     {
       field: 'carModel',
       headerName: 'Модел на колата',
-      flex: isMobile ? undefined : 1,
-      width: isMobile ? 150 : 0,
+      width: 150,
     },
     {
       field: 'carNumber',
       headerName: 'Номер на колата',
-      flex: isMobile ? undefined : 1,
-      width: isMobile ? 150 : 0,
+      width: 110,
     },
     {
       field: 'carVIN',
       headerName: 'Вин на колата',
-      flex: isMobile ? undefined : 1,
-      width: isMobile ? 150 : 0,
+      width: 150,
     },
     {
       field: 'buildDate',
       headerName: 'Година на производство',
-      flex: isMobile ? undefined : 1,
-      width: isMobile ? 150 : 0,
+      width: 110,
     },
     {
       field: 'totalCost',
       headerName: 'Всичко дължимо',
-      flex: isMobile ? undefined : 1,
-      width: isMobile ? 150 : 0,
+      width: 110,
+      valueGetter: (params) => `${params.value} лв.`,
     },
     {
       field: 'actions',
       headerName: '',
       sortable: false,
-      flex: isMobile ? undefined : 1,
-      width: isMobile ? 150 : 0,
+      width: 130,
       renderCell: (params) => (
         <FlexableButton
           height='4px'
@@ -231,6 +225,7 @@ const AwaitingPayments = () => {
           '& .MuiDataGrid-cell': {
             borderBottom: `solid 2px ${theme.palette.secondary.light} !important`,
           },
+          '& .MuiDataGrid-columnHeader': {},
           '& .name-column--cell': {
             color: theme.palette.secondary.light,
           },
@@ -272,6 +267,10 @@ const AwaitingPayments = () => {
           getRowId={(row) => row?.repairId}
           columns={columns}
           disableRowSelectionOnClick
+          columnVisibilityModel={{
+            repairId: false,
+            carId: false,
+          }}
           style={{ outline: 'none', boxShadow: 'none' }}
           sx={{
             '.MuiDataGrid-columnHeader:focus': {
@@ -287,7 +286,7 @@ const AwaitingPayments = () => {
               {repair?.carNumber} на стойност {repair?.totalCost} лв.
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
+          <DialogActions sx={{ justifyContent: 'center' }}>
             <FlexableButton onClick={handleDialogAction} text='Отказване' />
             <FlexableButton onClick={handlePayment} autoFocus text='Потвърждение' />
           </DialogActions>

@@ -27,6 +27,7 @@ import { asyncFetchCar } from '@/features/redux/cars/reducer'
 import { repairsTypes } from '@/features/redux/repairs/types'
 import { asyncDeleteRepair } from '@/features/redux/repairs/reducer'
 import { FlexableButton } from '@/components/PrimaryButton'
+import { enqueueSnackbar } from 'notistack'
 
 const CarDetails = () => {
   const theme = useTheme()
@@ -38,15 +39,12 @@ const CarDetails = () => {
   const repairs = useSelector((state: RootState) => state.cars.currentCar?.repairs)
   const [selectedId, setSelectedId] = useState(null)
   const [menuAnchorEl, setMenuAnchorEl] = useState(null)
-  const [selecredRow, setSelectedRow] = useState(null)
   const [open, setOpen] = useState<boolean>(false)
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-
-  console.log('Selected car id =>', selectedId)
-
+  const [dataIsFetching, setDataIsFetching] = useState<boolean>(true) // Make this to prevent load lastly viewed car
   const handleRowClick = (params) => {
     if (params.field !== 'Action') {
-      setSelectedRow(params.id)
+      router.push(`/repair/${params.id}`)
     }
   }
 
@@ -60,9 +58,14 @@ const CarDetails = () => {
       Promise.all([
         dispatch(asyncDeleteRepair({ ID: selectedId })),
         dispatch(asyncFetchCar({ _id: selectedCar?._id, companyId })),
-      ]).then(() => {
-        setOpen(!open)
-      })
+      ])
+        .then(() => {
+          enqueueSnackbar('Успешно премаханте ремонта', { variant: 'success' })
+          setOpen(!open)
+        })
+        .catch(() => {
+          enqueueSnackbar('Нещо се обърка по време на  премахане на ремонта', { variant: 'error' })
+        })
     }
   }
 
@@ -81,15 +84,14 @@ const CarDetails = () => {
   // }
 
   useEffect(() => {
-    if (_id && companyId) {
-      dispatch(asyncFetchCar({ _id, companyId }))
+    if (companyId) {
+      const fetchData = async () => {
+        await dispatch(asyncFetchCar({ _id, companyId }))
+        setDataIsFetching(false)
+      }
+      fetchData()
     }
   }, [])
-
-  if (selecredRow) {
-    // navigate to somwehre
-    router.push(`/repair/${selecredRow}`)
-  }
 
   const columns: GridColDef<repairsTypes>[] = [
     {
@@ -206,7 +208,7 @@ const CarDetails = () => {
     },
   ]
 
-  if (selectedCar === null) {
+  if (selectedCar === null || dataIsFetching) {
     return (
       <CircularProgress
         style={{

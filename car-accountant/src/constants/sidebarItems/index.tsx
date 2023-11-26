@@ -51,11 +51,11 @@ export const managerItems = [
 ]
 
 export const ownerItems = [
-  {
-    label: 'Допълнителен разход',
-    path: '/AdditionalCost',
-    icon: <PaidOutlinedIcon style={{ marginRight: '10px' }} />,
-  },
+  // {
+  //   label: 'Допълнителен разход',
+  //   path: '/AdditionalCost',
+  //   icon: <PaidOutlinedIcon style={{ marginRight: '10px' }} />,
+  // },
   {
     label: 'Всички служители',
     path: '/employers',
