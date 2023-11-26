@@ -193,7 +193,7 @@ const CreateRepair = () => {
               <Box
                 display='grid'
                 gap='30px'
-                gridTemplateColumns='repeat(4, minmax(0, 1fr))'
+                gridTemplateColumns={isMobile ? 'repeat(4, minmax(0, 1fr))' : 'repeat(12, minmax(0, 1fr))'}
                 sx={{
                   '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
                 }}
@@ -275,7 +275,7 @@ const CreateRepair = () => {
                 <Box
                   display='grid'
                   gap='20px'
-                  gridTemplateColumns='repeat(4, minmax(0, 1fr))'
+                  gridTemplateColumns={isMobile ? 'repeat(4, minmax(0, 1fr))' : 'repeat(12, minmax(0, 1fr))'}
                   sx={{
                     '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
                   }}
@@ -295,7 +295,7 @@ const CreateRepair = () => {
                       <Box
                         display='grid'
                         gap='30px'
-                        gridTemplateColumns='repeat(4, minmax(0, 1fr))'
+                        gridTemplateColumns={isMobile ? 'repeat(4, minmax(0, 1fr))' : 'repeat(12, minmax(0, 1fr))'}
                         sx={{
                           '& > div': {
                             gridColumn: isNonMobile ? undefined : 'span 4',
@@ -357,7 +357,7 @@ const CreateRepair = () => {
                     key={value._id}
                     display='grid'
                     gap='10px'
-                    gridTemplateColumns={isSuperSmall ? 'repeat(5, minmax(0, 1fr))' : 'repeat(12, minmax(0, 1fr))'}
+                    gridTemplateColumns={isMobile ? 'repeat(5, minmax(0, 1fr))' : 'repeat(12, minmax(0, 1fr))'}
                     justifyItems='center'
                     justifyContent='space-around'
                   >
@@ -366,7 +366,7 @@ const CreateRepair = () => {
                       value={value.partName}
                       variant='outlined'
                       label='Резервна част'
-                      sx={isSuperSmall ? { gridColumn: 'span 7' } : { gridColumn: 'span 5' }}
+                      sx={isMobile ? { gridColumn: 'span 7' } : { gridColumn: 'span 5' }}
                       disabled
                     />
                     <TextField
@@ -374,7 +374,7 @@ const CreateRepair = () => {
                       value={`${value.servicePrice} лв.`}
                       variant='outlined'
                       label='Цена за сервиза'
-                      sx={isSuperSmall ? { gridColumn: 'span 2' } : { gridColumn: 'span 3' }}
+                      sx={isMobile ? { gridColumn: 'span 2' } : { gridColumn: 'span 3' }}
                       disabled
                     />
                     <TextField
@@ -382,7 +382,7 @@ const CreateRepair = () => {
                       value={`${value.clientPrice} лв.`}
                       variant='outlined'
                       label='Цена за клиента'
-                      sx={isSuperSmall ? { gridColumn: 'span 2' } : { gridColumn: 'span 3' }}
+                      sx={isMobile ? { gridColumn: 'span 2' } : { gridColumn: 'span 3' }}
                       disabled
                     />
                     <Box display='flex' sx={{ gridColumn: isSuperSmall ? 'span 0' : 'span 1', marginLeft: '20px' }}>
@@ -393,14 +393,12 @@ const CreateRepair = () => {
                   </Box>
                 ))}
               <Box>
-                {repairsServices.length > 0 && (
-                  <Box paddingBottom={3}>
-                    <Typography fontSize={20} style={{ display: 'flex', justifyContent: 'center' }}>
-                      Цена за труд
-                    </Typography>
-                    <Divider sx={{ gridColumn: 'span 4' }}></Divider>
-                  </Box>
-                )}
+                <Box paddingBottom={3}>
+                  <Typography fontSize={20} style={{ display: 'flex', justifyContent: 'center' }}>
+                    Цена за труд
+                  </Typography>
+                  <Divider sx={{ gridColumn: 'span 4' }}></Divider>
+                </Box>
                 <Formik
                   key='repairServiceKey'
                   onSubmit={repairServiceHandleFormSubmit}
@@ -412,7 +410,7 @@ const CreateRepair = () => {
                       <Box
                         display='grid'
                         gap='30px'
-                        gridTemplateColumns='repeat(4, minmax(0, 1fr))'
+                        gridTemplateColumns={isMobile ? 'repeat(4, minmax(0, 1fr))' : 'repeat(12, minmax(0, 1fr))'}
                         sx={{
                           '& > div': {
                             gridColumn: isNonMobile ? undefined : 'span 4',
@@ -511,7 +509,10 @@ const carCheckoutSchema = yup.object().shape({
   carNumber: yup
     .string()
     .required('Полето е задължително')
-    .matches(/^[A-Za-z]{2}\d{4}[A-Za-z]{2}$/, 'Полето трябва да съдържа валиден номер на кола например: NN9999NN'),
+    .matches(
+      /^[A-Za-zА-Яа-я]{2}\d{4}[A-Za-zА-Яа-я]{2}$/,
+      'Полето трябва да съдържа валиден номер на кола например: NN9999NN',
+    ),
 })
 
 const partsCheckoutSchema = yup.object().shape({
