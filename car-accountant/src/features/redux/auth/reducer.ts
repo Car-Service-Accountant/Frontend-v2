@@ -36,8 +36,6 @@ export const asyncAccountUpdate = createAsyncThunk(
       id,
     })
 
-    console.log('response', response)
-
     if (response) {
       return response
     }

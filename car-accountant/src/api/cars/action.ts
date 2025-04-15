@@ -60,9 +60,24 @@ export const fetchSingleCar = async (_id: string, companyId: string) => {
   })
   if (response.status === 200) {
     const result = await response.json()
-    console.log('result =>', result)
 
     return result
   }
   return null
+}
+
+export const updateCar = async (carId: string, data: any) => {
+  const response = await fetch(`${API_URL}/car/update/${carId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to update car')
+  }
+
+  return await response.json()
 }

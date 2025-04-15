@@ -54,7 +54,6 @@ const CarDetails = () => {
 
   const handleDeleteClick = () => {
     if (selectedId && selectedCar && companyId) {
-      console.log('In delete session ')
       Promise.all([
         dispatch(asyncDeleteRepair({ ID: selectedId })),
         dispatch(asyncFetchCar({ _id: selectedCar?._id, companyId })),

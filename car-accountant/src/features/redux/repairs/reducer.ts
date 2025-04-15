@@ -23,7 +23,6 @@ export const asyncSetRepair = createAsyncThunk(
   'repairs/asyncSetRepair',
   async ({ carId, data }: { carId: string; data: repairRequest }) => {
     const response = await sendRepair({ carId, data })
-    console.log('response ', response)
 
     if (response.status === 200) {
       return response.json()
@@ -37,7 +36,6 @@ export const asyncPayRepair = createAsyncThunk(
   'repairs/asyncPayRepair',
   async ({ repID, data }: { repID: string; data: payedRepairData }) => {
     const response = await payRepair({ repID, data })
-    console.log('response =>', response)
 
     if (response.status === 200) {
       return response.json()

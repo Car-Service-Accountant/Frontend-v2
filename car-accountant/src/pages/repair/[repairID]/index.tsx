@@ -15,7 +15,6 @@ import {
 import ClearIcon from '@mui/icons-material/Clear'
 import DoneIcon from '@mui/icons-material/Done'
 import { useEffect } from 'react'
-// import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/features/redux/store'
@@ -35,46 +34,18 @@ const RepairDetail = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const dispatch: ThunkDispatch<RootState, undefined, AnyAction> = useDispatch()
 
-  console.log('CurrentRepair ==>', currentRepair)
-
   useEffect(() => {
     if ((!currentRepair || currentRepair._id !== repairID) && repairID && companyId) {
       dispatch(asyncFetchSingleRepair({ companyId, repairID }))
     }
-  }, [repairID])
+  }, [repairID, currentRepair, companyId, dispatch])
 
   const columns: GridColDef<repairsTypes>[] = [
-    {
-      field: 'service',
-      headerName: 'Вид ремонт',
-      flex: 1,
-      width: isMobile ? 150 : 0,
-    },
-
-    {
-      field: 'parts',
-      headerName: 'Части',
-      flex: 1,
-      width: isMobile ? 150 : 0,
-    },
-    {
-      field: 'servicePrice',
-      headerName: 'Цени за сервиза',
-      flex: 1,
-      width: isMobile ? 150 : 0,
-    },
-    {
-      field: 'clientPrice',
-      headerName: 'Цени за клиента',
-      flex: 1,
-      width: isMobile ? 150 : 0,
-    },
-    {
-      field: 'priceForLabor',
-      headerName: 'Цени за труда',
-      flex: 1,
-      width: isMobile ? 150 : 0,
-    },
+    { field: 'service', headerName: 'Вид ремонт', flex: 1, width: isMobile ? 150 : 0 },
+    { field: 'parts', headerName: 'Части', flex: 1, width: isMobile ? 150 : 0 },
+    { field: 'servicePrice', headerName: 'Цени за сервиза', flex: 1, width: isMobile ? 150 : 0 },
+    { field: 'clientPrice', headerName: 'Цени за клиента', flex: 1, width: isMobile ? 150 : 0 },
+    { field: 'priceForLabor', headerName: 'Цени за труда', flex: 1, width: isMobile ? 150 : 0 },
   ]
 
   if (!currentRepair) {
@@ -92,18 +63,20 @@ const RepairDetail = () => {
     )
   }
 
-  const counter =
-    currentRepair?.parts?.length > currentRepair?.service?.length
-      ? currentRepair?.parts?.length
-      : currentRepair?.service?.length
+  const counter = Math.max(currentRepair.parts?.length || 0, currentRepair.service?.length || 0)
 
-  const totalClientPrice = currentRepair?.parts.reduce((total, part) => {
-    return total + part.clientPrice
-  }, 0)
+  const totalClientPrice =
+    currentRepair.parts?.reduce((total, part) => {
+      return total + (part.clientPrice ?? 0)
+    }, 0) ?? 0
 
-  const profit = currentRepair?.parts.reduce((profit, part) => {
-    return (profit = part.clientPrice - part.servicePrice)
-  }, 0)
+  const profit =
+    currentRepair.parts?.reduce((acc, part) => {
+      return acc + ((part.clientPrice ?? 0) - (part.servicePrice ?? 0))
+    }, 0) ?? 0
+
+  const totalRepairPrice = (currentRepair.priceForLabor ?? 0) + totalClientPrice
+  const totalProfit = profit + (currentRepair.priceForLabor ?? 0)
 
   return (
     <Box m='20px' sx={{ backgroundColor: theme.palette.background.paper, borderRadius: '8px' }}>
@@ -114,39 +87,46 @@ const RepairDetail = () => {
       >
         Детайли за ремонта по {selectedCar?.carModel} с номер {selectedCar?.carNumber}
       </Typography>
+
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+        <Table sx={{ minWidth: 650 }} aria-label='repair-details'>
           <TableHead>
             <TableRow style={{ backgroundColor: '#8DC8FC' }}>
-              {columns.map((column: any) => (
-                <TableCell key={column._id} id={column._id}>
-                  {column.headerName}
-                </TableCell>
+              {columns.map((column, index) => (
+                <TableCell key={index}>{column.headerName}</TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell>{currentRepair?.service[0]}</TableCell>
-              <TableCell>{currentRepair?.parts[0].partName}</TableCell>
-              <TableCell>{currentRepair?.parts[0].servicePrice}лв</TableCell>
-              <TableCell>{currentRepair?.parts[0].clientPrice}лв</TableCell>
-              <TableCell>{currentRepair?.priceForLabor}лв</TableCell>
-            </TableRow>
-            {Array.from({ length: counter - 1 }).map((_, index) => (
-              <TableRow key={index + 1}>
-                <TableCell>{currentRepair?.service[index + 1]}</TableCell>
-                <TableCell>{currentRepair?.parts[index + 1].partName}</TableCell>
-                <TableCell>{currentRepair?.parts[index + 1].servicePrice}лв</TableCell>
-                <TableCell>{currentRepair?.parts[index + 1].clientPrice}лв</TableCell>
-                <TableCell></TableCell>
+            {Array.from({ length: counter }).map((_, index) => (
+              <TableRow key={index}>
+                <TableCell>{currentRepair.service?.[index] ?? ''}</TableCell>
+                <TableCell>{currentRepair.parts?.[index]?.partName ?? ''}</TableCell>
+                <TableCell>
+                  {typeof currentRepair.parts?.[index]?.servicePrice === 'number'
+                    ? `${currentRepair.parts[index].servicePrice.toFixed(2)}лв`
+                    : ''}
+                </TableCell>
+                <TableCell>
+                  {typeof currentRepair.parts?.[index]?.clientPrice === 'number'
+                    ? `${currentRepair.parts[index].clientPrice.toFixed(2)}лв`
+                    : ''}
+                </TableCell>
+                <TableCell>
+                  {index === 0 && typeof currentRepair.priceForLabor === 'number'
+                    ? `${currentRepair.priceForLabor.toFixed(2)}лв`
+                    : index === 0
+                    ? '0.00лв'
+                    : ''}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+
+      <TableContainer component={Paper} sx={{ marginTop: 3 }}>
+        <Table sx={{ minWidth: 650 }} aria-label='summary-table'>
           <TableHead>
             <TableRow style={{ backgroundColor: '#8DC8FC' }}>
               <TableCell>Цена на ремонта</TableCell>
@@ -156,20 +136,19 @@ const RepairDetail = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableCell>{currentRepair?.priceForLabor + totalClientPrice}лв</TableCell>
-            <TableCell>{profit + currentRepair?.priceForLabor}лв</TableCell>
-            <TableCell style={{ color: currentRepair?.finished ? 'green' : 'red' }}>
-              {currentRepair?.finished ? <DoneIcon /> : <ClearIcon />}
-            </TableCell>
-            <TableCell style={{ color: currentRepair?.paied ? 'green' : 'red' }}>
-              {currentRepair?.paied ? <DoneIcon /> : <ClearIcon />}
-            </TableCell>
+            <TableRow>
+              <TableCell>{totalRepairPrice.toFixed(2)}лв</TableCell>
+              <TableCell>{totalProfit.toFixed(2)}лв</TableCell>
+              <TableCell style={{ color: currentRepair.finished ? 'green' : 'red' }}>
+                {currentRepair.finished ? <DoneIcon /> : <ClearIcon />}
+              </TableCell>
+              <TableCell style={{ color: currentRepair.paied ? 'green' : 'red' }}>
+                {currentRepair.paied ? <DoneIcon /> : <ClearIcon />}
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
-      {/* <IconButton onClick={() => navigate(-1)}>
-        <ArrowBackIcon />
-      </IconButton> */}
     </Box>
   )
 }

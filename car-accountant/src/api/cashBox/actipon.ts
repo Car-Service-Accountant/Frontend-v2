@@ -22,7 +22,6 @@ export const updateCashBox = async (cashBoxID: string, data: cashBoxType) => {
     },
     body: JSON.stringify(data),
   })
-  console.log('response => ', response)
 
   return response
 }

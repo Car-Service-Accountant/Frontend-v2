@@ -271,7 +271,7 @@ const Cars = () => {
         <ReportHeader
           countRepairs={ReportHeaderProps?.countRepairs}
           totalCost={ReportHeaderProps?.totalCost}
-          profit={ReportHeaderProps?.profit}
+          revenue={ReportHeaderProps?.revenue}
           pureProfit={ReportHeaderProps?.pureProfit}
         />
         <Box

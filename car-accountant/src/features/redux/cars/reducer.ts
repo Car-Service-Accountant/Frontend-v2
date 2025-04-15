@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { carState } from './types'
-import { deleteCar, fetchAllCars, fetchSingleCar } from '@/api/cars/action'
+import { deleteCar, fetchAllCars, fetchSingleCar, updateCar } from '@/api/cars/action'
 
 const initialState: carState = {
   loading: false,
@@ -28,6 +28,16 @@ export const asyncFetchCar = createAsyncThunk(
   'cars/asyncFetchCar',
   async ({ _id, companyId }: { _id: string; companyId: string }) => {
     const response = await fetchSingleCar(_id, companyId)
+    if (response) {
+      return response
+    }
+  },
+)
+
+export const asyncUpdateCar = createAsyncThunk(
+  'cars/asyncUpdateCar',
+  async ({ carId, data }: { carId: string; data: any }) => {
+    const response = await updateCar(carId, data)
     if (response) {
       return response
     }
@@ -64,6 +74,26 @@ export const carSlice = createSlice({
       state.currentCar = action.payload
     },
     [asyncDeleteCar.rejected.type]: (state, action: PayloadAction<any, string, any, any>) => {
+      state.error = action?.error?.message as string
+    },
+    [asyncUpdateCar.pending.type]: (state) => {
+      state.loading = true
+      state.error = null
+    },
+    [asyncUpdateCar.fulfilled.type]: (state, action: PayloadAction<any>) => {
+      state.loading = false
+      state.isDoneLoading = true
+      // Обновяваме масива с коли
+      if (state.cars) {
+        const index = state.cars.findIndex((car) => car._id === action.payload._id)
+        if (index !== -1) {
+          state.cars[index] = action.payload
+        }
+      }
+      state.currentCar = action.payload
+    },
+    [asyncUpdateCar.rejected.type]: (state, action: PayloadAction<any, string, any, any>) => {
+      state.loading = false
       state.error = action?.error?.message as string
     },
   },

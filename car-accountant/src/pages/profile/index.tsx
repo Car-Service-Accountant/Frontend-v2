@@ -218,9 +218,6 @@ const RightSide = () => {
 
 const Profile = () => {
   const theme = useTheme()
-  const router = useRouter()
-
-  console.log('router', router)
 
   return (
     <>

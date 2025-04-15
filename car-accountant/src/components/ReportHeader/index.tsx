@@ -2,11 +2,11 @@ import { Box, Typography, useTheme } from '@mui/material'
 export interface ReportHeaderProps {
   countRepairs?: number
   totalCost?: number
-  profit?: number
+  revenue?: number
   pureProfit?: number
 }
 
-const ReportHeader = ({ countRepairs, totalCost, profit, pureProfit }: ReportHeaderProps) => {
+const ReportHeader = ({ countRepairs, totalCost, revenue, pureProfit }: ReportHeaderProps) => {
   const theme = useTheme()
 
   // TODO make condition to check if data is loaded else set 0 , we recive undentified which is truety value , soo we need to care for it
@@ -43,7 +43,7 @@ const ReportHeader = ({ countRepairs, totalCost, profit, pureProfit }: ReportHea
           <Typography fontWeight={600}>{`${totalCost} лв` || '0 лв'}</Typography>
         </Box>
         <Box sx={{ minWidth: '150px' }}>
-          <Typography fontWeight={600}>{`${profit} лв` || '0 лв'}</Typography>
+          <Typography fontWeight={600}>{`${revenue} лв` || '0 лв'}</Typography>
         </Box>
         <Box sx={{ minWidth: '150px' }}>
           <Typography fontWeight={600}>{`${pureProfit} лв` || '0 лв'}</Typography>

@@ -1,24 +1,35 @@
 const calculateProfitAndCost = (repairs) => {
   let totalCost = 0
-  let profit = 0
+  let totalRevenue = 0
+  let countRepairs = 0
+  let pureProfit = 0
 
-  repairs.forEach((repair) => {
-    const partsCost = repair.parts.reduce((total, part) => total + part.servicePrice, 0)
+  for (const repair of repairs) {
+    if (!repair.paied) continue
+
+    countRepairs++
+
+    let partsCost = 0
+    let partsRevenue = 0
+
+    for (const part of repair.parts) {
+      partsCost += part.servicePrice
+      partsRevenue += part.clientPrice
+    }
+
     totalCost += partsCost
+    totalRevenue += partsRevenue + repair.priceForLabor
+  }
 
-    const partsProfit = repair.parts.reduce((total, part) => total + (part.clientPrice - part.servicePrice), 0)
-    const laborProfit = repair.priceForLabor
-    const totalRepairProfit = repair.paied ? partsProfit + laborProfit : 0
+  pureProfit = totalRevenue - totalCost
 
-    profit += totalRepairProfit
-  })
+  const round = (n) => Math.round(n * 100) / 100
 
-  const pureProfit = profit - totalCost
   return {
-    totalCost,
-    profit,
-    pureProfit,
-    countRepairs: repairs.length,
+    totalCost: round(totalCost),
+    revenue: round(totalRevenue),
+    pureProfit: round(pureProfit),
+    countRepairs,
   }
 }
 

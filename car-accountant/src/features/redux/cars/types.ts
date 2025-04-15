@@ -11,6 +11,7 @@ export type carTypes = {
   comanyHoldRepairs: string
   buildDate: Date
   repairs: repairsTypes[]
+  companyId?: string
 }
 
 export type carState = {
