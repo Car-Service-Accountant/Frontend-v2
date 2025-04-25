@@ -8,7 +8,8 @@ dayjs.extend(isSameOrAfter)
 
 const calculatePureProfit = (repair) => {
   const partsProfit = repair.parts.reduce((total, part) => total + (part.clientPrice - part.servicePrice), 0)
-  return `${repair.priceForLabor + partsProfit} лв.`
+  const totalProfit = repair.priceForLabor + partsProfit
+  return `${totalProfit.toFixed(2)} лв.`
 }
 
 const findRepairsInDateRangeAndSort = (cars, startDate, endDate) => {
