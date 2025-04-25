@@ -131,11 +131,13 @@ const CarDetails = () => {
       flex: 1,
       width: isMobile ? 150 : 0,
       valueGetter: (params) => {
-        let total = params.row.priceForLabor
-        params.row.parts.forEach((part) => {
-          total += part.clientPrice - part.servicePrice
-        })
-        return total
+        let total = params.row.priceForLabor || 0
+        if (Array.isArray(params.row.parts)) {
+          params.row.parts.forEach((part) => {
+            total += (part.clientPrice || 0) - (part.servicePrice || 0)
+          })
+        }
+        return `${total.toFixed(2)} лв.`
       },
     },
     {
